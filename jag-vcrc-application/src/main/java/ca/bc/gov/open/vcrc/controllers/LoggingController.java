@@ -4,6 +4,7 @@ import ca.bc.gov.open.vcrc.models.exceptions.ORDSException;
 import ca.bc.gov.open.vcrc.models.logs.OrdsErrorLog;
 import ca.bc.gov.open.vcrc.models.logs.RequestSuccessLog;
 import ca.bc.gov.open.vcrc.models.requests.LogEivFailureRequest;
+import ca.bc.gov.open.vcrc.models.requests.LogPaymentFailureRequest;
 import ca.bc.gov.open.vcrc.models.responses.LogEivFailureResponse;
 import ca.bc.gov.open.vcrc.models.responses.LogPaymentFailureResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -70,12 +71,12 @@ public class LoggingController {
     }
 
     @GetMapping(value = "LogPaymentFailure/Services", produces = MediaType.TEXT_XML_VALUE)
-    public LogPaymentFailureResponse logPaymentFailure(LogEivFailureRequest logEivFailureRequest)
-            throws JsonProcessingException {
+    public LogPaymentFailureResponse logPaymentFailure(
+            LogPaymentFailureRequest logPaymentFailureRequest) throws JsonProcessingException {
         UriComponentsBuilder builder =
                 UriComponentsBuilder.fromHttpUrl(ordsHost + "logs/payment/failure");
-        HttpEntity<LogEivFailureRequest> payload =
-                new HttpEntity<>(logEivFailureRequest, new HttpHeaders());
+        HttpEntity<LogPaymentFailureRequest> payload =
+                new HttpEntity<>(logPaymentFailureRequest, new HttpHeaders());
 
         try {
             HttpEntity<LogPaymentFailureResponse> resp =

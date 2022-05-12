@@ -14,14 +14,14 @@ public class AuthenticateUserResponse {
 
     @Data
     @EqualsAndHashCode(callSuper = true)
-    public class AuthenticateInner extends BaseXMLResponse {
+    public static class AuthenticateInner extends BaseXMLResponse {
         private AccessCodeResponse accessCodeResponse;
         private ScopeLevels scopeLevels;
         private ScheduleTypes scheduleTypes;
     }
 
     @Data
-    static class AccessCodeResponse {
+    public static class AccessCodeResponse {
         @JacksonXmlProperty(localName = "org_party_id")
         private String orgPartyId;
 
@@ -75,23 +75,23 @@ public class AuthenticateUserResponse {
     }
 
     @Data
-    static class ScopeLevels {
+    public static class ScopeLevels {
         List<ScopeLevelItem> scopeLevel;
     }
 
     @Data
-    static class ScheduleTypes {
+    public static class ScheduleTypes {
         List<ScheduleTypeItem> scheduleType;
     }
 
     @Data
-    static class ScheduleTypeItem {
+    public static class ScheduleTypeItem {
         private String crc_schedule_type_cd;
         private String crc_schedule_type_dsc;
     }
 
     @Data
-    static class ScopeLevelItem {
+    public static class ScopeLevelItem {
         private String crc_scope_level_cd;
         private String crc_scope_level_dsc;
     }
