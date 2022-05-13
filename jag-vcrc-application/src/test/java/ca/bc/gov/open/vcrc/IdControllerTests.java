@@ -54,11 +54,6 @@ public class IdControllerTests {
         var idController = new IdController(restTemplate, objectMapper);
         var resp = idController.getNextSessionId(req);
         Assertions.assertNotNull(resp);
-
-        var req1 = new GetNextSessionIdRequest();
-        req.setOrgTicketNumber("A");
-        req1.setOrgTicketNumber("A");
-        Assertions.assertEquals(req.getOrgTicketNumber(), req1.getOrgTicketNumber());
     }
 
     @Test
@@ -85,10 +80,5 @@ public class IdControllerTests {
         var idController = new IdController(restTemplate, objectMapper);
         var resp = idController.getNextInvoiceId(req);
         Assertions.assertNotNull(resp);
-
-        var req1 = new GetNextInvoiceIdRequest();
-        req.setOrgTicketNumber("A");
-        req1.setOrgTicketNumber("A");
-        Assertions.assertEquals(req.getOrgTicketNumber(), req1.getOrgTicketNumber());
     }
 }

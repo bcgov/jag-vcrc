@@ -35,6 +35,7 @@ public class AuthenticationControllerTests {
         var inner = new AuthenticateUserResponse.AuthenticateInner();
         var accessCodeResponse = new AuthenticateUserResponse.AccessCodeResponse();
 
+        req.setOrgTicketNumber("A");
         accessCodeResponse.setOrgPartyId("A");
         accessCodeResponse.setOrgNm("A");
         accessCodeResponse.setContactSurNm("A");
@@ -89,10 +90,5 @@ public class AuthenticationControllerTests {
         var authenticationController = new AuthenticationController(restTemplate, objectMapper);
         var resp = authenticationController.authenticateUser(req);
         Assertions.assertNotNull(resp);
-
-        var req1 = new AuthenticateUserRequest();
-        req.setOrgTicketNumber("A");
-        req1.setOrgTicketNumber("A");
-        Assertions.assertEquals(req.getOrgTicketNumber(), req1.getOrgTicketNumber());
     }
 }
