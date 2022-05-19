@@ -18,12 +18,12 @@ public class GetProvinceListResponse {
     }
 
     @Data
-    static class Provinces {
+    public static class Provinces {
         private List<Province> province;
     }
 
     @Data
-    static class Province {
+    public static class Province {
         private String name;
     }
 }

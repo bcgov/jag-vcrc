@@ -18,12 +18,12 @@ public class GetCountriesListResponse {
     }
 
     @Data
-    static class Countries {
+    public static class Countries {
         List<Country> country;
     }
 
     @Data
-    static class Country {
+    public static class Country {
         private String name;
     }
 }
