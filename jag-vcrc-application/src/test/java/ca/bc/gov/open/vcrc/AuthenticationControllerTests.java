@@ -58,8 +58,8 @@ public class AuthenticationControllerTests {
         var scheduleTypes = new AuthenticateUserResponse.ScheduleTypes();
         List<AuthenticateUserResponse.ScheduleTypeItem> scheduleTypeItems = new ArrayList<>();
         var scheduleTypeItem = new AuthenticateUserResponse.ScheduleTypeItem();
-        scheduleTypeItem.setCrc_schedule_type_cd("A");
-        scheduleTypeItem.setCrc_schedule_type_dsc("A");
+        scheduleTypeItem.setCrcScheduleTypeCd("A");
+        scheduleTypeItem.setCrcScheduleTypeDsc("A");
         scheduleTypeItems.add(scheduleTypeItem);
         scheduleTypes.setScheduleType(scheduleTypeItems);
         inner.setScheduleTypes(scheduleTypes);
@@ -67,8 +67,8 @@ public class AuthenticationControllerTests {
         var scopeLevels = new AuthenticateUserResponse.ScopeLevels();
         List<AuthenticateUserResponse.ScopeLevelItem> scopeLevelItems = new ArrayList<>();
         var scopeLevelItem = new AuthenticateUserResponse.ScopeLevelItem();
-        scopeLevelItem.setCrc_scope_level_cd("A");
-        scopeLevelItem.setCrc_scope_level_dsc("A");
+        scopeLevelItem.setCrcScopeLevelCd("A");
+        scopeLevelItem.setCrcScopeLevelDsc("A");
         scopeLevelItems.add(scopeLevelItem);
         scopeLevels.setScopeLevel(scopeLevelItems);
         inner.setScopeLevels(scopeLevels);

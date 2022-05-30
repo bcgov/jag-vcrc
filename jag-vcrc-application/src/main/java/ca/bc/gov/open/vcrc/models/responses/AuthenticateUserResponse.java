@@ -85,7 +85,7 @@ public class AuthenticateUserResponse {
     }
 
     @Data
-    static class ScheduleTypeItem {
+    public static class ScheduleTypeItem {
         @JacksonXmlProperty(localName = "crc_schedule_type_cd")
         private String crcScheduleTypeCd;
 
@@ -94,7 +94,7 @@ public class AuthenticateUserResponse {
     }
 
     @Data
-    static class ScopeLevelItem {
+    public static class ScopeLevelItem {
         @JacksonXmlProperty(localName = "crc_scope_level_cd")
         private String crcScopeLevelCd;
 
