@@ -1,7 +1,6 @@
-package services;
+package ca.bc.gov.open.services;
 
-import ca.bc.gov.open.vcrc.models.requests.AuthenticateUserRequest;
-import ca.bc.gov.open.vcrc.models.responses.GetCountriesListResponse;
+import java.io.PrintWriter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -9,8 +8,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-
-import java.io.PrintWriter;
 
 @Service
 public class TestService {
@@ -34,10 +31,7 @@ public class TestService {
 
     private final RestTemplate restTemplate = new RestTemplate();
 
-
-     public TestService() {
-
-    }
+    public TestService() {}
 
     public void runCompares() throws Exception {
         getCountryListCompare();
@@ -45,7 +39,8 @@ public class TestService {
 
     public void getCountryListCompare() {
 
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(wmHost + "GetCountryList/Services");
+        UriComponentsBuilder builder =
+                UriComponentsBuilder.fromHttpUrl(wmHost + "GetCountryList/Services");
 
         HttpEntity<String> resp =
                 restTemplate.exchange(
@@ -53,6 +48,5 @@ public class TestService {
                         HttpMethod.GET,
                         new HttpEntity<>(new HttpHeaders()),
                         String.class);
-
     }
 }

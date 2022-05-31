@@ -106,11 +106,6 @@
             <artifactId>javers-core</artifactId>
             <version>6.6.2</version>
         </dependency>
-        <dependency>
-            <groupId>ca.bc.gov.open</groupId>
-            <version>1.0.0</version>
-            <artifactId>jag-vcrc-application</artifactId>
-        </dependency>
     </dependencies>
 
 </project>
