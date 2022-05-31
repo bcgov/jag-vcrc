@@ -9,7 +9,7 @@
     </parent>
 
     <artifactId>jag-vcrc-application</artifactId>
-    <version>1.0</version>
+    <version>1.0.0</version>
     <name>jag-vcrc-application</name>
     <description>Proxy Service to replace Webmethods with ords</description>
     <properties>
