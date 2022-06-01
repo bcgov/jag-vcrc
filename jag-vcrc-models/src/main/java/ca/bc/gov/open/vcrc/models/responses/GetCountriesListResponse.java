@@ -1,5 +1,6 @@
 package ca.bc.gov.open.vcrc.models.responses;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import java.util.List;
 import lombok.Data;
@@ -14,7 +15,8 @@ public class GetCountriesListResponse extends BaseXMLResponse {
 
     @Data
     public static class Countries {
-        List<Country> country;
+        @JacksonXmlElementWrapper(useWrapping = false)
+        private List<Country> country;
     }
 
     @Data
