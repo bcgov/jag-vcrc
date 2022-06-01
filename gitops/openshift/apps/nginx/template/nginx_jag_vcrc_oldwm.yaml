@@ -1,5 +1,5 @@
 kind: Template
-apiVersion: v1
+apiVersion: template.openshift.io/v1
 metadata:
   name: ${COMPONENT_NAME}
   description: Deployment template for the ${COMPONENT_NAME}
@@ -19,7 +19,7 @@ parameters:
 - name: COMPONENT_NAME
   description: The application name that each component is part of
   required: false
-  value: nginx-jag-vcrc
+  value: nginx-jag-vcrc-oldwm
   
 - name: OC_NAMESPACE
   description: The OpenShift namespace prefix
@@ -55,12 +55,6 @@ objects:
         access_log off;
       }
 
-      location /actuator/health {
-        default_type application/json;
-        return 200 '{"status":"UP","groups":["liveness","readiness"]}';
-        access_log off;
-      }
-
       location /ws {
         client_max_body_size 100m;
         proxy_read_timeout 240s;
@@ -74,7 +68,7 @@ objects:
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Host $server_name;
         proxy_pass_request_headers on;
-        proxy_pass *************;
+        proxy_pass https://wsgw.dev.jag.gov.bc.ca/vcrc/ocp/CeisScss;
       }
 
 - kind: DeploymentConfig
