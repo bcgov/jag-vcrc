@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.client.support.BasicAuthenticationInterceptor;
+import org.springframework.http.client.support.BasicAuthorizationInterceptor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -39,14 +41,24 @@ public class TestService {
 
     public void getCountryListCompare() {
 
-        UriComponentsBuilder builder =
-                UriComponentsBuilder.fromHttpUrl(wmHost + "GetCountryList/Services");
+        try {
+            UriComponentsBuilder builder =
+                    UriComponentsBuilder.fromHttpUrl(wmHost + "GetCountryList/Services");
 
-        HttpEntity<String> resp =
-                restTemplate.exchange(
-                        builder.toUriString(),
-                        HttpMethod.GET,
-                        new HttpEntity<>(new HttpHeaders()),
-                        String.class);
+            restTemplate.getInterceptors().add(
+                    new BasicAuthenticationInterceptor(username, password));
+
+
+            HttpEntity<String> resp =
+                    restTemplate.exchange(
+                            builder.toUriString(),
+                            HttpMethod.GET,
+                            new HttpEntity<>(new HttpHeaders()),
+                            String.class);
+        }catch(Exception ex) {
+
+
+        }
+
     }
 }
