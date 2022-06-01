@@ -63,7 +63,7 @@ public class LocationControllerTests {
     @Test
     public void getProvinceListTest() throws JsonProcessingException {
 
-        var out = new GetProvinceListResponse.GetProvinceList();
+        var out = new GetProvinceListResponse();
         GetProvinceListResponse.Provinces provinces = new GetProvinceListResponse.Provinces();
         List<GetProvinceListResponse.Province> list = new ArrayList<>();
         var province = new GetProvinceListResponse.Province();
@@ -74,7 +74,7 @@ public class LocationControllerTests {
         out.setMessage("A");
         out.setResponseCode("A");
 
-        ResponseEntity<GetProvinceListResponse.GetProvinceList> responseEntity =
+        ResponseEntity<GetProvinceListResponse> responseEntity =
                 new ResponseEntity<>(out, HttpStatus.OK);
 
         //     Set up to mock ords response
@@ -82,7 +82,7 @@ public class LocationControllerTests {
                         Mockito.any(String.class),
                         Mockito.eq(HttpMethod.GET),
                         Mockito.<HttpEntity<String>>any(),
-                        Mockito.<Class<GetProvinceListResponse.GetProvinceList>>any()))
+                        Mockito.<Class<GetProvinceListResponse>>any()))
                 .thenReturn(responseEntity);
 
         var locationController = new LocationController(restTemplate, objectMapper);

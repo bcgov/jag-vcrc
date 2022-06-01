@@ -66,6 +66,7 @@ public class TestService {
         restTemplate.getInterceptors().add(new BasicAuthenticationInterceptor(username, password));
 
         getCountryListCompare();
+        getProviceListCompare();
     }
 
     public void getCountryListCompare() throws IOException {
@@ -80,6 +81,20 @@ public class TestService {
         fileOutput = new PrintWriter(outputDir + "GetCountryList.txt", StandardCharsets.UTF_8);
         compare(builderWM, builderAPI);
     }
+
+    public void getProviceListCompare() throws IOException {
+
+        UriComponentsBuilder builderWM =
+                UriComponentsBuilder.fromHttpUrl(wmHost + "GetProvinceList/Services");
+
+        UriComponentsBuilder builderAPI =
+                UriComponentsBuilder.fromHttpUrl(apiHost + "GetProvinceList/Services");
+
+        log.info("GetProvinceList");
+        fileOutput = new PrintWriter(outputDir + "GetProvinceList.txt", StandardCharsets.UTF_8);
+        compare(builderWM, builderAPI);
+    }
+
 
     private boolean compare(UriComponentsBuilder builderWM, UriComponentsBuilder builderAPI)
             throws JsonProcessingException {

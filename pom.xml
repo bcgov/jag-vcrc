@@ -28,6 +28,7 @@
     <modules>
         <module>jag-vcrc-application</module>
         <module>jag-vcrc-comparison-tool</module>
+        <module>jag-vcrc-models</module>
     </modules>
 
     <build>
