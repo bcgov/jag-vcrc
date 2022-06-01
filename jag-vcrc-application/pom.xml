@@ -109,6 +109,11 @@
             <artifactId>springdoc-openapi-ui</artifactId>
             <version>1.6.4</version>
         </dependency>
+        <dependency>
+            <groupId>ca.bc.gov.open</groupId>
+            <artifactId>jag-vcrc-models</artifactId>
+            <version>1.0.0</version>
+        </dependency>
     </dependencies>
 
     <build>

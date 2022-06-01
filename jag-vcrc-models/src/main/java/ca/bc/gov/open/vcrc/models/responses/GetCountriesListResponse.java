@@ -6,16 +6,11 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
-@JacksonXmlRootElement(localName = "Response")
-public class GetCountriesListResponse {
+@EqualsAndHashCode(callSuper = true)
+@JacksonXmlRootElement(localName = "GetCountriesList" )
+public class GetCountriesListResponse extends BaseXMLResponse {
 
-    private GetCountriesList getCountriesList;
-
-    @Data
-    @EqualsAndHashCode(callSuper = true)
-    public static class GetCountriesList extends BaseXMLResponse {
-        private Countries countries;
-    }
+    private Countries countries;
 
     @Data
     public static class Countries {

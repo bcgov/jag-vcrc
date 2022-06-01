@@ -44,20 +44,18 @@ public class LocationController {
                 UriComponentsBuilder.fromHttpUrl(ordsHost + "locations/countries");
 
         try {
-            HttpEntity<GetCountriesListResponse.GetCountriesList> resp =
+            HttpEntity<GetCountriesListResponse> resp =
                     restTemplate.exchange(
                             builder.toUriString(),
                             HttpMethod.GET,
                             new HttpEntity<>(new HttpHeaders()),
-                            GetCountriesListResponse.GetCountriesList.class);
+                            GetCountriesListResponse.class);
 
             log.info(
                     objectMapper.writeValueAsString(
                             new RequestSuccessLog("Request Success", "getCountriesList")));
 
-            GetCountriesListResponse out = new GetCountriesListResponse();
-            out.setGetCountriesList(resp.getBody());
-            return out;
+            return resp.getBody();
         } catch (Exception ex) {
             log.error(
                     objectMapper.writeValueAsString(
