@@ -21,7 +21,6 @@ import org.javers.core.diff.Diff;
 import org.javers.core.diff.changetype.ValueChange;
 import org.javers.core.diff.changetype.container.ListChange;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -72,6 +71,18 @@ public class TestService {
         getProviceListCompare();
         getNextSessionIdCompare();
         getNextInvoiceIdCompare();
+        checkApplicantForPrevCRCCompare();
+        checkApplicantForPrevCRCCompare();
+        checkApplicantForPrevCRCExCompare();
+        createApplicantCompare();
+        createApplicantExCompare();
+        logEivFailureCompare();
+        logPaymentFailureCompare();
+        createNewCrcServiceCompare();
+        createSharingServiceCompare();
+        getServiceFeeAmountCompare();
+        updateServiceFinancialTxnCompare();
+        authenticateUserExCompare();
     }
 
     public void getCountryListCompare() throws IOException {
@@ -80,7 +91,11 @@ public class TestService {
 
         log.info("GetCountryList");
         fileOutput = new PrintWriter(outputDir + "GetCountryList.txt", StandardCharsets.UTF_8);
-        compare(new GetCountriesListResponse(), null, "GetCountryList/Services");
+        compare(
+                null,
+                new GetCountriesListResponse(),
+                "GetCountryList/Services",
+                GetCountriesListResponse.class);
         System.out.println(
                 "########################################################\n"
                         + "INFO: getCountryList  Completed there are "
@@ -105,7 +120,11 @@ public class TestService {
 
         log.info("GetProvinceList");
         fileOutput = new PrintWriter(outputDir + "GetProvinceList.txt", StandardCharsets.UTF_8);
-        compare(new GetProvinceListResponse(), null, "GetProvinceList/Services");
+        compare(
+                null,
+                new GetProvinceListResponse(),
+                "GetProvinceList/Services",
+                GetProvinceListResponse.class);
         System.out.println(
                 "########################################################\n"
                         + "INFO: GetProvinceList  Completed there are "
@@ -130,7 +149,11 @@ public class TestService {
 
         log.info("GetNextSessionId");
         fileOutput = new PrintWriter(outputDir + "GetNextSessionId.txt", StandardCharsets.UTF_8);
-        compare(new GetNextSessionIdResponse(), null, "GetNextSessionId/Services");
+        compare(
+                null,
+                new GetNextSessionIdResponse(),
+                "GetNextSessionId/Services",
+                GetNextSessionIdResponse.class);
         System.out.println(
                 "########################################################\n"
                         + "INFO: GetNextSessionId  Completed there are "
@@ -155,7 +178,11 @@ public class TestService {
 
         log.info("GetNextInvoiceId");
         fileOutput = new PrintWriter(outputDir + "GetNextInvoiceId.txt", StandardCharsets.UTF_8);
-        compare(new GetNextInvoiceIdResponse(), null, "GetNextInvoiceId/Services");
+        compare(
+                null,
+                new GetNextInvoiceIdResponse(),
+                "GetNextInvoiceId/Services",
+                GetNextInvoiceIdResponse.class);
         System.out.println(
                 "########################################################\n"
                         + "INFO: getNextInvoiceId  Completed there are "
@@ -174,28 +201,534 @@ public class TestService {
         fileOutput.close();
     }
 
-    private <T, G> boolean compare(T request, G response, String connect)
+    public void checkApplicantForPrevCRCCompare() throws IOException {
+
+        int diffCounter = 0;
+
+        log.info("CheckApplicantForPrevCRC");
+        fileOutput =
+                new PrintWriter(outputDir + "CheckApplicantForPrevCRC.txt", StandardCharsets.UTF_8);
+
+        Map<String, String> request = new HashMap<>();
+        request.put("OrgTicketNumber", "1");
+        request.put("Legal_Surname_Nm", "1");
+        request.put("Legal_First_Nm", "1");
+        request.put("Birth_Dt", "1999-05-31");
+        request.put("Gender_Txt", "1");
+        request.put("Postal_Code_Txt", "1");
+        request.put("Drivers_Lic_No", "1");
+        request.put("Scope_Level_Cd", "1");
+        request.put("Previous_Service_Id", "1");
+
+        compare(
+                request,
+                new CheckApplicantForPrevCRCResponse(),
+                "CheckApplicantForPrevCRC/Services",
+                CheckApplicantForPrevCRCResponse.class);
+        System.out.println(
+                "########################################################\n"
+                        + "INFO: CheckApplicantForPrevCRC  Completed there are "
+                        + diffCounter
+                        + " diffs\n"
+                        + "########################################################");
+
+        fileOutput.println(
+                "########################################################\n"
+                        + "INFO: CheckApplicantForPrevCRC  Completed there are "
+                        + diffCounter
+                        + " diffs\n"
+                        + "########################################################");
+
+        overallDiff += diffCounter;
+        fileOutput.close();
+    }
+
+    public void checkApplicantForPrevCRCExCompare() throws IOException {
+
+        int diffCounter = 0;
+
+        log.info("CheckApplicantForPrevCRCEx");
+        fileOutput =
+                new PrintWriter(
+                        outputDir + "CheckApplicantForPrevCRCEx.txt", StandardCharsets.UTF_8);
+
+        Map<String, String> request = new HashMap<>();
+        request.put("OrgTicketNumber", "1");
+        request.put("Legal_Surname_Nm", "1");
+        request.put("Legal_First_Nm", "1");
+        request.put("Birth_Dt", "1999-05-31");
+        request.put("Gender_Txt", "1");
+        request.put("Postal_Code_Txt", "1");
+        request.put("Drivers_Lic_No", "1");
+        request.put("Scope_Level_Cd", "1");
+
+        compare(
+                request,
+                new CheckApplicantForPrevCRCExResponse(),
+                "CheckApplicantForPrevCRCEx/Services",
+                CheckApplicantForPrevCRCExResponse.class);
+        System.out.println(
+                "########################################################\n"
+                        + "INFO: CheckApplicantForPrevCRCEx  Completed there are "
+                        + diffCounter
+                        + " diffs\n"
+                        + "########################################################");
+
+        fileOutput.println(
+                "########################################################\n"
+                        + "INFO: CheckApplicantForPrevCRCEx  Completed there are "
+                        + diffCounter
+                        + " diffs\n"
+                        + "########################################################");
+
+        overallDiff += diffCounter;
+        fileOutput.close();
+    }
+
+    public void createApplicantCompare() throws IOException {
+
+        int diffCounter = 0;
+
+        log.info("CreateApplicant");
+        fileOutput = new PrintWriter(outputDir + "CreateApplicant.txt", StandardCharsets.UTF_8);
+
+        Map<String, String> request = new HashMap<>();
+
+        request.put("OrgTicketNumber", "1");
+        request.put("Call_Purpose", "1");
+        request.put("Legal_Surname_Nm", "1");
+        request.put("Legal_Surname_Nm", "1");
+        request.put("Legal_Second_Nm", "1");
+        request.put("Birth_Dt", "1999-05-31");
+        request.put("Gender_Txt", "1");
+        request.put("Birth_Place", "1");
+        request.put("Alias1_Surname_Nm", "1");
+        request.put("Alias1_First_Nm", "1");
+        request.put("Alias1_Second_Nm", "1");
+        request.put("Alias2_Surname_Nm", "1");
+        request.put("alias2FirstNm", "1");
+        request.put("alias2SecondNm", "1");
+        request.put("Alias3_Surname_Nm", "1");
+        request.put("Alias3_First_Nm", "1");
+        request.put("Alias3_Second_Nm", "1");
+        request.put("Phone_Number", "1");
+        request.put("Address_Line1", "1");
+        request.put("Address_Line2", "1");
+        request.put("City_Nm", "1");
+        request.put("Province_Nm", "1");
+        request.put("Country_Nm", "1");
+        request.put("Postal_Code_Txt", "1");
+        request.put("Drivers_Lic_No", "1");
+        request.put("Email_Address", "1");
+        request.put("Email_Type", "1");
+
+        compare(
+                request,
+                new CreateApplicantResponse(),
+                "CreateApplicant/Services",
+                CreateApplicantResponse.class);
+        System.out.println(
+                "########################################################\n"
+                        + "INFO: CreateApplicant  Completed there are "
+                        + diffCounter
+                        + " diffs\n"
+                        + "########################################################");
+
+        fileOutput.println(
+                "########################################################\n"
+                        + "INFO: CreateApplicant  Completed there are "
+                        + diffCounter
+                        + " diffs\n"
+                        + "########################################################");
+
+        overallDiff += diffCounter;
+        fileOutput.close();
+    }
+
+    public void createApplicantExCompare() throws IOException {
+
+        int diffCounter = 0;
+
+        log.info("CreateApplicantEx");
+        fileOutput = new PrintWriter(outputDir + "CreateApplicantEx.txt", StandardCharsets.UTF_8);
+
+        Map<String, String> request = new HashMap<>();
+
+        request.put("OrgTicketNumber", "1");
+        request.put("Call_Purpose", "1");
+        request.put("Legal_Surname_Nm", "1");
+        request.put("Legal_Surname_Nm", "1");
+        request.put("Legal_Second_Nm", "1");
+        request.put("Birth_Dt", "1999-05-31");
+        request.put("Gender_Txt", "1");
+        request.put("Birth_Place", "1");
+        request.put("Alias1_Surname_Nm", "1");
+        request.put("Alias1_First_Nm", "1");
+        request.put("Alias1_Second_Nm", "1");
+        request.put("Alias2_Surname_Nm", "1");
+        request.put("alias2FirstNm", "1");
+        request.put("alias2SecondNm", "1");
+        request.put("Alias3_Surname_Nm", "1");
+        request.put("Alias3_First_Nm", "1");
+        request.put("Alias3_Second_Nm", "1");
+        request.put("Phone_Number", "1");
+        request.put("Address_Line1", "1");
+        request.put("Address_Line2", "1");
+        request.put("City_Nm", "1");
+        request.put("Province_Nm", "1");
+        request.put("Country_Nm", "1");
+        request.put("Postal_Code_Txt", "1");
+        request.put("Drivers_Lic_No", "1");
+        request.put("Email_Address", "1");
+        request.put("Email_Type", "1");
+
+        compare(
+                request,
+                new CreateApplicantResponse(),
+                "CreateApplicantEx/Services",
+                CreateApplicantResponse.class);
+        System.out.println(
+                "########################################################\n"
+                        + "INFO: CreateApplicantEx  Completed there are "
+                        + diffCounter
+                        + " diffs\n"
+                        + "########################################################");
+
+        fileOutput.println(
+                "########################################################\n"
+                        + "INFO: CreateApplicantEx  Completed there are "
+                        + diffCounter
+                        + " diffs\n"
+                        + "########################################################");
+
+        overallDiff += diffCounter;
+        fileOutput.close();
+    }
+
+    public void authenticateUserExCompare() throws IOException {
+
+        int diffCounter = 0;
+
+        log.info("DoAuthenticateUser");
+        fileOutput = new PrintWriter(outputDir + "DoAuthenticateUser.txt", StandardCharsets.UTF_8);
+
+        Map<String, String> request = new HashMap<>();
+
+        request.put("OrgTicketNumber", "1");
+
+        compare(
+                request,
+                new AuthenticateUserResponse(),
+                "DoAuthenticateUser/Services",
+                AuthenticateUserResponse.class);
+        System.out.println(
+                "########################################################\n"
+                        + "INFO: DoAuthenticateUser  Completed there are "
+                        + diffCounter
+                        + " diffs\n"
+                        + "########################################################");
+
+        fileOutput.println(
+                "########################################################\n"
+                        + "INFO: DoAuthenticateUser  Completed there are "
+                        + diffCounter
+                        + " diffs\n"
+                        + "########################################################");
+
+        overallDiff += diffCounter;
+        fileOutput.close();
+    }
+
+    public void logEivFailureCompare() throws IOException {
+
+        int diffCounter = 0;
+
+        log.info("LogEivFailure");
+        fileOutput = new PrintWriter(outputDir + "LogEivFailure.txt", StandardCharsets.UTF_8);
+
+        Map<String, String> request = new HashMap<>();
+        request.put("OrgTicketNumber", "1");
+        request.put("Session_Id", "1");
+        request.put("Legal_Surname_Nm", "1");
+        request.put("Legal_First_Nm", "1");
+        request.put("Legal_Second_Nm", "1");
+        request.put("Birth_Dt", "1999-05-31");
+        request.put("Gender_Txt", "1");
+        request.put("EIV_Vendor_Error_Msg", "1");
+
+        compare(
+                request,
+                new LogEivFailureResponse(),
+                "LogEivFailure/Services",
+                LogEivFailureResponse.class);
+        System.out.println(
+                "########################################################\n"
+                        + "INFO: LogEivFailure  Completed there are "
+                        + diffCounter
+                        + " diffs\n"
+                        + "########################################################");
+
+        fileOutput.println(
+                "########################################################\n"
+                        + "INFO: LogEivFailure  Completed there are "
+                        + diffCounter
+                        + " diffs\n"
+                        + "########################################################");
+
+        overallDiff += diffCounter;
+        fileOutput.close();
+    }
+
+    public void logPaymentFailureCompare() throws IOException {
+
+        int diffCounter = 0;
+
+        log.info("LogEivFailure");
+        fileOutput = new PrintWriter(outputDir + "LogPaymentFailure.txt", StandardCharsets.UTF_8);
+
+        Map<String, String> request = new HashMap<>();
+        request.put("OrgTicketNumber", "1");
+        request.put("Service_Id", "1");
+        request.put("Appl_Party_Id", "1");
+        request.put("Session_Id", "1");
+        request.put("Invoice_Id", "1");
+        request.put("Service_Fee_Amount", "1");
+        request.put("BCEP_Error_Msg", "1");
+
+        compare(
+                request,
+                new LogPaymentFailureResponse(),
+                "LogPaymentFailure/Services",
+                LogPaymentFailureResponse.class);
+        System.out.println(
+                "########################################################\n"
+                        + "INFO: LogPaymentFailure  Completed there are "
+                        + diffCounter
+                        + " diffs\n"
+                        + "########################################################");
+
+        fileOutput.println(
+                "########################################################\n"
+                        + "INFO: LogPaymentFailure  Completed there are "
+                        + diffCounter
+                        + " diffs\n"
+                        + "########################################################");
+
+        overallDiff += diffCounter;
+        fileOutput.close();
+    }
+
+    public void createNewCrcServiceCompare() throws IOException {
+
+        int diffCounter = 0;
+
+        log.info("CreateNewCRCService");
+        fileOutput = new PrintWriter(outputDir + "CreateNewCRCService.txt", StandardCharsets.UTF_8);
+
+        Map<String, String> request = new HashMap<>();
+        request.put("OrgTicketNumber", "1");
+        request.put("Schedule_Type_Cd", "1");
+        request.put("Scope_Level_Cd", "1");
+        request.put("Appl_Party_Id", "1");
+        request.put("Org_Appl_To_Pay", "1");
+        request.put("Applicant_Posn", "1");
+        request.put("Child_Care_Fac_Nm", "1");
+        request.put("Governing_Body_Nm", "1");
+        request.put("Session_Id", "1");
+        request.put("Invoice_Id", "1");
+        request.put("Auth_Release_EIV_Vendor_YN", "1");
+        request.put("Auth_Conduct_CRC_Check_YN", "1");
+        request.put("Auth_Release_To_Org_YN", "1");
+        request.put("Appl_Identity_Verified_EIV_YN", "1");
+        request.put("EivPassDetailsResults", "1");
+
+        compare(
+                request,
+                new CreateNewCRCServiceResponse(),
+                "CreateNewCRCService/Services",
+                CreateNewCRCServiceResponse.class);
+        System.out.println(
+                "########################################################\n"
+                        + "INFO: CreateNewCRCService  Completed there are "
+                        + diffCounter
+                        + " diffs\n"
+                        + "########################################################");
+
+        fileOutput.println(
+                "########################################################\n"
+                        + "INFO: CreateNewCRCService  Completed there are "
+                        + diffCounter
+                        + " diffs\n"
+                        + "########################################################");
+
+        overallDiff += diffCounter;
+        fileOutput.close();
+    }
+
+    public void createSharingServiceCompare() throws IOException {
+
+        int diffCounter = 0;
+
+        log.info("CreateSharingService");
+        fileOutput =
+                new PrintWriter(outputDir + "CreateSharingService.txt", StandardCharsets.UTF_8);
+
+        Map<String, String> request = new HashMap<>();
+        request.put("OrgTicketNumber", "1");
+        request.put("Appl_Party_Id", "1");
+        request.put("Scope_Level_Cd", "1");
+        request.put("Applicant_Posn", "1");
+        request.put("Auth_Release_EIV_Vendor_YN", "1");
+        request.put("Auth_Release_To_Org_YN", "1");
+        request.put("Appl_Identity_Verified_EIV_YN", "1");
+        request.put("Previous_Service_Id", "1");
+        request.put("EivPassDetailsResults", "1");
+
+        compare(
+                request,
+                new CreateSharingServiceResponse(),
+                "CreateSharingService/Services",
+                CreateSharingServiceResponse.class);
+        System.out.println(
+                "########################################################\n"
+                        + "INFO: CreateSharingService  Completed there are "
+                        + diffCounter
+                        + " diffs\n"
+                        + "########################################################");
+
+        fileOutput.println(
+                "########################################################\n"
+                        + "INFO: CreateSharingService  Completed there are "
+                        + diffCounter
+                        + " diffs\n"
+                        + "########################################################");
+
+        overallDiff += diffCounter;
+        fileOutput.close();
+    }
+
+    public void getServiceFeeAmountCompare() throws IOException {
+
+        int diffCounter = 0;
+
+        log.info("GetServiceFeeAmount");
+        fileOutput = new PrintWriter(outputDir + "GetServiceFeeAmount.txt", StandardCharsets.UTF_8);
+
+        Map<String, String> request = new HashMap<>();
+        request.put("OrgTicketNumber", "1");
+        request.put("ScheduleTypeCd", "1");
+        request.put("ScopeLevelCd", "1");
+
+        compare(
+                request,
+                new GetServiceFeeAmountResponse(),
+                "GetServiceFeeAmount/Services",
+                GetServiceFeeAmountResponse.class);
+        System.out.println(
+                "########################################################\n"
+                        + "INFO: GetServiceFeeAmount  Completed there are "
+                        + diffCounter
+                        + " diffs\n"
+                        + "########################################################");
+
+        fileOutput.println(
+                "########################################################\n"
+                        + "INFO: GetServiceFeeAmount  Completed there are "
+                        + diffCounter
+                        + " diffs\n"
+                        + "########################################################");
+
+        overallDiff += diffCounter;
+        fileOutput.close();
+    }
+
+    public void updateServiceFinancialTxnCompare() throws IOException {
+
+        int diffCounter = 0;
+
+        log.info("UpdateServiceFinancialTxn");
+        fileOutput =
+                new PrintWriter(
+                        outputDir + "UpdateServiceFinancialTxn.txt", StandardCharsets.UTF_8);
+
+        Map<String, String> request = new HashMap<>();
+        request.put("OrgTicketNumber", "1");
+        request.put("Appl_Party_Id", "1");
+        request.put("Service_Id", "1");
+        request.put("CC_Authorization", "1");
+        request.put("Payment_Date", "1");
+        request.put("Payor_Type_Cd", "1");
+        request.put("Payment_Status_Cd", "1");
+        request.put("Session_Id", "1");
+        request.put("Invoice_Id", "1");
+        request.put("Transaction_Id", "1");
+        request.put("Transaction_Amount", "1");
+
+        compare(
+                request,
+                new UpdateServiceFinancialTxnResponse(),
+                "UpdateServiceFinancialTxn/Services",
+                UpdateServiceFinancialTxnResponse.class);
+        System.out.println(
+                "########################################################\n"
+                        + "INFO: UpdateServiceFinancialTxn  Completed there are "
+                        + diffCounter
+                        + " diffs\n"
+                        + "########################################################");
+
+        fileOutput.println(
+                "########################################################\n"
+                        + "INFO: UpdateServiceFinancialTxn  Completed there are "
+                        + diffCounter
+                        + " diffs\n"
+                        + "########################################################");
+
+        overallDiff += diffCounter;
+        fileOutput.close();
+    }
+
+    private <G> boolean compare(
+            Map<String, String> request, G response, String connect, Class<G> classType)
             throws JsonProcessingException {
 
-        HttpEntity<G> resultObjectWM = null;
-        HttpEntity<G> resultObjectAPI = null;
+        HttpEntity<String> resultObjectWM = null;
+        HttpEntity<String> resultObjectAPI = null;
+
+        G webmessageResponse = null;
+        G apimessageResponse = null;
+
+        UriComponentsBuilder builderWM = UriComponentsBuilder.fromHttpUrl(wmHost + connect);
+        UriComponentsBuilder builderApi = UriComponentsBuilder.fromHttpUrl(apiHost + connect);
+
+        if (request != null) {
+            request.keySet()
+                    .forEach(
+                            k -> {
+                                builderWM.queryParam(k, request.get(k));
+                                builderApi.queryParam(k, request.get(k));
+                                return;
+                            });
+        }
 
         try {
-            UriComponentsBuilder builderWM = UriComponentsBuilder.fromHttpUrl(wmHost + connect);
+
             resultObjectWM =
                     restTemplate.exchange(
                             builderWM.toUriString(),
                             HttpMethod.GET,
                             new HttpEntity<>(new HttpHeaders()),
-                            new ParameterizedTypeReference<G>() {});
+                            String.class);
 
-            UriComponentsBuilder builderApi = UriComponentsBuilder.fromHttpUrl(apiHost + connect);
             resultObjectAPI =
                     restTemplate.exchange(
                             builderApi.toUriString(),
                             HttpMethod.GET,
                             new HttpEntity<>(new HttpHeaders()),
-                            new ParameterizedTypeReference<G>() {});
+                            String.class);
+
+            webmessageResponse = xmlMapper.readValue(resultObjectWM.getBody(), classType);
+            apimessageResponse = xmlMapper.readValue(resultObjectAPI.getBody(), classType);
+
             Thread.sleep(5000);
 
         } catch (Exception e) {
@@ -203,9 +736,9 @@ public class TestService {
             fileOutput.println("ERROR: Failed to send request... " + e);
         }
 
-        Diff diff = javers.compare(resultObjectWM.getBody(), resultObjectAPI.getBody());
+        Diff diff = javers.compare(webmessageResponse, apimessageResponse);
 
-        String requestClassName = request.getClass().getName();
+        String requestClassName = response.getClass().getName();
 
         if (diff.hasChanges()) {
             printDiff(diff);
@@ -283,7 +816,9 @@ public class TestService {
                                                     if (columnLengths.get(i) == null) {
                                                         columnLengths.put(i, 0);
                                                     }
-                                                    if (columnLengths.get(i) < a[i].length()) {
+                                                    if (a[i] != null
+                                                            && columnLengths.get(i)
+                                                                    < a[i].length()) {
                                                         columnLengths.put(i, a[i].length());
                                                     }
                                                 }));

@@ -7,18 +7,13 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
-@JacksonXmlRootElement(localName = "Response")
-public class AuthenticateUserResponse {
+@JacksonXmlRootElement(localName = "DoAuthenticateUser")
+@EqualsAndHashCode(callSuper = true)
+public class AuthenticateUserResponse extends BaseXMLResponse {
 
-    private AuthenticateInner doAuthenticateUser;
-
-    @Data
-    @EqualsAndHashCode(callSuper = true)
-    public static class AuthenticateInner extends BaseXMLResponse {
-        private AccessCodeResponse accessCodeResponse;
-        private ScopeLevels scopeLevels;
-        private ScheduleTypes scheduleTypes;
-    }
+    private AccessCodeResponse accessCodeResponse;
+    private ScopeLevels scopeLevels;
+    private ScheduleTypes scheduleTypes;
 
     @Data
     public static class AccessCodeResponse {

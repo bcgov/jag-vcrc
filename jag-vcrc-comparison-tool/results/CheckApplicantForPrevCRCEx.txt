@@ -1,3 +1,7 @@
+===============================================================================
+| Property |                    API Response |                    WM Response |
+|  message | Failure: Ticket 1 is not valid. | Failure: Ticket  is not valid. |
+===============================================================================
 ########################################################
-INFO: checkApplicantForPrevCRCEx  Completed there are 0 diffs
+INFO: CheckApplicantForPrevCRCEx  Completed there are 0 diffs
 ########################################################

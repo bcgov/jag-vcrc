@@ -1,0 +1,24 @@
+==================================================================================================================
+|                                    Property |                    API Response |                    WM Response |
+|               accessCodeResponse.orgPartyId |                            null |                                |
+|                    accessCodeResponse.orgNm |                            null |                                |
+|             accessCodeResponse.contactSurNm |                            null |                                |
+|           accessCodeResponse.contactFirstNm |                            null |                                |
+|             accessCodeResponse.addressLine1 |                            null |                                |
+|             accessCodeResponse.addressLine2 |                            null |                                |
+|                   accessCodeResponse.cityNm |                            null |                                |
+|               accessCodeResponse.provinceNm |                            null |                                |
+|            accessCodeResponse.postalCodeTxt |                            null |                                |
+|           accessCodeResponse.contactPhoneNo |                            null |                                |
+|             accessCodeResponse.contactFaxNo |                            null |                                |
+| accessCodeResponse.orgApplicantRelationship |                            null |                                |
+|    accessCodeResponse.defaultScheduleTypeCd |                            null |                                |
+|   accessCodeResponse.defaultCrcScopeLevelCd |                            null |                                |
+|            accessCodeResponse.ticketFoundYN |                            null |                                |
+|            accessCodeResponse.alreadyUsedYN |                            null |                                |
+|         accessCodeResponse.validDateRangeYN |                            null |                                |
+|                                     message | Failure: Ticket 1 is not valid. | Failure: Ticket  is not valid. |
+==================================================================================================================
+########################################################
+INFO: DoAuthenticateUser  Completed there are 0 diffs
+########################################################

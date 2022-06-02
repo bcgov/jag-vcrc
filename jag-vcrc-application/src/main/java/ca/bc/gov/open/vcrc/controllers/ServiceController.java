@@ -42,19 +42,18 @@ public class ServiceController {
                 new HttpEntity<>(createNewCRCServiceRequest, new HttpHeaders());
 
         try {
-            HttpEntity<CreateNewCRCServiceResponse.CreateNewCRCService> resp =
+            HttpEntity<CreateNewCRCServiceResponse> resp =
                     restTemplate.exchange(
                             builder.toUriString(),
                             HttpMethod.POST,
                             payload,
-                            CreateNewCRCServiceResponse.CreateNewCRCService.class);
+                            CreateNewCRCServiceResponse.class);
 
             log.info(
                     objectMapper.writeValueAsString(
                             new RequestSuccessLog("Request Success", "createNewCrcService")));
             CreateNewCRCServiceResponse out = new CreateNewCRCServiceResponse();
-            out.setCreateNewCRCService(resp.getBody());
-            return out;
+            return resp.getBody();
         } catch (Exception ex) {
             log.error(
                     objectMapper.writeValueAsString(
@@ -78,19 +77,18 @@ public class ServiceController {
                 new HttpEntity<>(createSharingServiceRequest, new HttpHeaders());
 
         try {
-            HttpEntity<CreateSharingServiceResponse.CreateSharingService> resp =
+            HttpEntity<CreateSharingServiceResponse> resp =
                     restTemplate.exchange(
                             builder.toUriString(),
                             HttpMethod.POST,
                             payload,
-                            CreateSharingServiceResponse.CreateSharingService.class);
+                            CreateSharingServiceResponse.class);
 
             log.info(
                     objectMapper.writeValueAsString(
                             new RequestSuccessLog("Request Success", "createSharingService")));
             CreateSharingServiceResponse out = new CreateSharingServiceResponse();
-            out.setCreateSharingService(resp.getBody());
-            return out;
+            return resp.getBody();
         } catch (Exception ex) {
             log.error(
                     objectMapper.writeValueAsString(
@@ -112,19 +110,18 @@ public class ServiceController {
                 new HttpEntity<>(getServiceFeeAmountRequest, new HttpHeaders());
 
         try {
-            HttpEntity<GetServiceFeeAmountResponse.GetServiceFeeAmount> resp =
+            HttpEntity<GetServiceFeeAmountResponse> resp =
                     restTemplate.exchange(
                             builder.toUriString(),
                             HttpMethod.PUT,
                             payload,
-                            GetServiceFeeAmountResponse.GetServiceFeeAmount.class);
+                            GetServiceFeeAmountResponse.class);
 
             log.info(
                     objectMapper.writeValueAsString(
                             new RequestSuccessLog("Request Success", "getServiceFeeAmount")));
             GetServiceFeeAmountResponse out = new GetServiceFeeAmountResponse();
-            out.setGetServiceFeeAmount(resp.getBody());
-            return out;
+            return resp.getBody();
         } catch (Exception ex) {
             log.error(
                     objectMapper.writeValueAsString(

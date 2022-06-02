@@ -3,5 +3,5 @@
 |  message | Failure: Ticket 1 is not valid. | Failure: Ticket  is not valid. |
 ===============================================================================
 ########################################################
-INFO: CheckApplicantForPrevCRC  Completed there are 0 diffs
+INFO: LogPaymentFailure  Completed there are 0 diffs
 ########################################################

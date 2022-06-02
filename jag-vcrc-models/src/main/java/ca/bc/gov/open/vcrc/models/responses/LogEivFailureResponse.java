@@ -5,6 +5,5 @@ import lombok.Data;
 
 @Data
 @JacksonXmlRootElement(localName = "LogEivFailure")
-public class LogEivFailureResponse {
-    private BaseXMLResponse logEivFailure;
-}
+public class LogEivFailureResponse extends BaseXMLResponse {}
+;

@@ -1,0 +1,8 @@
+==============================================================================================
+|     Property |                    API Response |                               WM Response |
+|      message | Failure: Ticket 1 is not valid. | Failure: Ticket Number was not specified. |
+| responseCode |                               1 |                                       -10 |
+==============================================================================================
+########################################################
+INFO: CreateSharingService  Completed there are 0 diffs
+########################################################

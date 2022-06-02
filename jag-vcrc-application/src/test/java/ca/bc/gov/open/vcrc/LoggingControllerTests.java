@@ -5,7 +5,6 @@ import static org.mockito.Mockito.when;
 import ca.bc.gov.open.vcrc.controllers.LoggingController;
 import ca.bc.gov.open.vcrc.models.requests.LogEivFailureRequest;
 import ca.bc.gov.open.vcrc.models.requests.LogPaymentFailureRequest;
-import ca.bc.gov.open.vcrc.models.responses.BaseXMLResponse;
 import ca.bc.gov.open.vcrc.models.responses.LogEivFailureResponse;
 import ca.bc.gov.open.vcrc.models.responses.LogPaymentFailureResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -80,10 +79,8 @@ public class LoggingControllerTests {
         var req = LogEivFailure_Request();
 
         var out = new LogEivFailureResponse();
-        var baseXMLResponse = new BaseXMLResponse();
-        baseXMLResponse.setResponseCode("A");
-        baseXMLResponse.setMessage("A");
-        out.setLogEivFailure(baseXMLResponse);
+        out.setResponseCode("A");
+        out.setMessage("A");
 
         ResponseEntity<LogEivFailureResponse> responseEntity =
                 new ResponseEntity<>(out, HttpStatus.OK);
@@ -106,10 +103,8 @@ public class LoggingControllerTests {
         var req = LogPaymentFailure_Request();
 
         var out = new LogPaymentFailureResponse();
-        var baseXMLResponse = new BaseXMLResponse();
-        baseXMLResponse.setResponseCode("A");
-        baseXMLResponse.setMessage("A");
-        out.setLogPaymentFailure(baseXMLResponse);
+        out.setResponseCode("A");
+        out.setMessage("A");
 
         ResponseEntity<LogPaymentFailureResponse> responseEntity =
                 new ResponseEntity<>(out, HttpStatus.OK);
