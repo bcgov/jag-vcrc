@@ -1,9 +1,6 @@
 package ca.bc.gov.open.services;
 
-import ca.bc.gov.open.vcrc.models.responses.CheckApplicantForPrevCRCExResponse;
-import ca.bc.gov.open.vcrc.models.responses.CheckApplicantForPrevCRCResponse;
-import ca.bc.gov.open.vcrc.models.responses.GetCountriesListResponse;
-import ca.bc.gov.open.vcrc.models.responses.GetProvinceListResponse;
+import ca.bc.gov.open.vcrc.models.responses.*;
 import com.ctc.wstx.api.WstxOutputProperties;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
@@ -73,8 +70,8 @@ public class TestService {
 
         getCountryListCompare();
         getProviceListCompare();
-        checkApplicantForPrevCRCCompare();
-        checkApplicantForPrevCRCExCompare();
+        getNextSessionIdCompare();
+        getNextInvoiceIdCompare();
     }
 
     public void getCountryListCompare() throws IOException {
@@ -127,24 +124,23 @@ public class TestService {
         fileOutput.close();
     }
 
-    public void checkApplicantForPrevCRCCompare() throws IOException {
+    public void getNextSessionIdCompare() throws IOException {
 
         int diffCounter = 0;
 
-        log.info("CheckApplicantForPrevCRC");
-        fileOutput =
-                new PrintWriter(outputDir + "CheckApplicantForPrevCRC.txt", StandardCharsets.UTF_8);
-        compare(new CheckApplicantForPrevCRCResponse(), null, "CheckApplicantForPrevCRC/Services");
+        log.info("GetNextSessionId");
+        fileOutput = new PrintWriter(outputDir + "GetNextSessionId.txt", StandardCharsets.UTF_8);
+        compare(new GetNextSessionIdResponse(), null, "GetNextSessionId/Services");
         System.out.println(
                 "########################################################\n"
-                        + "INFO: checkApplicantForPrevCRC  Completed there are "
+                        + "INFO: GetNextSessionId  Completed there are "
                         + diffCounter
                         + " diffs\n"
                         + "########################################################");
 
         fileOutput.println(
                 "########################################################\n"
-                        + "INFO: checkApplicantForPrevCRC  Completed there are "
+                        + "INFO: GetNextSessionId  Completed there are "
                         + diffCounter
                         + " diffs\n"
                         + "########################################################");
@@ -153,28 +149,23 @@ public class TestService {
         fileOutput.close();
     }
 
-    public void checkApplicantForPrevCRCExCompare() throws IOException {
+    public void getNextInvoiceIdCompare() throws IOException {
 
         int diffCounter = 0;
 
-        log.info("CheckApplicantForPrevCRCEx");
-        fileOutput =
-                new PrintWriter(
-                        outputDir + "CheckApplicantForPrevCRCEx.txt", StandardCharsets.UTF_8);
-        compare(
-                new CheckApplicantForPrevCRCExResponse(),
-                null,
-                "CheckApplicantForPrevCRCEx/Services");
+        log.info("GetNextInvoiceId");
+        fileOutput = new PrintWriter(outputDir + "GetNextInvoiceId.txt", StandardCharsets.UTF_8);
+        compare(new GetNextInvoiceIdResponse(), null, "GetNextInvoiceId/Services");
         System.out.println(
                 "########################################################\n"
-                        + "INFO: checkApplicantForPrevCRCEx  Completed there are "
+                        + "INFO: getNextInvoiceId  Completed there are "
                         + diffCounter
                         + " diffs\n"
                         + "########################################################");
 
         fileOutput.println(
                 "########################################################\n"
-                        + "INFO: checkApplicantForPrevCRCEx  Completed there are "
+                        + "INFO: getNextInvoiceId  Completed there are "
                         + diffCounter
                         + " diffs\n"
                         + "########################################################");
