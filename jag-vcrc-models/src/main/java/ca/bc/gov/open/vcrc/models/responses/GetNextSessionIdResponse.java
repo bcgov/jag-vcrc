@@ -5,14 +5,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
-@JacksonXmlRootElement(localName = "Response")
-public class GetNextSessionIdResponse {
-
-    private GetNextSessionId getNextSessionId;
-
-    @Data
-    @EqualsAndHashCode(callSuper = true)
-    public static class GetNextSessionId extends BaseXMLResponse {
-        private String sessionId;
-    }
+@JacksonXmlRootElement(localName = "getNextSessionId")
+@EqualsAndHashCode(callSuper = true)
+public class GetNextSessionIdResponse extends BaseXMLResponse {
+    private String sessionId;
 }

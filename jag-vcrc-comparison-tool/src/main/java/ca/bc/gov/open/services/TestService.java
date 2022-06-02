@@ -68,10 +68,10 @@ public class TestService {
     public void runCompares() throws Exception {
         restTemplate.getInterceptors().add(new BasicAuthenticationInterceptor(username, password));
 
-        getCountryListCompare();
-        getProviceListCompare();
+        // getCountryListCompare();
+        // getProviceListCompare();
         getNextSessionIdCompare();
-        getNextInvoiceIdCompare();
+        // getNextInvoiceIdCompare();
     }
 
     public void getCountryListCompare() throws IOException {

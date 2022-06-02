@@ -35,12 +35,12 @@ public class IdControllerTests {
         var req = new GetNextSessionIdRequest();
         req.setOrgTicketNumber("A");
 
-        var getNextSessionId = new GetNextSessionIdResponse.GetNextSessionId();
+        var getNextSessionId = new GetNextSessionIdResponse();
         getNextSessionId.setSessionId("A");
         getNextSessionId.setMessage("A");
         getNextSessionId.setResponseCode("A");
 
-        ResponseEntity<GetNextSessionIdResponse.GetNextSessionId> responseEntity =
+        ResponseEntity<GetNextSessionIdResponse> responseEntity =
                 new ResponseEntity<>(getNextSessionId, HttpStatus.OK);
 
         //     Set up to mock ords response
@@ -48,7 +48,7 @@ public class IdControllerTests {
                         Mockito.any(String.class),
                         Mockito.eq(HttpMethod.GET),
                         Mockito.<HttpEntity<String>>any(),
-                        Mockito.<Class<GetNextSessionIdResponse.GetNextSessionId>>any()))
+                        Mockito.<Class<GetNextSessionIdResponse>>any()))
                 .thenReturn(responseEntity);
 
         var idController = new IdController(restTemplate, objectMapper);
