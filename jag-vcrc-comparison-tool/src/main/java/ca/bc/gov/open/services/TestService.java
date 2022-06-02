@@ -1,6 +1,7 @@
 package ca.bc.gov.open.services;
 
 import ca.bc.gov.open.vcrc.models.responses.GetCountriesListResponse;
+import ca.bc.gov.open.vcrc.models.responses.GetProvinceListResponse;
 import com.ctc.wstx.api.WstxOutputProperties;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
@@ -21,6 +22,7 @@ import org.javers.core.diff.Diff;
 import org.javers.core.diff.changetype.ValueChange;
 import org.javers.core.diff.changetype.container.ListChange;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -50,6 +52,8 @@ public class TestService {
     private final Javers javers = JaversBuilder.javers().build();
     private final XmlMapper xmlMapper;
 
+    private int overallDiff = 0;
+
     private final RestTemplate restTemplate = new RestTemplate();
 
     public TestService() {
@@ -71,58 +75,103 @@ public class TestService {
 
     public void getCountryListCompare() throws IOException {
 
-        UriComponentsBuilder builderWM =
-                UriComponentsBuilder.fromHttpUrl(wmHost + "GetCountryList/Services");
-
-        UriComponentsBuilder builderAPI =
-                UriComponentsBuilder.fromHttpUrl(apiHost + "GetCountryList/Services");
+        int diffCounter = 0;
 
         log.info("GetCountryList");
         fileOutput = new PrintWriter(outputDir + "GetCountryList.txt", StandardCharsets.UTF_8);
-        compare(builderWM, builderAPI);
+        compare(new GetCountriesListResponse(), null, "GetCountryList/Services");
+        System.out.println(
+                "########################################################\n"
+                        + "INFO: getCountryList  Completed there are "
+                        + diffCounter
+                        + " diffs\n"
+                        + "########################################################");
+
+        fileOutput.println(
+                "########################################################\n"
+                        + "INFO: getCountryList  Completed there are "
+                        + diffCounter
+                        + " diffs\n"
+                        + "########################################################");
+
+        overallDiff += diffCounter;
+        fileOutput.close();
     }
 
     public void getProviceListCompare() throws IOException {
 
-        UriComponentsBuilder builderWM =
-                UriComponentsBuilder.fromHttpUrl(wmHost + "GetProvinceList/Services");
-
-        UriComponentsBuilder builderAPI =
-                UriComponentsBuilder.fromHttpUrl(apiHost + "GetProvinceList/Services");
+        int diffCounter = 0;
 
         log.info("GetProvinceList");
         fileOutput = new PrintWriter(outputDir + "GetProvinceList.txt", StandardCharsets.UTF_8);
-        compare(builderWM, builderAPI);
+        compare(new GetProvinceListResponse(), null, "GetProvinceList/Services");
+        System.out.println(
+                "########################################################\n"
+                        + "INFO: GetProvinceList  Completed there are "
+                        + diffCounter
+                        + " diffs\n"
+                        + "########################################################");
+
+        fileOutput.println(
+                "########################################################\n"
+                        + "INFO: GetProvinceList  Completed there are "
+                        + diffCounter
+                        + " diffs\n"
+                        + "########################################################");
+
+        overallDiff += diffCounter;
+        fileOutput.close();
     }
 
-
-    private boolean compare(UriComponentsBuilder builderWM, UriComponentsBuilder builderAPI)
+    private <T, G> boolean compare(T request, G response, String connect)
             throws JsonProcessingException {
-        var wmResp =
-                restTemplate.exchange(
-                        builderWM.toUriString(),
-                        HttpMethod.GET,
-                        new HttpEntity<>(new HttpHeaders()),
-                        String.class);
 
-        var apiResp =
-                restTemplate.exchange(
-                        builderAPI.toUriString(),
-                        HttpMethod.GET,
-                        new HttpEntity<>(new HttpHeaders()),
-                        String.class);
+        HttpEntity<G> resultObjectWM = null;
+        HttpEntity<G> resultObjectAPI = null;
 
-        var gclWM = xmlMapper.readValue(wmResp.getBody(), GetCountriesListResponse.class);
-        var gclAPI = xmlMapper.readValue(apiResp.getBody(), GetCountriesListResponse.class);
+        try {
+            UriComponentsBuilder builderWM = UriComponentsBuilder.fromHttpUrl(wmHost + connect);
+            resultObjectWM =
+                    restTemplate.exchange(
+                            builderWM.toUriString(),
+                            HttpMethod.GET,
+                            new HttpEntity<>(new HttpHeaders()),
+                            new ParameterizedTypeReference<G>() {});
 
-        Diff diff = javers.compare(gclAPI, gclWM);
+            UriComponentsBuilder builderApi = UriComponentsBuilder.fromHttpUrl(apiHost + connect);
+            resultObjectAPI =
+                    restTemplate.exchange(
+                            builderApi.toUriString(),
+                            HttpMethod.GET,
+                            new HttpEntity<>(new HttpHeaders()),
+                            new ParameterizedTypeReference<G>() {});
+            Thread.sleep(5000);
+
+        } catch (Exception e) {
+            System.out.println("ERROR: Failed to send request... " + e);
+            fileOutput.println("ERROR: Failed to send request... " + e);
+        }
+
+        Diff diff = javers.compare(resultObjectWM.getBody(), resultObjectAPI.getBody());
+
+        String requestClassName = request.getClass().getName();
 
         if (diff.hasChanges()) {
             printDiff(diff);
             return false;
+        } else {
+            if (resultObjectAPI == null && resultObjectWM == null)
+                System.out.println(
+                        "WARN: "
+                                + requestClassName.substring(requestClassName.lastIndexOf('.') + 1)
+                                + ": NULL responses");
+            else
+                System.out.println(
+                        "INFO: "
+                                + requestClassName.substring(requestClassName.lastIndexOf('.') + 1)
+                                + ": No Diff Detected");
+            return true;
         }
-
-        return true;
     }
 
     private void printDiff(Diff diff) {

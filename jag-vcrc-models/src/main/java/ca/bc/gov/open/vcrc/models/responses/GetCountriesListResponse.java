@@ -8,7 +8,7 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-@JacksonXmlRootElement(localName = "GetCountriesList" )
+@JacksonXmlRootElement(localName = "GetCountriesList")
 public class GetCountriesListResponse extends BaseXMLResponse {
 
     private Countries countries;
