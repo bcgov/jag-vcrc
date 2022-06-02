@@ -79,20 +79,19 @@ public class IdController {
                                 "orgTicketNumber", getNextInvoiceIdRequest.getOrgTicketNumber());
 
         try {
-            HttpEntity<GetNextInvoiceIdResponse.GetNextInvoiceId> resp =
+            HttpEntity<GetNextInvoiceIdResponse> resp =
                     restTemplate.exchange(
                             builder.toUriString(),
                             HttpMethod.GET,
                             new HttpEntity<>(new HttpHeaders()),
-                            GetNextInvoiceIdResponse.GetNextInvoiceId.class);
+                            GetNextInvoiceIdResponse.class);
 
             log.info(
                     objectMapper.writeValueAsString(
                             new RequestSuccessLog("Request Success", "getNextInvoiceId")));
 
             GetNextInvoiceIdResponse out = new GetNextInvoiceIdResponse();
-            out.setGetNextInvoiceId(resp.getBody());
-            return out;
+            return resp.getBody();
         } catch (Exception ex) {
             log.error(
                     objectMapper.writeValueAsString(

@@ -61,12 +61,12 @@ public class IdControllerTests {
         var req = new GetNextInvoiceIdRequest();
         req.setOrgTicketNumber("A");
 
-        var getNextInvoiceId = new GetNextInvoiceIdResponse.GetNextInvoiceId();
+        var getNextInvoiceId = new GetNextInvoiceIdResponse();
         getNextInvoiceId.setInvoiceId("A");
         getNextInvoiceId.setMessage("A");
         getNextInvoiceId.setResponseCode("A");
 
-        ResponseEntity<GetNextInvoiceIdResponse.GetNextInvoiceId> responseEntity =
+        ResponseEntity<GetNextInvoiceIdResponse> responseEntity =
                 new ResponseEntity<>(getNextInvoiceId, HttpStatus.OK);
 
         //     Set up to mock ords response
@@ -74,7 +74,7 @@ public class IdControllerTests {
                         Mockito.any(String.class),
                         Mockito.eq(HttpMethod.GET),
                         Mockito.<HttpEntity<String>>any(),
-                        Mockito.<Class<GetNextInvoiceIdResponse.GetNextInvoiceId>>any()))
+                        Mockito.<Class<GetNextInvoiceIdResponse>>any()))
                 .thenReturn(responseEntity);
 
         var idController = new IdController(restTemplate, objectMapper);
