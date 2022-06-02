@@ -37,21 +37,21 @@ public class ApplicantControllerTests {
         var req = new CheckApplicantForPrevCRCRequest();
         req.setOrgTicketNumber("A");
         req.setLegalSurnameNm("A");
-        req.setLegalFirstName("A");
+        req.setLegal_First_Nm("A");
         req.setBirthDt(new Date());
         req.setGenderTxt("A");
         req.setPostalCodeTxt("A");
         req.setDriversLicNo("A");
-        req.setScopeLvlCd("A");
+        req.setScope_Level_Cd("A");
         req.setPreviousServiceId("A");
 
         req.setPostal_Code_Txt("A");
         req.setOrgTicketNumber("A");
         req.setLegal_Surname_Nm("A");
-        req.setLegal_First_Name("A");
+        req.setLegal_First_Nm("A");
         req.setGender_Txt("A");
         req.setDriversLicNo("A");
-        req.setScope_Lvl_Cd("A");
+        req.setScope_Level_Cd("A");
         req.setPrevious_Service_Id("A");
         req.setBirth_Dt(new Date());
 
