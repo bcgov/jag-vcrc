@@ -1,5 +1,7 @@
 package ca.bc.gov.open.services;
 
+import ca.bc.gov.open.vcrc.models.responses.CheckApplicantForPrevCRCExResponse;
+import ca.bc.gov.open.vcrc.models.responses.CheckApplicantForPrevCRCResponse;
 import ca.bc.gov.open.vcrc.models.responses.GetCountriesListResponse;
 import ca.bc.gov.open.vcrc.models.responses.GetProvinceListResponse;
 import com.ctc.wstx.api.WstxOutputProperties;
@@ -71,6 +73,8 @@ public class TestService {
 
         getCountryListCompare();
         getProviceListCompare();
+        checkApplicantForPrevCRCCompare();
+        checkApplicantForPrevCRCExCompare();
     }
 
     public void getCountryListCompare() throws IOException {
@@ -115,6 +119,62 @@ public class TestService {
         fileOutput.println(
                 "########################################################\n"
                         + "INFO: GetProvinceList  Completed there are "
+                        + diffCounter
+                        + " diffs\n"
+                        + "########################################################");
+
+        overallDiff += diffCounter;
+        fileOutput.close();
+    }
+
+    public void checkApplicantForPrevCRCCompare() throws IOException {
+
+        int diffCounter = 0;
+
+        log.info("CheckApplicantForPrevCRC");
+        fileOutput =
+                new PrintWriter(outputDir + "CheckApplicantForPrevCRC.txt", StandardCharsets.UTF_8);
+        compare(new CheckApplicantForPrevCRCResponse(), null, "CheckApplicantForPrevCRC/Services");
+        System.out.println(
+                "########################################################\n"
+                        + "INFO: checkApplicantForPrevCRC  Completed there are "
+                        + diffCounter
+                        + " diffs\n"
+                        + "########################################################");
+
+        fileOutput.println(
+                "########################################################\n"
+                        + "INFO: checkApplicantForPrevCRC  Completed there are "
+                        + diffCounter
+                        + " diffs\n"
+                        + "########################################################");
+
+        overallDiff += diffCounter;
+        fileOutput.close();
+    }
+
+    public void checkApplicantForPrevCRCExCompare() throws IOException {
+
+        int diffCounter = 0;
+
+        log.info("CheckApplicantForPrevCRCEx");
+        fileOutput =
+                new PrintWriter(
+                        outputDir + "CheckApplicantForPrevCRCEx.txt", StandardCharsets.UTF_8);
+        compare(
+                new CheckApplicantForPrevCRCExResponse(),
+                null,
+                "CheckApplicantForPrevCRCEx/Services");
+        System.out.println(
+                "########################################################\n"
+                        + "INFO: checkApplicantForPrevCRCEx  Completed there are "
+                        + diffCounter
+                        + " diffs\n"
+                        + "########################################################");
+
+        fileOutput.println(
+                "########################################################\n"
+                        + "INFO: checkApplicantForPrevCRCEx  Completed there are "
                         + diffCounter
                         + " diffs\n"
                         + "########################################################");
