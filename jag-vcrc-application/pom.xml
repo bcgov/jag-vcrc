@@ -9,7 +9,7 @@
     </parent>
 
     <artifactId>jag-vcrc-application</artifactId>
-    <version>1.0</version>
+    <version>1.0.0</version>
     <name>jag-vcrc-application</name>
     <description>Proxy Service to replace Webmethods with ords</description>
     <properties>
@@ -108,6 +108,11 @@
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-ui</artifactId>
             <version>1.6.4</version>
+        </dependency>
+        <dependency>
+            <groupId>ca.bc.gov.open</groupId>
+            <artifactId>jag-vcrc-models</artifactId>
+            <version>1.0.0</version>
         </dependency>
     </dependencies>
 

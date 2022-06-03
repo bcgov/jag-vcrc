@@ -1,24 +1,21 @@
 package ca.bc.gov.open.vcrc.models.responses;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import java.util.List;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
-@JacksonXmlRootElement(localName = "Response")
-public class GetProvinceListResponse {
+@JacksonXmlRootElement(localName = "GetProvinceList")
+@EqualsAndHashCode(callSuper = true)
+public class GetProvinceListResponse extends BaseXMLResponse {
 
-    private GetProvinceList getProvinceList;
-
-    @Data
-    @EqualsAndHashCode(callSuper = true)
-    public static class GetProvinceList extends BaseXMLResponse {
-        private Provinces provinces;
-    }
+    private Provinces provinces;
 
     @Data
     public static class Provinces {
+        @JacksonXmlElementWrapper(useWrapping = false)
         private List<Province> province;
     }
 

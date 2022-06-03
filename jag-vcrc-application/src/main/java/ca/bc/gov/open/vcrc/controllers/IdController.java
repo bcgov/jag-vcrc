@@ -45,20 +45,19 @@ public class IdController {
                                 "orgTicketNumber", getNextSessionIdRequest.getOrgTicketNumber());
 
         try {
-            HttpEntity<GetNextSessionIdResponse.GetNextSessionId> resp =
+            HttpEntity<GetNextSessionIdResponse> resp =
                     restTemplate.exchange(
                             builder.toUriString(),
                             HttpMethod.GET,
                             new HttpEntity<>(new HttpHeaders()),
-                            GetNextSessionIdResponse.GetNextSessionId.class);
+                            GetNextSessionIdResponse.class);
 
             log.info(
                     objectMapper.writeValueAsString(
                             new RequestSuccessLog("Request Success", "getNextSessionId")));
 
             GetNextSessionIdResponse out = new GetNextSessionIdResponse();
-            out.setGetNextSessionId(resp.getBody());
-            return out;
+            return resp.getBody();
         } catch (Exception ex) {
             log.error(
                     objectMapper.writeValueAsString(
@@ -80,20 +79,19 @@ public class IdController {
                                 "orgTicketNumber", getNextInvoiceIdRequest.getOrgTicketNumber());
 
         try {
-            HttpEntity<GetNextInvoiceIdResponse.GetNextInvoiceId> resp =
+            HttpEntity<GetNextInvoiceIdResponse> resp =
                     restTemplate.exchange(
                             builder.toUriString(),
                             HttpMethod.GET,
                             new HttpEntity<>(new HttpHeaders()),
-                            GetNextInvoiceIdResponse.GetNextInvoiceId.class);
+                            GetNextInvoiceIdResponse.class);
 
             log.info(
                     objectMapper.writeValueAsString(
                             new RequestSuccessLog("Request Success", "getNextInvoiceId")));
 
             GetNextInvoiceIdResponse out = new GetNextInvoiceIdResponse();
-            out.setGetNextInvoiceId(resp.getBody());
-            return out;
+            return resp.getBody();
         } catch (Exception ex) {
             log.error(
                     objectMapper.writeValueAsString(

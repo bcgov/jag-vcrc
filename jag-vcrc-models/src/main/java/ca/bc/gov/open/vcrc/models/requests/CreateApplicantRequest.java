@@ -9,7 +9,7 @@ public class CreateApplicantRequest implements Serializable {
 
     private String orgTicketNumber;
     private String callPurpose;
-    private String legalSurenameNm;
+    private String legalSurnameNm;
     private String legalFirstNm;
     private String legalSecondNm;
     private Date birthDt;
@@ -18,10 +18,10 @@ public class CreateApplicantRequest implements Serializable {
     private String alias1SurnameNm;
     private String alias1FirstNm;
     private String alias1SecondNm;
-    private String alias2SurenameNm;
+    private String alias2SurnameNm;
     private String alias2FirstNm;
     private String alias2SecondNm;
-    private String alias3SurenameNm;
+    private String alias3SurnameNm;
     private String alias3FirstNm;
     private String alias3SecondNm;
     private String phoneNumber;
@@ -41,8 +41,8 @@ public class CreateApplicantRequest implements Serializable {
         this.callPurpose = callPurpose;
     }
 
-    public void setLegal_Surename_Nm(String legalSurenameNm) {
-        this.legalSurenameNm = legalSurenameNm;
+    public void setLegal_Surname_Nm(String legalSurnameNm) {
+        this.legalSurnameNm = legalSurnameNm;
     }
 
     public void setLegal_First_Nm(String legalFirstName) {
@@ -77,8 +77,8 @@ public class CreateApplicantRequest implements Serializable {
         this.alias1SecondNm = alias1SecondNm;
     }
 
-    public void setAlias2_Surename_Nm(String alias2SurenameNm) {
-        this.alias2SurenameNm = alias2SurenameNm;
+    public void setAlias2_Surname_Nm(String alias2SurnameNm) {
+        this.alias2SurnameNm = alias2SurnameNm;
     }
 
     public void setAlias2_First_Nm(String alias2FirstNm) {
@@ -89,8 +89,8 @@ public class CreateApplicantRequest implements Serializable {
         this.alias2SecondNm = alias2SecondNm;
     }
 
-    public void setAlias3_Surename_Nm(String alias3SurenameNm) {
-        this.alias3SurenameNm = alias3SurenameNm;
+    public void setAlias3_Surname_Nm(String alias3SurnameNm) {
+        this.alias3SurnameNm = alias3SurnameNm;
     }
 
     public void setAlias3_First_Nm(String alias3FirstNm) {

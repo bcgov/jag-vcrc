@@ -76,6 +76,11 @@ public class ApplicantController {
     public CheckApplicantForPrevCRCExResponse checkApplicantForPrevCRCEx(
             CheckApplicantForPrevCRCRequest checkApplicantForPrevCRCRequest)
             throws JsonProcessingException {
+
+        // CheckApplicantForPrevCRCRequest has the field 'previousServiceId' that, used for
+        // checkApplicantForPrevCRC,
+        // the current end point does not need it, but it does not cause issue here.
+
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(ordsHost + "prev/crc/ex");
 
         HttpEntity<CheckApplicantForPrevCRCRequest> payload =
@@ -109,6 +114,11 @@ public class ApplicantController {
     @GetMapping(value = "CreateApplicant/Services", produces = MediaType.TEXT_XML_VALUE)
     public CreateApplicantResponse createApplicant(CreateApplicantRequest createApplicant)
             throws JsonProcessingException {
+
+        // CreateApplicantRequest has the field 'emailAddress' and 'emailType' that, used for
+        // createApplicantEx,
+        // the current end point does not need it, but it does not cause issue here.
+
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(ordsHost + "applicant");
 
         HttpEntity<CreateApplicantRequest> payload =
