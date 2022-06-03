@@ -81,7 +81,7 @@ jobs:
         run: mvn -ntp verify
 
       - name: Fix Jacoco Report Format for CC
-        run: sed -e 's/<[\/]\?group[^>]*>//g' jad-vcrc-code-coverage/target/site/jacoco-aggregate/jacoco.xml > pcss-code-coverage/target/site/jacoco-aggregate/jacoco-codeclimatecompat.xml
+        run: sed -e 's/<[\/]\?group[^>]*>//g' jad-vcrc-code-coverage/target/site/jacoco-aggregate/jacoco.xml > jad-code-coverage/target/site/jacoco-aggregate/jacoco-codeclimatecompat.xml
 
         # Formatting the Code Coverage Report
       - name: Format the coverage report
