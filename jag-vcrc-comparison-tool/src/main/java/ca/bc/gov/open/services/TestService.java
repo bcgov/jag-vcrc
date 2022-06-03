@@ -67,22 +67,22 @@ public class TestService {
     public void runCompares() throws Exception {
         restTemplate.getInterceptors().add(new BasicAuthenticationInterceptor(username, password));
 
-        getCountryListCompare();
-        getProviceListCompare();
-        getNextSessionIdCompare();
-        getNextInvoiceIdCompare();
-        checkApplicantForPrevCRCCompare();
         checkApplicantForPrevCRCCompare();
         checkApplicantForPrevCRCExCompare();
         createApplicantCompare();
         createApplicantExCompare();
+        authenticateUserExCompare();
+        getNextSessionIdCompare();
+        getNextInvoiceIdCompare();
+        getCountryListCompare();
+        getProviceListCompare();
+
         logEivFailureCompare();
         logPaymentFailureCompare();
         createNewCrcServiceCompare();
         createSharingServiceCompare();
         getServiceFeeAmountCompare();
         updateServiceFinancialTxnCompare();
-        authenticateUserExCompare();
     }
 
     public void getCountryListCompare() throws IOException {
@@ -149,8 +149,12 @@ public class TestService {
 
         log.info("GetNextSessionId");
         fileOutput = new PrintWriter(outputDir + "GetNextSessionId.txt", StandardCharsets.UTF_8);
+
+        Map<String, String> request = new HashMap<>();
+        request.put("OrgTicketNumber", "1");
+
         compare(
-                null,
+                request,
                 new GetNextSessionIdResponse(),
                 "GetNextSessionId/Services",
                 GetNextSessionIdResponse.class);
@@ -178,6 +182,10 @@ public class TestService {
 
         log.info("GetNextInvoiceId");
         fileOutput = new PrintWriter(outputDir + "GetNextInvoiceId.txt", StandardCharsets.UTF_8);
+
+        Map<String, String> request = new HashMap<>();
+        request.put("OrgTicketNumber", "1");
+
         compare(
                 null,
                 new GetNextInvoiceIdResponse(),
@@ -297,7 +305,7 @@ public class TestService {
         request.put("OrgTicketNumber", "1");
         request.put("Call_Purpose", "1");
         request.put("Legal_Surname_Nm", "1");
-        request.put("Legal_Surname_Nm", "1");
+        request.put("Legal_First_Nm", "1");
         request.put("Legal_Second_Nm", "1");
         request.put("Birth_Dt", "1999-05-31");
         request.put("Gender_Txt", "1");
@@ -319,8 +327,6 @@ public class TestService {
         request.put("Country_Nm", "1");
         request.put("Postal_Code_Txt", "1");
         request.put("Drivers_Lic_No", "1");
-        request.put("Email_Address", "1");
-        request.put("Email_Type", "1");
 
         compare(
                 request,
@@ -357,7 +363,7 @@ public class TestService {
         request.put("OrgTicketNumber", "1");
         request.put("Call_Purpose", "1");
         request.put("Legal_Surname_Nm", "1");
-        request.put("Legal_Surname_Nm", "1");
+        request.put("Legal_First_Nm", "1");
         request.put("Legal_Second_Nm", "1");
         request.put("Birth_Dt", "1999-05-31");
         request.put("Gender_Txt", "1");
@@ -656,7 +662,7 @@ public class TestService {
         request.put("Appl_Party_Id", "1");
         request.put("Service_Id", "1");
         request.put("CC_Authorization", "1");
-        request.put("Payment_Date", "1");
+        request.put("Payment_Date", "1999-05-01");
         request.put("Payor_Type_Cd", "1");
         request.put("Payment_Status_Cd", "1");
         request.put("Session_Id", "1");

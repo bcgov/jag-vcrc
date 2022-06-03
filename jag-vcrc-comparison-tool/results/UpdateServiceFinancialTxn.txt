@@ -1,4 +1,3 @@
-ERROR: Failed to send request... org.springframework.web.client.HttpClientErrorException$BadRequest: 400 : "<?xml version="1.0" encoding="UTF-8"?><Map><timestamp>2022-06-02T20:16:28.373+00:00</timestamp><status>400</status><error>Bad Request</error><path>/VCRC/Source/UpdateServiceFinancialTxn/Services</path></Map>"
 ########################################################
 INFO: UpdateServiceFinancialTxn  Completed there are 0 diffs
 ########################################################

@@ -23,8 +23,8 @@ public class AuthenticateUserResponse extends BaseXMLResponse {
         @JacksonXmlProperty(localName = "org_nm")
         private String orgNm;
 
-        @JacksonXmlProperty(localName = "contact_sur_nm")
-        private String contactSurNm;
+        @JacksonXmlProperty(localName = "contact_surname_nm")
+        private String contactSurnameNm;
 
         @JacksonXmlProperty(localName = "contact_first_nm")
         private String contactFirstNm;

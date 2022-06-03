@@ -1,4 +1,3 @@
-ERROR: Failed to send request... org.springframework.web.client.ResourceAccessException: I/O error on GET request for "http://127.0.0.1:8080/VCRC/Source/GetNextInvoiceId/Services": Connection refused: connect; nested exception is java.net.ConnectException: Connection refused: connect
 ########################################################
 INFO: getNextInvoiceId  Completed there are 0 diffs
 ########################################################

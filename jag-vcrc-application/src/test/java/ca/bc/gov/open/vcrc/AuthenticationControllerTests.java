@@ -38,7 +38,7 @@ public class AuthenticationControllerTests {
         req.setOrgTicketNumber("A");
         accessCodeResponse.setOrgPartyId("A");
         accessCodeResponse.setOrgNm("A");
-        accessCodeResponse.setContactSurNm("A");
+        accessCodeResponse.setContactSurnameNm("A");
         accessCodeResponse.setContactFirstNm("A");
         accessCodeResponse.setAddressLine1("A");
         accessCodeResponse.setAddressLine2("A");

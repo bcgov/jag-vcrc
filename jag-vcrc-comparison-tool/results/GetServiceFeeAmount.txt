@@ -1,4 +1,3 @@
-ERROR: Failed to send request... org.springframework.web.client.HttpServerErrorException$InternalServerError: 500 : "<?xml version="1.0" encoding="UTF-8"?><Map><timestamp>2022-06-02T20:16:28.133+00:00</timestamp><status>500</status><error>Internal Server Error</error><path>/VCRC/Source/GetServiceFeeAmount/Services</path></Map>"
 ########################################################
 INFO: GetServiceFeeAmount  Completed there are 0 diffs
 ########################################################

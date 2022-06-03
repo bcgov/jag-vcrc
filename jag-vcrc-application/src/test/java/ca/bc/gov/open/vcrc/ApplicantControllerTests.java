@@ -64,7 +64,7 @@ public class ApplicantControllerTests {
 
         req.setOrgTicketNumber("A");
         req.setCallPurpose("A");
-        req.setLegalSurenameNm("A");
+        req.setLegalSurnameNm("A");
         req.setLegalFirstNm("A");
         req.setLegalSecondNm("A");
         req.setBirthDt(new Date());
@@ -73,10 +73,10 @@ public class ApplicantControllerTests {
         req.setAlias1SurnameNm("A");
         req.setAlias1FirstNm("A");
         req.setAlias1SecondNm("A");
-        req.setAlias2SurenameNm("A");
+        req.setAlias2SurnameNm("A");
         req.setAlias2FirstNm("A");
         req.setAlias2SecondNm("A");
-        req.setAlias3SurenameNm("A");
+        req.setAlias3SurnameNm("A");
         req.setAlias3FirstNm("A");
         req.setAlias3SecondNm("A");
         req.setPhoneNumber("A");
@@ -92,7 +92,7 @@ public class ApplicantControllerTests {
 
         req.setOrgTicketNumber("A");
         req.setCall_Purpose("A");
-        req.setLegal_Surename_Nm("A");
+        req.setLegal_Surname_Nm("A");
         req.setLegal_First_Nm("A");
         req.setLegal_Second_Nm("A");
         req.setBirth_Dt(new Date());
@@ -101,10 +101,10 @@ public class ApplicantControllerTests {
         req.setAlias1_Surname_Nm("A");
         req.setAlias1_First_Nm("A");
         req.setAlias1_Second_Nm("A");
-        req.setAlias2_Surename_Nm("A");
+        req.setAlias2_Surname_Nm("A");
         req.setAlias2_First_Nm("A");
         req.setAlias2_Second_Nm("A");
-        req.setAlias3_Surename_Nm("A");
+        req.setAlias3_Surname_Nm("A");
         req.setAlias3_First_Nm("A");
         req.setAlias3_Second_Nm("A");
         req.setPhone_Number("A");

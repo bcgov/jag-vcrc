@@ -33,7 +33,7 @@ public class LogPaymentFailureRequest {
         this.serviceFeeAmount = serviceFeeAmount;
     }
 
-    public void setBCEPErrorMsg(String BCEPErrorMsg) {
+    public void setBCEP_Error_Msg(String BCEPErrorMsg) {
         this.BCEPErrorMsg = BCEPErrorMsg;
     }
 }

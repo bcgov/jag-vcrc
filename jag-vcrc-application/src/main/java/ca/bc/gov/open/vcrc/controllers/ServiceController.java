@@ -113,7 +113,7 @@ public class ServiceController {
             HttpEntity<GetServiceFeeAmountResponse> resp =
                     restTemplate.exchange(
                             builder.toUriString(),
-                            HttpMethod.PUT,
+                            HttpMethod.POST,
                             payload,
                             GetServiceFeeAmountResponse.class);
 
