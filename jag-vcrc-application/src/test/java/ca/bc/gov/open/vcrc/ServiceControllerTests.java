@@ -211,7 +211,7 @@ public class ServiceControllerTests {
         //     Set up to mock ords response
         when(restTemplate.exchange(
                         Mockito.any(String.class),
-                        Mockito.eq(HttpMethod.PUT),
+                        Mockito.eq(HttpMethod.POST),
                         Mockito.<HttpEntity<String>>any(),
                         Mockito.<Class<GetServiceFeeAmountResponse>>any()))
                 .thenReturn(responseEntity);
