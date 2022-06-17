@@ -20,7 +20,7 @@ jobs:
 
     env:
       FILE_COUNTER: 0
-      CC_TEST_REPORTER_ID: a1ce840b0db5fa40f0181ddbfedf001c41e5046fab430a9faeab3cfcbcb42c12
+      CC_TEST_REPORTER_ID: 459479533673fb519d464c56d3b661a89611dbfbca400c3720f74ffa52315675
       BASIC_AUTH_USER: ${{ secrets.BASIC_AUTH_USER }}
       BASIC_AUTH_PASS: ${{ secrets.BASIC_AUTH_PASS }}
       ACTION_DEBUG: true
