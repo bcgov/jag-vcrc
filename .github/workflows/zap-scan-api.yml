@@ -19,4 +19,4 @@ jobs:
           issue_title: 'ZAP Scan Report - VCRC API'
           target: '${{ secrets.JAG_VCRC_API_Url_DEV }}/swagger-ui/index.html'
           fail_action: true
-          cmd_options: '-c "zaprules.conf" -S -z'
+          cmd_options: '-c "zaprules.conf" -S'
