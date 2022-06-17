@@ -1,0 +1,24 @@
+name: ZAP Scanner for VCRC API
+on:
+  workflow_dispatch:
+
+jobs:
+  zap_scan:
+    runs-on: ubuntu-20.04
+    name: Scan the application
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: feature/zapscanner
+      
+      - name: ZAP Scan - VCRC API
+        uses: zaproxy/action-api-scan@v0.1.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          format: soap
+          docker_name: 'owasp/zap2docker-stable'
+          issue_title: 'ZAP Scan Report - VCRC API'
+          target: '${{ secrets.JAG_VCRC_API_Url_DEV }}/swagger-ui/index.html'
+          fail_action: true
+          cmd_options: '-c "zaprules.conf" -S -z'
