@@ -52,6 +52,13 @@ public class ServiceController {
             log.info(
                     objectMapper.writeValueAsString(
                             new RequestSuccessLog("Request Success", "createNewCrcService")));
+
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog(
+                                    "Request Success",
+                                    objectMapper.writeValueAsString(createNewCRCServiceRequest))));
+
             CreateNewCRCServiceResponse out = new CreateNewCRCServiceResponse();
             return resp.getBody();
         } catch (Exception ex) {
@@ -87,6 +94,13 @@ public class ServiceController {
             log.info(
                     objectMapper.writeValueAsString(
                             new RequestSuccessLog("Request Success", "createSharingService")));
+
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog(
+                                    "Request Success",
+                                    objectMapper.writeValueAsString(createSharingServiceRequest))));
+
             CreateSharingServiceResponse out = new CreateSharingServiceResponse();
             return resp.getBody();
         } catch (Exception ex) {
@@ -120,6 +134,13 @@ public class ServiceController {
             log.info(
                     objectMapper.writeValueAsString(
                             new RequestSuccessLog("Request Success", "getServiceFeeAmount")));
+
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog(
+                                    "Request Success",
+                                    objectMapper.writeValueAsString(getServiceFeeAmountRequest))));
+
             GetServiceFeeAmountResponse out = new GetServiceFeeAmountResponse();
             return resp.getBody();
         } catch (Exception ex) {
@@ -154,6 +175,13 @@ public class ServiceController {
             log.info(
                     objectMapper.writeValueAsString(
                             new RequestSuccessLog("Request Success", "updateServiceFinancialTxn")));
+
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog(
+                                    "Request Success",
+                                    objectMapper.writeValueAsString(
+                                            updateServiceFinancialTxnRequest))));
 
             return resp.getBody();
         } catch (Exception ex) {
