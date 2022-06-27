@@ -21,7 +21,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
-@RequestMapping("VCRC/Source")
+@RequestMapping("rest/VCRC/Source")
 @Slf4j
 public class LocationController {
 
