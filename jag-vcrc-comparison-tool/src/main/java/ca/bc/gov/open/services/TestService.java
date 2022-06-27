@@ -7,11 +7,13 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.dataformat.xml.ser.ToXmlGenerator;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.stream.Stream;
 import lombok.extern.slf4j.Slf4j;
 import org.javers.core.Javers;
@@ -71,18 +73,18 @@ public class TestService {
         checkApplicantForPrevCRCExCompare();
         createApplicantCompare();
         createApplicantExCompare();
-        authenticateUserExCompare();
-        getNextSessionIdCompare();
-        getNextInvoiceIdCompare();
-        getCountryListCompare();
-        getProviceListCompare();
-
-        logEivFailureCompare();
-        logPaymentFailureCompare();
-        createNewCrcServiceCompare();
-        createSharingServiceCompare();
-        getServiceFeeAmountCompare();
-        updateServiceFinancialTxnCompare();
+        //        authenticateUserExCompare();
+        //        getNextSessionIdCompare();
+        //        getNextInvoiceIdCompare();
+        //        getCountryListCompare();
+        //        getProviceListCompare();
+        //
+        //        logEivFailureCompare();
+        //        logPaymentFailureCompare();
+        //        createNewCrcServiceCompare();
+        //        createSharingServiceCompare();
+        //        getServiceFeeAmountCompare();
+        //        updateServiceFinancialTxnCompare();
     }
 
     public void getCountryListCompare() throws IOException {
@@ -217,38 +219,68 @@ public class TestService {
         fileOutput =
                 new PrintWriter(outputDir + "CheckApplicantForPrevCRC.txt", StandardCharsets.UTF_8);
 
-        Map<String, String> request = new HashMap<>();
-        request.put("OrgTicketNumber", "1");
-        request.put("Legal_Surname_Nm", "1");
-        request.put("Legal_First_Nm", "1");
-        request.put("Birth_Dt", "1999-05-31");
-        request.put("Gender_Txt", "1");
-        request.put("Postal_Code_Txt", "1");
-        request.put("Drivers_Lic_No", "1");
-        request.put("Scope_Level_Cd", "1");
-        request.put("Previous_Service_Id", "1");
+        InputStream inputIds = getClass().getResourceAsStream("/checkApplicantForPrevCRC.csv");
+        assert inputIds != null;
+        Scanner scanner = new Scanner(inputIds);
 
-        compare(
-                request,
-                new CheckApplicantForPrevCRCResponse(),
-                "CheckApplicantForPrevCRC/Services",
-                CheckApplicantForPrevCRCResponse.class);
-        System.out.println(
-                "########################################################\n"
-                        + "INFO: CheckApplicantForPrevCRC  Completed there are "
-                        + diffCounter
-                        + " diffs\n"
-                        + "########################################################");
+        while (scanner.hasNextLine()) {
+            String[] line = scanner.nextLine().split(",");
+            Map<String, String> request = new HashMap<>();
+            //            request.put("OrgTicketNumber", "1");
+            //            request.put("Legal_Surname_Nm", "1");
+            //            request.put("Legal_First_Nm", "1");
+            //            request.put("Birth_Dt", "1999-05-31");
+            //            request.put("Gender_Txt", "1");
+            //            request.put("Postal_Code_Txt", "1");
+            //            request.put("Drivers_Lic_No", "1");
+            //            request.put("Scope_Level_Cd", "1");
+            //            request.put("Previous_Service_Id", "1");
+            request.put("OrgTicketNumber", line[0]);
+            request.put("Legal_Surname_Nm", line[1]);
+            request.put("Legal_First_Nm", line[2]);
+            request.put("Birth_Dt", line[3]);
+            request.put("Gender_Txt", line[4]);
+            request.put("Postal_Code_Txt", line[5]);
+            request.put("Drivers_Lic_No", line[6]);
+            request.put("Scope_Level_Cd", line[7]);
+            request.put("Previous_Service_Id", line[8]);
 
-        fileOutput.println(
-                "########################################################\n"
-                        + "INFO: CheckApplicantForPrevCRC  Completed there are "
-                        + diffCounter
-                        + " diffs\n"
-                        + "########################################################");
+            System.out.format(
+                    "\nINFO: checkApplicantForPrevCRCCompare with OrgTicketNumber : %s,  Legal_Surname_Nm: %s, Legal_First_Nm %s, "
+                            + "Birth_Dt : %s,  Gender_Txt: %s, Postal_Code_Txt %s, Drivers_Lic_No : %s,  Scope_Level_Cd: %s, Previous_Service_Id %s\n",
+                    line[0], line[1], line[2], line[3], line[4], line[5], line[6], line[7],
+                    line[8]);
 
-        overallDiff += diffCounter;
-        fileOutput.close();
+            if (!compare(
+                    request,
+                    new CheckApplicantForPrevCRCResponse(),
+                    "CheckApplicantForPrevCRC/Services",
+                    CheckApplicantForPrevCRCResponse.class)) {
+                fileOutput.format(
+                        "\nINFO: checkApplicantForPrevCRCCompare with OrgTicketNumber : %s,  Legal_Surname_Nm: %s, Legal_First_Nm %s, "
+                                + "Birth_Dt : %s,  Gender_Txt: %s, Postal_Code_Txt %s, Drivers_Lic_No : %s,  Scope_Level_Cd: %s, Previous_Service_Id %s\n",
+                        line[0], line[1], line[2], line[3], line[4], line[5], line[6], line[7],
+                        line[8]);
+                ++diffCounter;
+            }
+
+            System.out.println(
+                    "########################################################\n"
+                            + "INFO: CheckApplicantForPrevCRC  Completed there are "
+                            + diffCounter
+                            + " diffs\n"
+                            + "########################################################");
+
+            fileOutput.println(
+                    "########################################################\n"
+                            + "INFO: CheckApplicantForPrevCRC  Completed there are "
+                            + diffCounter
+                            + " diffs\n"
+                            + "########################################################");
+
+            overallDiff += diffCounter;
+            fileOutput.close();
+        }
     }
 
     public void checkApplicantForPrevCRCExCompare() throws IOException {
@@ -260,37 +292,66 @@ public class TestService {
                 new PrintWriter(
                         outputDir + "CheckApplicantForPrevCRCEx.txt", StandardCharsets.UTF_8);
 
-        Map<String, String> request = new HashMap<>();
-        request.put("OrgTicketNumber", "1");
-        request.put("Legal_Surname_Nm", "1");
-        request.put("Legal_First_Nm", "1");
-        request.put("Birth_Dt", "1999-05-31");
-        request.put("Gender_Txt", "1");
-        request.put("Postal_Code_Txt", "1");
-        request.put("Drivers_Lic_No", "1");
-        request.put("Scope_Level_Cd", "1");
+        InputStream inputIds = getClass().getResourceAsStream("/checkApplicantForPrevCRCEx.csv");
+        assert inputIds != null;
+        Scanner scanner = new Scanner(inputIds);
 
-        compare(
-                request,
-                new CheckApplicantForPrevCRCExResponse(),
-                "CheckApplicantForPrevCRCEx/Services",
-                CheckApplicantForPrevCRCExResponse.class);
-        System.out.println(
-                "########################################################\n"
-                        + "INFO: CheckApplicantForPrevCRCEx  Completed there are "
-                        + diffCounter
-                        + " diffs\n"
-                        + "########################################################");
+        while (scanner.hasNextLine()) {
+            String[] line = scanner.nextLine().split(",");
 
-        fileOutput.println(
-                "########################################################\n"
-                        + "INFO: CheckApplicantForPrevCRCEx  Completed there are "
-                        + diffCounter
-                        + " diffs\n"
-                        + "########################################################");
+            Map<String, String> request = new HashMap<>();
+            //            request.put("OrgTicketNumber", "1");
+            //            request.put("Legal_Surname_Nm", "1");
+            //            request.put("Legal_First_Nm", "1");
+            //            request.put("Birth_Dt", "1999-05-31");
+            //            request.put("Gender_Txt", "1");
+            //            request.put("Postal_Code_Txt", "1");
+            //            request.put("Drivers_Lic_No", "1");
+            //            request.put("Scope_Level_Cd", "1");
 
-        overallDiff += diffCounter;
-        fileOutput.close();
+            request.put("OrgTicketNumber", line[0]);
+            request.put("Legal_Surname_Nm", line[1]);
+            request.put("Legal_First_Nm", line[2]);
+            request.put("Birth_Dt", line[3]);
+            request.put("Gender_Txt", line[4]);
+            request.put("Postal_Code_Txt", line[5]);
+            request.put("Drivers_Lic_No", line[6]);
+            request.put("Scope_Level_Cd", line[7]);
+
+            System.out.format(
+                    "\nINFO: CheckApplicantForPrevCRCEx with OrgTicketNumber : %s,  Legal_Surname_Nm: %s, Legal_First_Nm %s, "
+                            + "Birth_Dt : %s,  Gender_Txt: %s, Postal_Code_Txt %s, Drivers_Lic_No : %s,  Scope_Level_Cd: %s\n",
+                    line[0], line[1], line[2], line[3], line[4], line[5], line[6], line[7]);
+
+            if (!compare(
+                    request,
+                    new CheckApplicantForPrevCRCExResponse(),
+                    "CheckApplicantForPrevCRCEx/Services",
+                    CheckApplicantForPrevCRCExResponse.class)) {
+                fileOutput.format(
+                        "\nINFO: CheckApplicantForPrevCRCExResponse with OrgTicketNumber: %s, Legal_Surname_Nm %s, "
+                                + "Legal_First_Nm : %s,  Birth_Dt: %s, Gender_Txt %s, Postal_Code_Txt : %s,  Drivers_Lic_No: %s, Scope_Level_Cd %s\n",
+                        line[0], line[1], line[2], line[3], line[4], line[5], line[6], line[7]);
+                ++diffCounter;
+            }
+
+            System.out.println(
+                    "########################################################\n"
+                            + "INFO: CheckApplicantForPrevCRCEx  Completed there are "
+                            + diffCounter
+                            + " diffs\n"
+                            + "########################################################");
+
+            fileOutput.println(
+                    "########################################################\n"
+                            + "INFO: CheckApplicantForPrevCRCEx  Completed there are "
+                            + diffCounter
+                            + " diffs\n"
+                            + "########################################################");
+
+            overallDiff += diffCounter;
+            fileOutput.close();
+        }
     }
 
     public void createApplicantCompare() throws IOException {
@@ -300,55 +361,111 @@ public class TestService {
         log.info("CreateApplicant");
         fileOutput = new PrintWriter(outputDir + "CreateApplicant.txt", StandardCharsets.UTF_8);
 
-        Map<String, String> request = new HashMap<>();
+        InputStream inputIds = getClass().getResourceAsStream("/CreateApplicant.csv");
+        assert inputIds != null;
+        Scanner scanner = new Scanner(inputIds);
 
-        request.put("OrgTicketNumber", "1");
-        request.put("Call_Purpose", "1");
-        request.put("Legal_Surname_Nm", "1");
-        request.put("Legal_First_Nm", "1");
-        request.put("Legal_Second_Nm", "1");
-        request.put("Birth_Dt", "1999-05-31");
-        request.put("Gender_Txt", "1");
-        request.put("Birth_Place", "1");
-        request.put("Alias1_Surname_Nm", "1");
-        request.put("Alias1_First_Nm", "1");
-        request.put("Alias1_Second_Nm", "1");
-        request.put("Alias2_Surname_Nm", "1");
-        request.put("alias2FirstNm", "1");
-        request.put("alias2SecondNm", "1");
-        request.put("Alias3_Surname_Nm", "1");
-        request.put("Alias3_First_Nm", "1");
-        request.put("Alias3_Second_Nm", "1");
-        request.put("Phone_Number", "1");
-        request.put("Address_Line1", "1");
-        request.put("Address_Line2", "1");
-        request.put("City_Nm", "1");
-        request.put("Province_Nm", "1");
-        request.put("Country_Nm", "1");
-        request.put("Postal_Code_Txt", "1");
-        request.put("Drivers_Lic_No", "1");
+        while (scanner.hasNextLine()) {
+            String[] line = scanner.nextLine().split(",");
 
-        compare(
-                request,
-                new CreateApplicantResponse(),
-                "CreateApplicant/Services",
-                CreateApplicantResponse.class);
-        System.out.println(
-                "########################################################\n"
-                        + "INFO: CreateApplicant  Completed there are "
-                        + diffCounter
-                        + " diffs\n"
-                        + "########################################################");
+            Map<String, String> request = new HashMap<>();
 
-        fileOutput.println(
-                "########################################################\n"
-                        + "INFO: CreateApplicant  Completed there are "
-                        + diffCounter
-                        + " diffs\n"
-                        + "########################################################");
+            //            request.put("OrgTicketNumber", "1");
+            //            request.put("Call_Purpose", "1");
+            //            request.put("Legal_Surname_Nm", "1");
+            //            request.put("Legal_First_Nm", "1");
+            //            request.put("Legal_Second_Nm", "1");
+            //            request.put("Birth_Dt", "1999-05-31");
+            //            request.put("Gender_Txt", "1");
+            //            request.put("Birth_Place", "1");
+            //            request.put("Alias1_Surname_Nm", "1");
+            //            request.put("Alias1_First_Nm", "1");
+            //            request.put("Alias1_Second_Nm", "1");
+            //            request.put("Alias2_Surname_Nm", "1");
+            //            request.put("alias2FirstNm", "1");
+            //            request.put("alias2SecondNm", "1");
+            //            request.put("Alias3_Surname_Nm", "1");
+            //            request.put("Alias3_First_Nm", "1");
+            //            request.put("Alias3_Second_Nm", "1");
+            //            request.put("Phone_Number", "1");
+            //            request.put("Address_Line1", "1");
+            //            request.put("Address_Line2", "1");
+            //            request.put("City_Nm", "1");
+            //            request.put("Province_Nm", "1");
+            //            request.put("Country_Nm", "1");
+            //            request.put("Postal_Code_Txt", "1");
+            //            request.put("Drivers_Lic_No", "1");
 
-        overallDiff += diffCounter;
-        fileOutput.close();
+            request.put("OrgTicketNumber", line[0]);
+            request.put("Call_Purpose", line[1]);
+            request.put("Legal_Surname_Nm", line[2]);
+            request.put("Legal_First_Nm", line[3]);
+            request.put("Legal_Second_Nm", line[4]);
+            request.put("Birth_Dt", line[5]);
+            request.put("Gender_Txt", line[6]);
+            request.put("Birth_Place", line[7]);
+            request.put("Alias1_Surname_Nm", line[8]);
+            request.put("Alias1_First_Nm", line[9]);
+            request.put("Alias1_Second_Nm", line[10]);
+            request.put("Alias2_Surname_Nm", line[11]);
+            request.put("alias2FirstNm", line[12]);
+            request.put("alias2SecondNm", line[13]);
+            request.put("Alias3_Surname_Nm", line[14]);
+            request.put("Alias3_First_Nm", line[15]);
+            request.put("Alias3_Second_Nm", line[16]);
+            request.put("Phone_Number", line[17]);
+            request.put("Address_Line1", line[18]);
+            request.put("Address_Line2", line[19]);
+            request.put("City_Nm", line[20]);
+            request.put("Province_Nm", line[21]);
+            request.put("Country_Nm", line[22]);
+            request.put("Postal_Code_Txt", line[23]);
+            request.put("Drivers_Lic_No", line[24]);
+
+            System.out.format(
+                    "\nINFO: CreateApplicant with OrgTicketNumber : %s,  Call_Purpose: %s, Legal_Surname_Nm %s, "
+                            + "Legal_First_Nm : %s,  Legal_Second_Nm: %s, Birth_Dt %s, Gender_Txt : %s,  Birth_Place: %s,"
+                            + "Alias1_Surname_Nm : %s,  Alias1_First_Nm: %s, Alias1_Second_Nm %s, Alias2_Surname_Nm %s, alias2FirstNm : %s,  alias2SecondNm: %s,"
+                            + "Alias3_Surname_Nm : %s,  Alias3_First_Nm: %s, Alias3_Second_Nm %s, Phone_Number : %s,  Address_Line1: %s,"
+                            + "Address_Line2 : %s,  City_Nm: %s, Province_Nm: %s, Country_Nm %s, Postal_Code_Txt : %s,  Drivers_Lic_No: %s\n",
+                    line[0], line[1], line[2], line[3], line[4], line[5], line[6], line[7], line[8],
+                    line[9], line[10], line[11], line[12], line[13], line[14], line[15], line[16],
+                    line[17], line[18], line[19], line[20], line[21], line[22], line[23], line[24]);
+
+            if (!compare(
+                    request,
+                    new CreateApplicantResponse(),
+                    "CreateApplicant/Services",
+                    CreateApplicantResponse.class)) {
+                fileOutput.format(
+                        "\nINFO: CreateApplicant with OrgTicketNumber : %s,  Call_Purpose: %s, Legal_Surname_Nm %s, "
+                                + "Legal_First_Nm : %s,  Legal_Second_Nm: %s, Birth_Dt %s, Gender_Txt : %s,  Birth_Place: %s,"
+                                + "Alias1_Surname_Nm : %s,  Alias1_First_Nm: %s, Alias1_Second_Nm %s, Alias2_Surname_Nm %s, alias2FirstNm : %s,  alias2SecondNm: %s,"
+                                + "Alias3_Surname_Nm : %s,  Alias3_First_Nm: %s, Alias3_Second_Nm %s, Phone_Number : %s,  Address_Line1: %s,"
+                                + "Address_Line2 : %s,  City_Nm: %s, Province_Nm: %s, Country_Nm %s, Postal_Code_Txt : %s,  Drivers_Lic_No: %s\n",
+                        line[0], line[1], line[2], line[3], line[4], line[5], line[6], line[7],
+                        line[8], line[9], line[10], line[11], line[12], line[13], line[14],
+                        line[15], line[16], line[17], line[18], line[19], line[20], line[21],
+                        line[22], line[23], line[24]);
+            }
+
+            System.out.println(
+                    "########################################################\n"
+                            + "INFO: CreateApplicant  Completed there are "
+                            + diffCounter
+                            + " diffs\n"
+                            + "########################################################");
+
+            fileOutput.println(
+                    "########################################################\n"
+                            + "INFO: CreateApplicant  Completed there are "
+                            + diffCounter
+                            + " diffs\n"
+                            + "########################################################");
+
+            overallDiff += diffCounter;
+            fileOutput.close();
+        }
     }
 
     public void createApplicantExCompare() throws IOException {
@@ -358,57 +475,116 @@ public class TestService {
         log.info("CreateApplicantEx");
         fileOutput = new PrintWriter(outputDir + "CreateApplicantEx.txt", StandardCharsets.UTF_8);
 
-        Map<String, String> request = new HashMap<>();
+        InputStream inputIds = getClass().getResourceAsStream("/CreateApplicantEx.csv");
+        assert inputIds != null;
+        Scanner scanner = new Scanner(inputIds);
 
-        request.put("OrgTicketNumber", "1");
-        request.put("Call_Purpose", "1");
-        request.put("Legal_Surname_Nm", "1");
-        request.put("Legal_First_Nm", "1");
-        request.put("Legal_Second_Nm", "1");
-        request.put("Birth_Dt", "1999-05-31");
-        request.put("Gender_Txt", "1");
-        request.put("Birth_Place", "1");
-        request.put("Alias1_Surname_Nm", "1");
-        request.put("Alias1_First_Nm", "1");
-        request.put("Alias1_Second_Nm", "1");
-        request.put("Alias2_Surname_Nm", "1");
-        request.put("alias2FirstNm", "1");
-        request.put("alias2SecondNm", "1");
-        request.put("Alias3_Surname_Nm", "1");
-        request.put("Alias3_First_Nm", "1");
-        request.put("Alias3_Second_Nm", "1");
-        request.put("Phone_Number", "1");
-        request.put("Address_Line1", "1");
-        request.put("Address_Line2", "1");
-        request.put("City_Nm", "1");
-        request.put("Province_Nm", "1");
-        request.put("Country_Nm", "1");
-        request.put("Postal_Code_Txt", "1");
-        request.put("Drivers_Lic_No", "1");
-        request.put("Email_Address", "1");
-        request.put("Email_Type", "1");
+        while (scanner.hasNextLine()) {
+            String[] line = scanner.nextLine().split(",");
 
-        compare(
-                request,
-                new CreateApplicantResponse(),
-                "CreateApplicantEx/Services",
-                CreateApplicantResponse.class);
-        System.out.println(
-                "########################################################\n"
-                        + "INFO: CreateApplicantEx  Completed there are "
-                        + diffCounter
-                        + " diffs\n"
-                        + "########################################################");
+            Map<String, String> request = new HashMap<>();
 
-        fileOutput.println(
-                "########################################################\n"
-                        + "INFO: CreateApplicantEx  Completed there are "
-                        + diffCounter
-                        + " diffs\n"
-                        + "########################################################");
+            //        request.put("OrgTicketNumber", "1");
+            //        request.put("Call_Purpose", "1");
+            //        request.put("Legal_Surname_Nm", "1");
+            //        request.put("Legal_First_Nm", "1");
+            //        request.put("Legal_Second_Nm", "1");
+            //        request.put("Birth_Dt", "1999-05-31");
+            //        request.put("Gender_Txt", "1");
+            //        request.put("Birth_Place", "1");
+            //        request.put("Alias1_Surname_Nm", "1");
+            //        request.put("Alias1_First_Nm", "1");
+            //        request.put("Alias1_Second_Nm", "1");
+            //        request.put("Alias2_Surname_Nm", "1");
+            //        request.put("alias2FirstNm", "1");
+            //        request.put("alias2SecondNm", "1");
+            //        request.put("Alias3_Surname_Nm", "1");
+            //        request.put("Alias3_First_Nm", "1");
+            //        request.put("Alias3_Second_Nm", "1");
+            //        request.put("Phone_Number", "1");
+            //        request.put("Address_Line1", "1");
+            //        request.put("Address_Line2", "1");
+            //        request.put("City_Nm", "1");
+            //        request.put("Province_Nm", "1");
+            //        request.put("Country_Nm", "1");
+            //        request.put("Postal_Code_Txt", "1");
+            //        request.put("Drivers_Lic_No", "1");
+            //        request.put("Email_Address", "1");
+            //        request.put("Email_Type", "1");
 
-        overallDiff += diffCounter;
-        fileOutput.close();
+            request.put("OrgTicketNumber", line[0]);
+            request.put("Call_Purpose", line[1]);
+            request.put("Legal_Surname_Nm", line[2]);
+            request.put("Legal_First_Nm", line[3]);
+            request.put("Legal_Second_Nm", line[4]);
+            request.put("Birth_Dt", line[5]);
+            request.put("Gender_Txt", line[6]);
+            request.put("Birth_Place", line[7]);
+            request.put("Alias1_Surname_Nm", line[8]);
+            request.put("Alias1_First_Nm", line[9]);
+            request.put("Alias1_Second_Nm", line[10]);
+            request.put("Alias2_Surname_Nm", line[11]);
+            request.put("alias2FirstNm", line[12]);
+            request.put("alias2SecondNm", line[13]);
+            request.put("Alias3_Surname_Nm", line[14]);
+            request.put("Alias3_First_Nm", line[15]);
+            request.put("Alias3_Second_Nm", line[16]);
+            request.put("Phone_Number", line[17]);
+            request.put("Address_Line1", line[18]);
+            request.put("Address_Line2", line[19]);
+            request.put("City_Nm", line[20]);
+            request.put("Province_Nm", line[21]);
+            request.put("Country_Nm", line[22]);
+            request.put("Postal_Code_Txt", line[23]);
+            request.put("Drivers_Lic_No", line[24]);
+            request.put("Email_Address", line[25]);
+            request.put("Email_Type", line[26]);
+
+            System.out.format(
+                    "\nINFO: CreateApplicant with OrgTicketNumber : %s,  Call_Purpose: %s, Legal_Surname_Nm %s, "
+                            + "Legal_First_Nm : %s,  Legal_Second_Nm: %s, Birth_Dt %s, Gender_Txt : %s,  Birth_Place: %s,"
+                            + "Alias1_Surname_Nm : %s,  Alias1_First_Nm: %s, Alias1_Second_Nm %s, Alias2_Surname_Nm %s, alias2FirstNm : %s,  alias2SecondNm: %s,"
+                            + "Alias3_Surname_Nm : %s,  Alias3_First_Nm: %s, Alias3_Second_Nm %s, Phone_Number : %s,  Address_Line1: %s,"
+                            + "Address_Line2 : %s,  City_Nm: %s, Province_Nm: %s, Country_Nm %s, Postal_Code_Txt : %s,  Drivers_Lic_No: %s,  Email_Address: %s,  Email_Type: %s\n",
+                    line[0], line[1], line[2], line[3], line[4], line[5], line[6], line[7], line[8],
+                    line[9], line[10], line[11], line[12], line[13], line[14], line[15], line[16],
+                    line[17], line[18], line[19], line[20], line[21], line[22], line[23], line[24],
+                    line[25], line[26]);
+
+            if (!compare(
+                    request,
+                    new CreateApplicantResponse(),
+                    "CreateApplicantEx/Services",
+                    CreateApplicantResponse.class)) {
+
+                fileOutput.format(
+                        "\nINFO: CreateApplicant with OrgTicketNumber : %s,  Call_Purpose: %s, Legal_Surname_Nm %s, "
+                                + "Legal_First_Nm : %s,  Legal_Second_Nm: %s, Birth_Dt %s, Gender_Txt : %s,  Birth_Place: %s,"
+                                + "Alias1_Surname_Nm : %s,  Alias1_First_Nm: %s, Alias1_Second_Nm %s, Alias2_Surname_Nm %s, alias2FirstNm : %s,  alias2SecondNm: %s,"
+                                + "Alias3_Surname_Nm : %s,  Alias3_First_Nm: %s, Alias3_Second_Nm %s, Phone_Number : %s,  Address_Line1: %s,"
+                                + "Address_Line2 : %s,  City_Nm: %s, Province_Nm: %s, Country_Nm %s, Postal_Code_Txt : %s,  Drivers_Lic_No: %s,  Email_Address: %s,  Email_Type: %s\n",
+                        line[0], line[1], line[2], line[3], line[4], line[5], line[6], line[7],
+                        line[8], line[9], line[10], line[11], line[12], line[13], line[14],
+                        line[15], line[16], line[17], line[18], line[19], line[20], line[21],
+                        line[22], line[23], line[24], line[25], line[26]);
+            }
+            System.out.println(
+                    "########################################################\n"
+                            + "INFO: CreateApplicantEx  Completed there are "
+                            + diffCounter
+                            + " diffs\n"
+                            + "########################################################");
+
+            fileOutput.println(
+                    "########################################################\n"
+                            + "INFO: CreateApplicantEx  Completed there are "
+                            + diffCounter
+                            + " diffs\n"
+                            + "########################################################");
+
+            overallDiff += diffCounter;
+            fileOutput.close();
+        }
     }
 
     public void authenticateUserExCompare() throws IOException {
