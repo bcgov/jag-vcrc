@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import lombok.extern.slf4j.Slf4j;
 import org.javers.core.Javers;
@@ -73,18 +74,18 @@ public class TestService {
         checkApplicantForPrevCRCExCompare();
         createApplicantCompare();
         createApplicantExCompare();
-        //        authenticateUserExCompare();
-        //        getNextSessionIdCompare();
-        //        getNextInvoiceIdCompare();
-        //        getCountryListCompare();
-        //        getProviceListCompare();
-        //
-        //        logEivFailureCompare();
-        //        logPaymentFailureCompare();
-        //        createNewCrcServiceCompare();
-        //        createSharingServiceCompare();
-        //        getServiceFeeAmountCompare();
-        //        updateServiceFinancialTxnCompare();
+        authenticateUserExCompare();
+        getNextSessionIdCompare();
+        getNextInvoiceIdCompare();
+        getCountryListCompare();
+        getProviceListCompare();
+
+        logEivFailureCompare();
+        logPaymentFailureCompare();
+        createNewCrcServiceCompare();
+        createSharingServiceCompare();
+        getServiceFeeAmountCompare();
+        updateServiceFinancialTxnCompare();
     }
 
     public void getCountryListCompare() throws IOException {
@@ -152,14 +153,35 @@ public class TestService {
         log.info("GetNextSessionId");
         fileOutput = new PrintWriter(outputDir + "GetNextSessionId.txt", StandardCharsets.UTF_8);
 
-        Map<String, String> request = new HashMap<>();
-        request.put("OrgTicketNumber", "1");
+        InputStream inputIds = getClass().getResourceAsStream("/GetNextSessionId.csv");
+        assert inputIds != null;
+        Scanner scanner = new Scanner(inputIds);
 
-        compare(
-                request,
-                new GetNextSessionIdResponse(),
-                "GetNextSessionId/Services",
-                GetNextSessionIdResponse.class);
+        while (scanner.hasNextLine()) {
+            String[] line = scanner.nextLine().split(",");
+            Map<String, String> request = new HashMap<>();
+
+            request.put("OrgTicketNumber", line[0]);
+
+            System.out.format(
+                    "\nINFO: GetNextSessionId with "
+                            + request.keySet().stream()
+                                    .map(key -> key + "=" + request.get(key))
+                                    .collect(Collectors.joining(", ", "{", "}\n")));
+
+            if (!compare(
+                    request,
+                    new GetNextSessionIdResponse(),
+                    "GetNextSessionId/Services",
+                    GetNextSessionIdResponse.class)) {
+
+                fileOutput.format(
+                        "\nINFO: GetNextSessionId with "
+                                + request.keySet().stream()
+                                        .map(key -> key + "=" + request.get(key))
+                                        .collect(Collectors.joining(", ", "{", "}\n")));
+            }
+        }
         System.out.println(
                 "########################################################\n"
                         + "INFO: GetNextSessionId  Completed there are "
@@ -185,14 +207,35 @@ public class TestService {
         log.info("GetNextInvoiceId");
         fileOutput = new PrintWriter(outputDir + "GetNextInvoiceId.txt", StandardCharsets.UTF_8);
 
-        Map<String, String> request = new HashMap<>();
-        request.put("OrgTicketNumber", "1");
+        InputStream inputIds = getClass().getResourceAsStream("/GetNextInvoiceId.csv");
+        assert inputIds != null;
+        Scanner scanner = new Scanner(inputIds);
 
-        compare(
-                null,
-                new GetNextInvoiceIdResponse(),
-                "GetNextInvoiceId/Services",
-                GetNextInvoiceIdResponse.class);
+        while (scanner.hasNextLine()) {
+            String[] line = scanner.nextLine().split(",");
+            Map<String, String> request = new HashMap<>();
+
+            request.put("OrgTicketNumber", line[0]);
+
+            System.out.format(
+                    "\nINFO: GetNextInvoiceId with "
+                            + request.keySet().stream()
+                                    .map(key -> key + "=" + request.get(key))
+                                    .collect(Collectors.joining(", ", "{", "}\n")));
+
+            if (!compare(
+                    null,
+                    new GetNextInvoiceIdResponse(),
+                    "GetNextInvoiceId/Services",
+                    GetNextInvoiceIdResponse.class)) {
+
+                fileOutput.format(
+                        "\nINFO: GetNextInvoiceId with "
+                                + request.keySet().stream()
+                                        .map(key -> key + "=" + request.get(key))
+                                        .collect(Collectors.joining(", ", "{", "}\n")));
+            }
+        }
         System.out.println(
                 "########################################################\n"
                         + "INFO: getNextInvoiceId  Completed there are "
@@ -226,15 +269,7 @@ public class TestService {
         while (scanner.hasNextLine()) {
             String[] line = scanner.nextLine().split(",");
             Map<String, String> request = new HashMap<>();
-            //            request.put("OrgTicketNumber", "1");
-            //            request.put("Legal_Surname_Nm", "1");
-            //            request.put("Legal_First_Nm", "1");
-            //            request.put("Birth_Dt", "1999-05-31");
-            //            request.put("Gender_Txt", "1");
-            //            request.put("Postal_Code_Txt", "1");
-            //            request.put("Drivers_Lic_No", "1");
-            //            request.put("Scope_Level_Cd", "1");
-            //            request.put("Previous_Service_Id", "1");
+
             request.put("OrgTicketNumber", line[0]);
             request.put("Legal_Surname_Nm", line[1]);
             request.put("Legal_First_Nm", line[2]);
@@ -246,41 +281,43 @@ public class TestService {
             request.put("Previous_Service_Id", line[8]);
 
             System.out.format(
-                    "\nINFO: checkApplicantForPrevCRCCompare with OrgTicketNumber : %s,  Legal_Surname_Nm: %s, Legal_First_Nm %s, "
-                            + "Birth_Dt : %s,  Gender_Txt: %s, Postal_Code_Txt %s, Drivers_Lic_No : %s,  Scope_Level_Cd: %s, Previous_Service_Id %s\n",
-                    line[0], line[1], line[2], line[3], line[4], line[5], line[6], line[7],
-                    line[8]);
+                    "\nINFO: checkApplicantForPrevCRC with "
+                            + request.keySet().stream()
+                                    .map(key -> key + "=" + request.get(key))
+                                    .collect(Collectors.joining(", ", "{", "}\n")));
 
             if (!compare(
                     request,
                     new CheckApplicantForPrevCRCResponse(),
                     "CheckApplicantForPrevCRC/Services",
                     CheckApplicantForPrevCRCResponse.class)) {
+
                 fileOutput.format(
-                        "\nINFO: checkApplicantForPrevCRCCompare with OrgTicketNumber : %s,  Legal_Surname_Nm: %s, Legal_First_Nm %s, "
-                                + "Birth_Dt : %s,  Gender_Txt: %s, Postal_Code_Txt %s, Drivers_Lic_No : %s,  Scope_Level_Cd: %s, Previous_Service_Id %s\n",
-                        line[0], line[1], line[2], line[3], line[4], line[5], line[6], line[7],
-                        line[8]);
+                        "\nINFO: checkApplicantForPrevCRC with "
+                                + request.keySet().stream()
+                                        .map(key -> key + "=" + request.get(key))
+                                        .collect(Collectors.joining(", ", "{", "}\n")));
+
                 ++diffCounter;
             }
-
-            System.out.println(
-                    "########################################################\n"
-                            + "INFO: CheckApplicantForPrevCRC  Completed there are "
-                            + diffCounter
-                            + " diffs\n"
-                            + "########################################################");
-
-            fileOutput.println(
-                    "########################################################\n"
-                            + "INFO: CheckApplicantForPrevCRC  Completed there are "
-                            + diffCounter
-                            + " diffs\n"
-                            + "########################################################");
-
-            overallDiff += diffCounter;
-            fileOutput.close();
         }
+
+        System.out.println(
+                "########################################################\n"
+                        + "INFO: CheckApplicantForPrevCRC  Completed there are "
+                        + diffCounter
+                        + " diffs\n"
+                        + "########################################################");
+
+        fileOutput.println(
+                "########################################################\n"
+                        + "INFO: CheckApplicantForPrevCRC  Completed there are "
+                        + diffCounter
+                        + " diffs\n"
+                        + "########################################################");
+
+        overallDiff += diffCounter;
+        fileOutput.close();
     }
 
     public void checkApplicantForPrevCRCExCompare() throws IOException {
@@ -300,14 +337,6 @@ public class TestService {
             String[] line = scanner.nextLine().split(",");
 
             Map<String, String> request = new HashMap<>();
-            //            request.put("OrgTicketNumber", "1");
-            //            request.put("Legal_Surname_Nm", "1");
-            //            request.put("Legal_First_Nm", "1");
-            //            request.put("Birth_Dt", "1999-05-31");
-            //            request.put("Gender_Txt", "1");
-            //            request.put("Postal_Code_Txt", "1");
-            //            request.put("Drivers_Lic_No", "1");
-            //            request.put("Scope_Level_Cd", "1");
 
             request.put("OrgTicketNumber", line[0]);
             request.put("Legal_Surname_Nm", line[1]);
@@ -319,39 +348,43 @@ public class TestService {
             request.put("Scope_Level_Cd", line[7]);
 
             System.out.format(
-                    "\nINFO: CheckApplicantForPrevCRCEx with OrgTicketNumber : %s,  Legal_Surname_Nm: %s, Legal_First_Nm %s, "
-                            + "Birth_Dt : %s,  Gender_Txt: %s, Postal_Code_Txt %s, Drivers_Lic_No : %s,  Scope_Level_Cd: %s\n",
-                    line[0], line[1], line[2], line[3], line[4], line[5], line[6], line[7]);
+                    "\nINFO: CheckApplicantForPrevCRCEx with "
+                            + request.keySet().stream()
+                                    .map(key -> key + "=" + request.get(key))
+                                    .collect(Collectors.joining(", ", "{", "}\n")));
 
             if (!compare(
                     request,
                     new CheckApplicantForPrevCRCExResponse(),
                     "CheckApplicantForPrevCRCEx/Services",
                     CheckApplicantForPrevCRCExResponse.class)) {
+
                 fileOutput.format(
-                        "\nINFO: CheckApplicantForPrevCRCExResponse with OrgTicketNumber: %s, Legal_Surname_Nm %s, "
-                                + "Legal_First_Nm : %s,  Birth_Dt: %s, Gender_Txt %s, Postal_Code_Txt : %s,  Drivers_Lic_No: %s, Scope_Level_Cd %s\n",
-                        line[0], line[1], line[2], line[3], line[4], line[5], line[6], line[7]);
+                        ("\nINFO: CheckApplicantForPrevCRCEx with "
+                                + request.keySet().stream()
+                                        .map(key -> key + "=" + request.get(key))
+                                        .collect(Collectors.joining(", ", "{ ", " }\n"))));
+
                 ++diffCounter;
             }
-
-            System.out.println(
-                    "########################################################\n"
-                            + "INFO: CheckApplicantForPrevCRCEx  Completed there are "
-                            + diffCounter
-                            + " diffs\n"
-                            + "########################################################");
-
-            fileOutput.println(
-                    "########################################################\n"
-                            + "INFO: CheckApplicantForPrevCRCEx  Completed there are "
-                            + diffCounter
-                            + " diffs\n"
-                            + "########################################################");
-
-            overallDiff += diffCounter;
-            fileOutput.close();
         }
+
+        System.out.println(
+                "########################################################\n"
+                        + "INFO: CheckApplicantForPrevCRCEx  Completed there are "
+                        + diffCounter
+                        + " diffs\n"
+                        + "########################################################");
+
+        fileOutput.println(
+                "########################################################\n"
+                        + "INFO: CheckApplicantForPrevCRCEx  Completed there are "
+                        + diffCounter
+                        + " diffs\n"
+                        + "########################################################");
+
+        overallDiff += diffCounter;
+        fileOutput.close();
     }
 
     public void createApplicantCompare() throws IOException {
@@ -369,32 +402,6 @@ public class TestService {
             String[] line = scanner.nextLine().split(",");
 
             Map<String, String> request = new HashMap<>();
-
-            //            request.put("OrgTicketNumber", "1");
-            //            request.put("Call_Purpose", "1");
-            //            request.put("Legal_Surname_Nm", "1");
-            //            request.put("Legal_First_Nm", "1");
-            //            request.put("Legal_Second_Nm", "1");
-            //            request.put("Birth_Dt", "1999-05-31");
-            //            request.put("Gender_Txt", "1");
-            //            request.put("Birth_Place", "1");
-            //            request.put("Alias1_Surname_Nm", "1");
-            //            request.put("Alias1_First_Nm", "1");
-            //            request.put("Alias1_Second_Nm", "1");
-            //            request.put("Alias2_Surname_Nm", "1");
-            //            request.put("alias2FirstNm", "1");
-            //            request.put("alias2SecondNm", "1");
-            //            request.put("Alias3_Surname_Nm", "1");
-            //            request.put("Alias3_First_Nm", "1");
-            //            request.put("Alias3_Second_Nm", "1");
-            //            request.put("Phone_Number", "1");
-            //            request.put("Address_Line1", "1");
-            //            request.put("Address_Line2", "1");
-            //            request.put("City_Nm", "1");
-            //            request.put("Province_Nm", "1");
-            //            request.put("Country_Nm", "1");
-            //            request.put("Postal_Code_Txt", "1");
-            //            request.put("Drivers_Lic_No", "1");
 
             request.put("OrgTicketNumber", line[0]);
             request.put("Call_Purpose", line[1]);
@@ -423,49 +430,41 @@ public class TestService {
             request.put("Drivers_Lic_No", line[24]);
 
             System.out.format(
-                    "\nINFO: CreateApplicant with OrgTicketNumber : %s,  Call_Purpose: %s, Legal_Surname_Nm %s, "
-                            + "Legal_First_Nm : %s,  Legal_Second_Nm: %s, Birth_Dt %s, Gender_Txt : %s,  Birth_Place: %s,"
-                            + "Alias1_Surname_Nm : %s,  Alias1_First_Nm: %s, Alias1_Second_Nm %s, Alias2_Surname_Nm %s, alias2FirstNm : %s,  alias2SecondNm: %s,"
-                            + "Alias3_Surname_Nm : %s,  Alias3_First_Nm: %s, Alias3_Second_Nm %s, Phone_Number : %s,  Address_Line1: %s,"
-                            + "Address_Line2 : %s,  City_Nm: %s, Province_Nm: %s, Country_Nm %s, Postal_Code_Txt : %s,  Drivers_Lic_No: %s\n",
-                    line[0], line[1], line[2], line[3], line[4], line[5], line[6], line[7], line[8],
-                    line[9], line[10], line[11], line[12], line[13], line[14], line[15], line[16],
-                    line[17], line[18], line[19], line[20], line[21], line[22], line[23], line[24]);
+                    "\nINFO: CreateApplicant with "
+                            + request.keySet().stream()
+                                    .map(key -> key + "=" + request.get(key))
+                                    .collect(Collectors.joining(", ", "{", "}\n")));
 
             if (!compare(
                     request,
                     new CreateApplicantResponse(),
                     "CreateApplicant/Services",
                     CreateApplicantResponse.class)) {
+
                 fileOutput.format(
-                        "\nINFO: CreateApplicant with OrgTicketNumber : %s,  Call_Purpose: %s, Legal_Surname_Nm %s, "
-                                + "Legal_First_Nm : %s,  Legal_Second_Nm: %s, Birth_Dt %s, Gender_Txt : %s,  Birth_Place: %s,"
-                                + "Alias1_Surname_Nm : %s,  Alias1_First_Nm: %s, Alias1_Second_Nm %s, Alias2_Surname_Nm %s, alias2FirstNm : %s,  alias2SecondNm: %s,"
-                                + "Alias3_Surname_Nm : %s,  Alias3_First_Nm: %s, Alias3_Second_Nm %s, Phone_Number : %s,  Address_Line1: %s,"
-                                + "Address_Line2 : %s,  City_Nm: %s, Province_Nm: %s, Country_Nm %s, Postal_Code_Txt : %s,  Drivers_Lic_No: %s\n",
-                        line[0], line[1], line[2], line[3], line[4], line[5], line[6], line[7],
-                        line[8], line[9], line[10], line[11], line[12], line[13], line[14],
-                        line[15], line[16], line[17], line[18], line[19], line[20], line[21],
-                        line[22], line[23], line[24]);
+                        "\nINFO: CreateApplicant with "
+                                + request.keySet().stream()
+                                        .map(key -> key + "=" + request.get(key))
+                                        .collect(Collectors.joining(", ", "{", "}\n")));
             }
-
-            System.out.println(
-                    "########################################################\n"
-                            + "INFO: CreateApplicant  Completed there are "
-                            + diffCounter
-                            + " diffs\n"
-                            + "########################################################");
-
-            fileOutput.println(
-                    "########################################################\n"
-                            + "INFO: CreateApplicant  Completed there are "
-                            + diffCounter
-                            + " diffs\n"
-                            + "########################################################");
-
-            overallDiff += diffCounter;
-            fileOutput.close();
         }
+
+        System.out.println(
+                "########################################################\n"
+                        + "INFO: CreateApplicant  Completed there are "
+                        + diffCounter
+                        + " diffs\n"
+                        + "########################################################");
+
+        fileOutput.println(
+                "########################################################\n"
+                        + "INFO: CreateApplicant  Completed there are "
+                        + diffCounter
+                        + " diffs\n"
+                        + "########################################################");
+
+        overallDiff += diffCounter;
+        fileOutput.close();
     }
 
     public void createApplicantExCompare() throws IOException {
@@ -483,34 +482,6 @@ public class TestService {
             String[] line = scanner.nextLine().split(",");
 
             Map<String, String> request = new HashMap<>();
-
-            //        request.put("OrgTicketNumber", "1");
-            //        request.put("Call_Purpose", "1");
-            //        request.put("Legal_Surname_Nm", "1");
-            //        request.put("Legal_First_Nm", "1");
-            //        request.put("Legal_Second_Nm", "1");
-            //        request.put("Birth_Dt", "1999-05-31");
-            //        request.put("Gender_Txt", "1");
-            //        request.put("Birth_Place", "1");
-            //        request.put("Alias1_Surname_Nm", "1");
-            //        request.put("Alias1_First_Nm", "1");
-            //        request.put("Alias1_Second_Nm", "1");
-            //        request.put("Alias2_Surname_Nm", "1");
-            //        request.put("alias2FirstNm", "1");
-            //        request.put("alias2SecondNm", "1");
-            //        request.put("Alias3_Surname_Nm", "1");
-            //        request.put("Alias3_First_Nm", "1");
-            //        request.put("Alias3_Second_Nm", "1");
-            //        request.put("Phone_Number", "1");
-            //        request.put("Address_Line1", "1");
-            //        request.put("Address_Line2", "1");
-            //        request.put("City_Nm", "1");
-            //        request.put("Province_Nm", "1");
-            //        request.put("Country_Nm", "1");
-            //        request.put("Postal_Code_Txt", "1");
-            //        request.put("Drivers_Lic_No", "1");
-            //        request.put("Email_Address", "1");
-            //        request.put("Email_Type", "1");
 
             request.put("OrgTicketNumber", line[0]);
             request.put("Call_Purpose", line[1]);
@@ -541,15 +512,10 @@ public class TestService {
             request.put("Email_Type", line[26]);
 
             System.out.format(
-                    "\nINFO: CreateApplicant with OrgTicketNumber : %s,  Call_Purpose: %s, Legal_Surname_Nm %s, "
-                            + "Legal_First_Nm : %s,  Legal_Second_Nm: %s, Birth_Dt %s, Gender_Txt : %s,  Birth_Place: %s,"
-                            + "Alias1_Surname_Nm : %s,  Alias1_First_Nm: %s, Alias1_Second_Nm %s, Alias2_Surname_Nm %s, alias2FirstNm : %s,  alias2SecondNm: %s,"
-                            + "Alias3_Surname_Nm : %s,  Alias3_First_Nm: %s, Alias3_Second_Nm %s, Phone_Number : %s,  Address_Line1: %s,"
-                            + "Address_Line2 : %s,  City_Nm: %s, Province_Nm: %s, Country_Nm %s, Postal_Code_Txt : %s,  Drivers_Lic_No: %s,  Email_Address: %s,  Email_Type: %s\n",
-                    line[0], line[1], line[2], line[3], line[4], line[5], line[6], line[7], line[8],
-                    line[9], line[10], line[11], line[12], line[13], line[14], line[15], line[16],
-                    line[17], line[18], line[19], line[20], line[21], line[22], line[23], line[24],
-                    line[25], line[26]);
+                    "\nINFO: CreateApplicantEx with "
+                            + request.keySet().stream()
+                                    .map(key -> key + "=" + request.get(key))
+                                    .collect(Collectors.joining(", ", "{", "}\n")));
 
             if (!compare(
                     request,
@@ -558,33 +524,29 @@ public class TestService {
                     CreateApplicantResponse.class)) {
 
                 fileOutput.format(
-                        "\nINFO: CreateApplicant with OrgTicketNumber : %s,  Call_Purpose: %s, Legal_Surname_Nm %s, "
-                                + "Legal_First_Nm : %s,  Legal_Second_Nm: %s, Birth_Dt %s, Gender_Txt : %s,  Birth_Place: %s,"
-                                + "Alias1_Surname_Nm : %s,  Alias1_First_Nm: %s, Alias1_Second_Nm %s, Alias2_Surname_Nm %s, alias2FirstNm : %s,  alias2SecondNm: %s,"
-                                + "Alias3_Surname_Nm : %s,  Alias3_First_Nm: %s, Alias3_Second_Nm %s, Phone_Number : %s,  Address_Line1: %s,"
-                                + "Address_Line2 : %s,  City_Nm: %s, Province_Nm: %s, Country_Nm %s, Postal_Code_Txt : %s,  Drivers_Lic_No: %s,  Email_Address: %s,  Email_Type: %s\n",
-                        line[0], line[1], line[2], line[3], line[4], line[5], line[6], line[7],
-                        line[8], line[9], line[10], line[11], line[12], line[13], line[14],
-                        line[15], line[16], line[17], line[18], line[19], line[20], line[21],
-                        line[22], line[23], line[24], line[25], line[26]);
+                        "\nINFO: CreateApplicantEx with "
+                                + request.keySet().stream()
+                                        .map(key -> key + "=" + request.get(key))
+                                        .collect(Collectors.joining(", ", "{", "}\n")));
             }
-            System.out.println(
-                    "########################################################\n"
-                            + "INFO: CreateApplicantEx  Completed there are "
-                            + diffCounter
-                            + " diffs\n"
-                            + "########################################################");
-
-            fileOutput.println(
-                    "########################################################\n"
-                            + "INFO: CreateApplicantEx  Completed there are "
-                            + diffCounter
-                            + " diffs\n"
-                            + "########################################################");
-
-            overallDiff += diffCounter;
-            fileOutput.close();
         }
+
+        System.out.println(
+                "########################################################\n"
+                        + "INFO: CreateApplicantEx  Completed there are "
+                        + diffCounter
+                        + " diffs\n"
+                        + "########################################################");
+
+        fileOutput.println(
+                "########################################################\n"
+                        + "INFO: CreateApplicantEx  Completed there are "
+                        + diffCounter
+                        + " diffs\n"
+                        + "########################################################");
+
+        overallDiff += diffCounter;
+        fileOutput.close();
     }
 
     public void authenticateUserExCompare() throws IOException {
@@ -594,15 +556,36 @@ public class TestService {
         log.info("DoAuthenticateUser");
         fileOutput = new PrintWriter(outputDir + "DoAuthenticateUser.txt", StandardCharsets.UTF_8);
 
-        Map<String, String> request = new HashMap<>();
+        InputStream inputIds = getClass().getResourceAsStream("/DoAuthenticateUser.csv");
+        assert inputIds != null;
+        Scanner scanner = new Scanner(inputIds);
 
-        request.put("OrgTicketNumber", "1");
+        while (scanner.hasNextLine()) {
+            String[] line = scanner.nextLine().split(",");
 
-        compare(
-                request,
-                new AuthenticateUserResponse(),
-                "DoAuthenticateUser/Services",
-                AuthenticateUserResponse.class);
+            Map<String, String> request = new HashMap<>();
+
+            request.put("OrgTicketNumber", line[0]);
+
+            System.out.format(
+                    "\nINFO: DoAuthenticateUser with "
+                            + request.keySet().stream()
+                                    .map(key -> key + "=" + request.get(key))
+                                    .collect(Collectors.joining(", ", "{", "}\n")));
+
+            if (!compare(
+                    request,
+                    new AuthenticateUserResponse(),
+                    "DoAuthenticateUser/Services",
+                    AuthenticateUserResponse.class)) {
+
+                fileOutput.format(
+                        "\nINFO: DoAuthenticateUser with "
+                                + request.keySet().stream()
+                                        .map(key -> key + "=" + request.get(key))
+                                        .collect(Collectors.joining(", ", "{", "}\n")));
+            }
+        }
         System.out.println(
                 "########################################################\n"
                         + "INFO: DoAuthenticateUser  Completed there are "
@@ -628,21 +611,42 @@ public class TestService {
         log.info("LogEivFailure");
         fileOutput = new PrintWriter(outputDir + "LogEivFailure.txt", StandardCharsets.UTF_8);
 
-        Map<String, String> request = new HashMap<>();
-        request.put("OrgTicketNumber", "1");
-        request.put("Session_Id", "1");
-        request.put("Legal_Surname_Nm", "1");
-        request.put("Legal_First_Nm", "1");
-        request.put("Legal_Second_Nm", "1");
-        request.put("Birth_Dt", "1999-05-31");
-        request.put("Gender_Txt", "1");
-        request.put("EIV_Vendor_Error_Msg", "1");
+        InputStream inputIds = getClass().getResourceAsStream("/LogEivFailure.csv");
+        assert inputIds != null;
+        Scanner scanner = new Scanner(inputIds);
 
-        compare(
-                request,
-                new LogEivFailureResponse(),
-                "LogEivFailure/Services",
-                LogEivFailureResponse.class);
+        while (scanner.hasNextLine()) {
+            String[] line = scanner.nextLine().split(",");
+
+            Map<String, String> request = new HashMap<>();
+
+            request.put("OrgTicketNumber", line[0]);
+            request.put("Session_Id", line[1]);
+            request.put("Legal_Surname_Nm", line[2]);
+            request.put("Legal_First_Nm", line[3]);
+            request.put("Legal_Second_Nm", line[4]);
+            request.put("Birth_Dt", line[5]);
+            request.put("Gender_Txt", line[6]);
+            request.put("EIV_Vendor_Error_Msg", line[7]);
+
+            System.out.format(
+                    "\nINFO: LogEivFailure with "
+                            + request.keySet().stream()
+                                    .map(key -> key + "=" + request.get(key))
+                                    .collect(Collectors.joining(", ", "{", "}\n")));
+
+            if (!compare(
+                    request,
+                    new LogEivFailureResponse(),
+                    "LogEivFailure/Services",
+                    LogEivFailureResponse.class)) {
+                fileOutput.format(
+                        "\nINFO: LogEivFailure with "
+                                + request.keySet().stream()
+                                        .map(key -> key + "=" + request.get(key))
+                                        .collect(Collectors.joining(", ", "{", "}\n")));
+            }
+        }
         System.out.println(
                 "########################################################\n"
                         + "INFO: LogEivFailure  Completed there are "
@@ -668,20 +672,41 @@ public class TestService {
         log.info("LogEivFailure");
         fileOutput = new PrintWriter(outputDir + "LogPaymentFailure.txt", StandardCharsets.UTF_8);
 
-        Map<String, String> request = new HashMap<>();
-        request.put("OrgTicketNumber", "1");
-        request.put("Service_Id", "1");
-        request.put("Appl_Party_Id", "1");
-        request.put("Session_Id", "1");
-        request.put("Invoice_Id", "1");
-        request.put("Service_Fee_Amount", "1");
-        request.put("BCEP_Error_Msg", "1");
+        InputStream inputIds = getClass().getResourceAsStream("/LogPaymentFailure.csv");
+        assert inputIds != null;
+        Scanner scanner = new Scanner(inputIds);
 
-        compare(
-                request,
-                new LogPaymentFailureResponse(),
-                "LogPaymentFailure/Services",
-                LogPaymentFailureResponse.class);
+        while (scanner.hasNextLine()) {
+            String[] line = scanner.nextLine().split(",");
+
+            Map<String, String> request = new HashMap<>();
+            request.put("OrgTicketNumber", line[0]);
+            request.put("Service_Id", line[1]);
+            request.put("Appl_Party_Id", line[2]);
+            request.put("Session_Id", line[3]);
+            request.put("Invoice_Id", line[4]);
+            request.put("Service_Fee_Amount", line[5]);
+            request.put("BCEP_Error_Msg", line[6]);
+
+            System.out.format(
+                    "\nINFO: LogPaymentFailure with "
+                            + request.keySet().stream()
+                                    .map(key -> key + "=" + request.get(key))
+                                    .collect(Collectors.joining(", ", "{", "}\n")));
+
+            if (!compare(
+                    request,
+                    new LogPaymentFailureResponse(),
+                    "LogPaymentFailure/Services",
+                    LogPaymentFailureResponse.class)) {
+
+                fileOutput.format(
+                        "\nINFO: LogPaymentFailure with "
+                                + request.keySet().stream()
+                                        .map(key -> key + "=" + request.get(key))
+                                        .collect(Collectors.joining(", ", "{", "}\n")));
+            }
+        }
         System.out.println(
                 "########################################################\n"
                         + "INFO: LogPaymentFailure  Completed there are "
@@ -707,28 +732,49 @@ public class TestService {
         log.info("CreateNewCRCService");
         fileOutput = new PrintWriter(outputDir + "CreateNewCRCService.txt", StandardCharsets.UTF_8);
 
-        Map<String, String> request = new HashMap<>();
-        request.put("OrgTicketNumber", "1");
-        request.put("Schedule_Type_Cd", "1");
-        request.put("Scope_Level_Cd", "1");
-        request.put("Appl_Party_Id", "1");
-        request.put("Org_Appl_To_Pay", "1");
-        request.put("Applicant_Posn", "1");
-        request.put("Child_Care_Fac_Nm", "1");
-        request.put("Governing_Body_Nm", "1");
-        request.put("Session_Id", "1");
-        request.put("Invoice_Id", "1");
-        request.put("Auth_Release_EIV_Vendor_YN", "1");
-        request.put("Auth_Conduct_CRC_Check_YN", "1");
-        request.put("Auth_Release_To_Org_YN", "1");
-        request.put("Appl_Identity_Verified_EIV_YN", "1");
-        request.put("EivPassDetailsResults", "1");
+        InputStream inputIds = getClass().getResourceAsStream("/CreateNewCRCService.csv");
+        assert inputIds != null;
+        Scanner scanner = new Scanner(inputIds);
 
-        compare(
-                request,
-                new CreateNewCRCServiceResponse(),
-                "CreateNewCRCService/Services",
-                CreateNewCRCServiceResponse.class);
+        while (scanner.hasNextLine()) {
+            String[] line = scanner.nextLine().split(",");
+
+            Map<String, String> request = new HashMap<>();
+            request.put("OrgTicketNumber", line[0]);
+            request.put("Schedule_Type_Cd", line[1]);
+            request.put("Scope_Level_Cd", line[2]);
+            request.put("Appl_Party_Id", line[3]);
+            request.put("Org_Appl_To_Pay", line[4]);
+            request.put("Applicant_Posn", line[5]);
+            request.put("Child_Care_Fac_Nm", line[6]);
+            request.put("Governing_Body_Nm", line[7]);
+            request.put("Session_Id", line[8]);
+            request.put("Invoice_Id", line[9]);
+            request.put("Auth_Release_EIV_Vendor_YN", line[10]);
+            request.put("Auth_Conduct_CRC_Check_YN", line[11]);
+            request.put("Auth_Release_To_Org_YN", line[12]);
+            request.put("Appl_Identity_Verified_EIV_YN", line[13]);
+            request.put("EivPassDetailsResults", line[14]);
+
+            System.out.format(
+                    "\nINFO: CreateNewCRCService with "
+                            + request.keySet().stream()
+                                    .map(key -> key + "=" + request.get(key))
+                                    .collect(Collectors.joining(", ", "{", "}\n")));
+
+            if (!compare(
+                    request,
+                    new CreateNewCRCServiceResponse(),
+                    "CreateNewCRCService/Services",
+                    CreateNewCRCServiceResponse.class)) {
+
+                fileOutput.format(
+                        "\nINFO: CreateNewCRCService with "
+                                + request.keySet().stream()
+                                        .map(key -> key + "=" + request.get(key))
+                                        .collect(Collectors.joining(", ", "{", "}\n")));
+            }
+        }
         System.out.println(
                 "########################################################\n"
                         + "INFO: CreateNewCRCService  Completed there are "
@@ -755,22 +801,43 @@ public class TestService {
         fileOutput =
                 new PrintWriter(outputDir + "CreateSharingService.txt", StandardCharsets.UTF_8);
 
-        Map<String, String> request = new HashMap<>();
-        request.put("OrgTicketNumber", "1");
-        request.put("Appl_Party_Id", "1");
-        request.put("Scope_Level_Cd", "1");
-        request.put("Applicant_Posn", "1");
-        request.put("Auth_Release_EIV_Vendor_YN", "1");
-        request.put("Auth_Release_To_Org_YN", "1");
-        request.put("Appl_Identity_Verified_EIV_YN", "1");
-        request.put("Previous_Service_Id", "1");
-        request.put("EivPassDetailsResults", "1");
+        InputStream inputIds = getClass().getResourceAsStream("/CreateSharingService.csv");
+        assert inputIds != null;
+        Scanner scanner = new Scanner(inputIds);
 
-        compare(
-                request,
-                new CreateSharingServiceResponse(),
-                "CreateSharingService/Services",
-                CreateSharingServiceResponse.class);
+        while (scanner.hasNextLine()) {
+            String[] line = scanner.nextLine().split(",");
+
+            Map<String, String> request = new HashMap<>();
+            request.put("OrgTicketNumber", line[0]);
+            request.put("Appl_Party_Id", line[1]);
+            request.put("Scope_Level_Cd", line[2]);
+            request.put("Applicant_Posn", line[3]);
+            request.put("Auth_Release_EIV_Vendor_YN", line[4]);
+            request.put("Auth_Release_To_Org_YN", line[5]);
+            request.put("Appl_Identity_Verified_EIV_YN", line[6]);
+            request.put("Previous_Service_Id", line[7]);
+            request.put("EivPassDetailsResults", line[8]);
+
+            System.out.format(
+                    "\nINFO: CreateSharingService with "
+                            + request.keySet().stream()
+                                    .map(key -> key + "=" + request.get(key))
+                                    .collect(Collectors.joining(", ", "{", "}\n")));
+
+            if (!compare(
+                    request,
+                    new CreateSharingServiceResponse(),
+                    "CreateSharingService/Services",
+                    CreateSharingServiceResponse.class)) {
+
+                fileOutput.format(
+                        "\nINFO: CreateSharingService with "
+                                + request.keySet().stream()
+                                        .map(key -> key + "=" + request.get(key))
+                                        .collect(Collectors.joining(", ", "{", "}\n")));
+            }
+        }
         System.out.println(
                 "########################################################\n"
                         + "INFO: CreateSharingService  Completed there are "
@@ -796,16 +863,37 @@ public class TestService {
         log.info("GetServiceFeeAmount");
         fileOutput = new PrintWriter(outputDir + "GetServiceFeeAmount.txt", StandardCharsets.UTF_8);
 
-        Map<String, String> request = new HashMap<>();
-        request.put("OrgTicketNumber", "1");
-        request.put("ScheduleTypeCd", "1");
-        request.put("ScopeLevelCd", "1");
+        InputStream inputIds = getClass().getResourceAsStream("/GetServiceFeeAmount.csv");
+        assert inputIds != null;
+        Scanner scanner = new Scanner(inputIds);
 
-        compare(
-                request,
-                new GetServiceFeeAmountResponse(),
-                "GetServiceFeeAmount/Services",
-                GetServiceFeeAmountResponse.class);
+        while (scanner.hasNextLine()) {
+            String[] line = scanner.nextLine().split(",");
+
+            Map<String, String> request = new HashMap<>();
+            request.put("OrgTicketNumber", line[0]);
+            request.put("ScheduleTypeCd", line[1]);
+            request.put("ScopeLevelCd", line[2]);
+
+            System.out.format(
+                    "\nINFO: GetServiceFeeAmount with "
+                            + request.keySet().stream()
+                                    .map(key -> key + "=" + request.get(key))
+                                    .collect(Collectors.joining(", ", "{", "}\n")));
+
+            if (!compare(
+                    request,
+                    new GetServiceFeeAmountResponse(),
+                    "GetServiceFeeAmount/Services",
+                    GetServiceFeeAmountResponse.class)) {
+
+                fileOutput.format(
+                        "\nINFO: GetServiceFeeAmount with "
+                                + request.keySet().stream()
+                                        .map(key -> key + "=" + request.get(key))
+                                        .collect(Collectors.joining(", ", "{", "}\n")));
+            }
+        }
         System.out.println(
                 "########################################################\n"
                         + "INFO: GetServiceFeeAmount  Completed there are "
@@ -833,24 +921,46 @@ public class TestService {
                 new PrintWriter(
                         outputDir + "UpdateServiceFinancialTxn.txt", StandardCharsets.UTF_8);
 
-        Map<String, String> request = new HashMap<>();
-        request.put("OrgTicketNumber", "1");
-        request.put("Appl_Party_Id", "1");
-        request.put("Service_Id", "1");
-        request.put("CC_Authorization", "1");
-        request.put("Payment_Date", "1999-05-01");
-        request.put("Payor_Type_Cd", "1");
-        request.put("Payment_Status_Cd", "1");
-        request.put("Session_Id", "1");
-        request.put("Invoice_Id", "1");
-        request.put("Transaction_Id", "1");
-        request.put("Transaction_Amount", "1");
+        InputStream inputIds = getClass().getResourceAsStream("/UpdateServiceFinancialTxn.csv");
+        assert inputIds != null;
+        Scanner scanner = new Scanner(inputIds);
 
-        compare(
-                request,
-                new UpdateServiceFinancialTxnResponse(),
-                "UpdateServiceFinancialTxn/Services",
-                UpdateServiceFinancialTxnResponse.class);
+        while (scanner.hasNextLine()) {
+            String[] line = scanner.nextLine().split(",");
+
+            Map<String, String> request = new HashMap<>();
+
+            request.put("OrgTicketNumber", line[0]);
+            request.put("Appl_Party_Id", line[1]);
+            request.put("Service_Id", line[2]);
+            request.put("CC_Authorization", line[3]);
+            request.put("Payment_Date", line[4]);
+            request.put("Payor_Type_Cd", line[5]);
+            request.put("Payment_Status_Cd", line[6]);
+            request.put("Session_Id", line[7]);
+            request.put("Invoice_Id", line[8]);
+            request.put("Transaction_Id", line[9]);
+            request.put("Transaction_Amount", line[10]);
+
+            System.out.format(
+                    "\nINFO: UpdateServiceFinancialTxn with "
+                            + request.keySet().stream()
+                                    .map(key -> key + "=" + request.get(key))
+                                    .collect(Collectors.joining(", ", "{", "}\n")));
+
+            if (!compare(
+                    request,
+                    new UpdateServiceFinancialTxnResponse(),
+                    "UpdateServiceFinancialTxn/Services",
+                    UpdateServiceFinancialTxnResponse.class)) {
+
+                fileOutput.format(
+                        "\nINFO: UpdateServiceFinancialTxn with "
+                                + request.keySet().stream()
+                                        .map(key -> key + "=" + request.get(key))
+                                        .collect(Collectors.joining(", ", "{", "}\n")));
+            }
+        }
         System.out.println(
                 "########################################################\n"
                         + "INFO: UpdateServiceFinancialTxn  Completed there are "
