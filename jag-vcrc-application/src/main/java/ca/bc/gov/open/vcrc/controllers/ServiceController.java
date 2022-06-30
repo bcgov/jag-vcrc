@@ -119,7 +119,14 @@ public class ServiceController {
     public GetServiceFeeAmountResponse getServiceFeeAmount(
             GetServiceFeeAmountRequest getServiceFeeAmountRequest) throws JsonProcessingException {
 
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(ordsHost + "services/fee");
+        UriComponentsBuilder builder =
+                UriComponentsBuilder.fromHttpUrl(ordsHost + "services/fee")
+                        .queryParam(
+                                "orgTicketNumber", getServiceFeeAmountRequest.getOrgTicketNumber())
+                        .queryParam(
+                                "scheduleTypeCd", getServiceFeeAmountRequest.getScheduleTypeCd())
+                        .queryParam("scopeLevelCd", getServiceFeeAmountRequest.getScopeLevelCd());
+
         HttpEntity<GetServiceFeeAmountRequest> payload =
                 new HttpEntity<>(getServiceFeeAmountRequest, new HttpHeaders());
 
@@ -128,7 +135,7 @@ public class ServiceController {
                     restTemplate.exchange(
                             builder.toUriString(),
                             HttpMethod.GET,
-                            payload,
+                            new HttpEntity<>(new HttpHeaders()),
                             GetServiceFeeAmountResponse.class);
 
             log.info(
