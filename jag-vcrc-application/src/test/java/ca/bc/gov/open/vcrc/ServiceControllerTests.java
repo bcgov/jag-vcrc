@@ -200,6 +200,10 @@ public class ServiceControllerTests {
     public void getServiceFeeAmountTest() throws JsonProcessingException {
         var req = GetServiceFeeAmount_Request();
 
+        req.setScopeLevelCd("A");
+        req.setScheduleTypeCd("A");
+        req.setOrgTicketNumber("A");
+
         var out = new GetServiceFeeAmountResponse();
         out.setMessage("A");
         out.setServiceFeeAmount("A");
@@ -211,7 +215,7 @@ public class ServiceControllerTests {
         //     Set up to mock ords response
         when(restTemplate.exchange(
                         Mockito.any(String.class),
-                        Mockito.eq(HttpMethod.POST),
+                        Mockito.eq(HttpMethod.GET),
                         Mockito.<HttpEntity<String>>any(),
                         Mockito.<Class<GetServiceFeeAmountResponse>>any()))
                 .thenReturn(responseEntity);
