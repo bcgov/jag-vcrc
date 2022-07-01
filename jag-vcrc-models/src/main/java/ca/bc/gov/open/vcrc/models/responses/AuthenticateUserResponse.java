@@ -1,5 +1,6 @@
 package ca.bc.gov.open.vcrc.models.responses;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import java.util.List;
@@ -71,11 +72,13 @@ public class AuthenticateUserResponse extends BaseXMLResponse {
 
     @Data
     public static class ScopeLevels {
+        @JacksonXmlElementWrapper(useWrapping = false)
         List<ScopeLevelItem> scopeLevel;
     }
 
     @Data
     public static class ScheduleTypes {
+        @JacksonXmlElementWrapper(useWrapping = false)
         List<ScheduleTypeItem> scheduleType;
     }
 
