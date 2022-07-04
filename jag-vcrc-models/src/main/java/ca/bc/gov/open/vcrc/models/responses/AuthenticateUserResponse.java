@@ -42,6 +42,9 @@ public class AuthenticateUserResponse extends BaseXMLResponse {
         @JacksonXmlProperty(localName = "province_nm")
         private String provinceNm;
 
+        @JacksonXmlProperty(localName = "country_nm")
+        private String countryNm;
+
         @JacksonXmlProperty(localName = "postal_code_txt")
         private String postalCodeTxt;
 
