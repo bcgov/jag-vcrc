@@ -14,6 +14,6 @@ public class WebDateBinder implements WebBindingInitializer {
     @InitBinder
     public void initBinder(WebDataBinder binder) {
         binder.registerCustomEditor(
-                Date.class, new CustomDateEditor(new SimpleDateFormat("yyyy-MM-dd"), true, 10));
+                Date.class, new CustomDateEditor(new SimpleDateFormat("yyyy/MM/dd"), true, 10));
     }
 }
