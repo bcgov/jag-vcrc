@@ -85,6 +85,13 @@ public class ServiceController {
                 new HttpEntity<>(createSharingServiceRequest, new HttpHeaders());
 
         try {
+
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog(
+                                    "Request Success",
+                                    objectMapper.writeValueAsString(createSharingServiceRequest))));
+
             HttpEntity<CreateSharingServiceResponse> resp =
                     restTemplate.exchange(
                             builder.toUriString(),
@@ -95,12 +102,6 @@ public class ServiceController {
             log.info(
                     objectMapper.writeValueAsString(
                             new RequestSuccessLog("Request Success", "createSharingService")));
-
-            log.info(
-                    objectMapper.writeValueAsString(
-                            new RequestSuccessLog(
-                                    "Request Success",
-                                    objectMapper.writeValueAsString(createSharingServiceRequest))));
 
             CreateSharingServiceResponse out = new CreateSharingServiceResponse();
             return resp.getBody();
@@ -132,6 +133,13 @@ public class ServiceController {
                 new HttpEntity<>(getServiceFeeAmountRequest, new HttpHeaders());
 
         try {
+
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog(
+                                    "Request getServiceFeeAmount",
+                                    objectMapper.writeValueAsString(getServiceFeeAmountRequest))));
+
             HttpEntity<GetServiceFeeAmountResponse> resp =
                     restTemplate.exchange(
                             builder.toUriString(),
@@ -167,6 +175,14 @@ public class ServiceController {
                 new HttpEntity<>(updateServiceFinancialTxnRequest, new HttpHeaders());
 
         try {
+
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog(
+                                    "Request UpdateServiceFinancialTxn",
+                                    objectMapper.writeValueAsString(
+                                            updateServiceFinancialTxnRequest))));
+
             HttpEntity<UpdateServiceFinancialTxnResponse> resp =
                     restTemplate.exchange(
                             builder.toUriString(),
@@ -177,13 +193,6 @@ public class ServiceController {
             log.info(
                     objectMapper.writeValueAsString(
                             new RequestSuccessLog("Request Success", "updateServiceFinancialTxn")));
-
-            log.info(
-                    objectMapper.writeValueAsString(
-                            new RequestSuccessLog(
-                                    "Request Success",
-                                    objectMapper.writeValueAsString(
-                                            updateServiceFinancialTxnRequest))));
 
             return resp.getBody();
         } catch (Exception ex) {
