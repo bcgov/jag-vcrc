@@ -42,6 +42,13 @@ public class ServiceController {
                 new HttpEntity<>(createNewCRCServiceRequest, new HttpHeaders());
 
         try {
+
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog(
+                                    "Request createNewCrcService",
+                                    objectMapper.writeValueAsString(createNewCRCServiceRequest))));
+
             HttpEntity<CreateNewCRCServiceResponse> resp =
                     restTemplate.exchange(
                             builder.toUriString(),
@@ -52,12 +59,6 @@ public class ServiceController {
             log.info(
                     objectMapper.writeValueAsString(
                             new RequestSuccessLog("Request Success", "createNewCrcService")));
-
-            log.info(
-                    objectMapper.writeValueAsString(
-                            new RequestSuccessLog(
-                                    "Request Success",
-                                    objectMapper.writeValueAsString(createNewCRCServiceRequest))));
 
             CreateNewCRCServiceResponse out = new CreateNewCRCServiceResponse();
             return resp.getBody();
@@ -141,12 +142,6 @@ public class ServiceController {
             log.info(
                     objectMapper.writeValueAsString(
                             new RequestSuccessLog("Request Success", "getServiceFeeAmount")));
-
-            log.info(
-                    objectMapper.writeValueAsString(
-                            new RequestSuccessLog(
-                                    "Request Success",
-                                    objectMapper.writeValueAsString(getServiceFeeAmountRequest))));
 
             GetServiceFeeAmountResponse out = new GetServiceFeeAmountResponse();
             return resp.getBody();
