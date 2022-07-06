@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
-@JacksonXmlRootElement(localName = "getServiceFeeAmount")
+@JacksonXmlRootElement(localName = "GetServiceFeeAmount")
 @EqualsAndHashCode(callSuper = true)
 public class GetServiceFeeAmountResponse extends BaseXMLResponse {
     private String serviceFeeAmount;

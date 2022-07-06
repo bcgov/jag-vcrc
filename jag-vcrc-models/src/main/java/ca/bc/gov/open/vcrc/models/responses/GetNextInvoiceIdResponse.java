@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
-@JacksonXmlRootElement(localName = "getNextInvoiceId")
+@JacksonXmlRootElement(localName = "GetNextInvoiceId")
 @EqualsAndHashCode(callSuper = true)
 public class GetNextInvoiceIdResponse extends BaseXMLResponse {
     private String invoiceId;
