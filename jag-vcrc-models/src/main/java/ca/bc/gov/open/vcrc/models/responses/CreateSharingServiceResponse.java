@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
-@JacksonXmlRootElement(localName = "createSharingService")
+@JacksonXmlRootElement(localName = "CreateSharingService")
 @EqualsAndHashCode(callSuper = true)
 public class CreateSharingServiceResponse extends BaseXMLResponse {
     private String serviceId;
