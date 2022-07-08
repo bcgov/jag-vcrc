@@ -49,7 +49,8 @@ public class ServiceController {
                                     "Request createNewCrcService",
                                     objectMapper.writeValueAsString(createNewCRCServiceRequest))));
 
-            // the InvoiceId might be "null" if a register is a volunteer, which causes the REST
+            // the InvoiceId might be a "null" string if a register is a volunteer, that will crash
+            // the REST
             // package function pkg_fig_vcrcweb_api.prcreatenewcrcservice
             // ( the function inserts InvoiceId into a table as NUMBER but here InvoiceId is a
             // string). Therefore, the solution is to change "null" to null.
