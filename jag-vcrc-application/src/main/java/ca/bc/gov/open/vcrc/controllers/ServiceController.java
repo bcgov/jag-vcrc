@@ -79,7 +79,7 @@ public class ServiceController {
                                     "Error received from ORDS",
                                     "createNewCrcService",
                                     ex.getMessage(),
-                                    null)));
+                                    createNewCRCServiceRequest)));
             throw new ORDSException();
         }
     }
@@ -122,7 +122,7 @@ public class ServiceController {
                                     "Error received from ORDS",
                                     "createSharingService",
                                     ex.getMessage(),
-                                    null)));
+                                    createSharingServiceRequest)));
             throw new ORDSException();
         }
     }
@@ -170,7 +170,7 @@ public class ServiceController {
                                     "Error received from ORDS",
                                     "getServiceFeeAmount",
                                     ex.getMessage(),
-                                    null)));
+                                    getServiceFeeAmountRequest)));
             throw new ORDSException();
         }
     }
@@ -212,7 +212,7 @@ public class ServiceController {
                                     "Error received from ORDS",
                                     "updateServiceFinancialTxn",
                                     ex.getMessage(),
-                                    null)));
+                                    updateServiceFinancialTxnRequest)));
             throw new ORDSException();
         }
     }

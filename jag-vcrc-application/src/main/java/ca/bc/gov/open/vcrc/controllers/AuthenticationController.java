@@ -67,7 +67,7 @@ public class AuthenticationController {
                                     "Error received from ORDS",
                                     "authenticateUser",
                                     ex.getMessage(),
-                                    null)));
+                                    authenticateUserRequest)));
             throw new ORDSException();
         }
     }
