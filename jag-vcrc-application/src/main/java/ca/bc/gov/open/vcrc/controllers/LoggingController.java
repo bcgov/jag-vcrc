@@ -110,7 +110,7 @@ public class LoggingController {
                                     "Error received from ORDS",
                                     "logPaymentFailure",
                                     ex.getMessage(),
-                                    null)));
+                                    logPaymentFailureRequest)));
             throw new ORDSException();
         }
     }

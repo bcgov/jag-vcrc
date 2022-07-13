@@ -71,7 +71,7 @@ public class IdController {
                                     "Error received from ORDS",
                                     "getNextSessionId",
                                     ex.getMessage(),
-                                    null)));
+                                    getNextSessionIdRequest)));
             throw new ORDSException();
         }
     }
@@ -111,7 +111,7 @@ public class IdController {
                                     "Error received from ORDS",
                                     "getNextInvoiceId",
                                     ex.getMessage(),
-                                    null)));
+                                    getNextInvoiceIdRequest)));
             throw new ORDSException();
         }
     }

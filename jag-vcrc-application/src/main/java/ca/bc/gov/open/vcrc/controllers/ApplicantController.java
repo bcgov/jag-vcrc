@@ -74,7 +74,7 @@ public class ApplicantController {
                                     "Error received from ORDS",
                                     "checkApplicantForPrevCRC",
                                     ex.getMessage(),
-                                    null)));
+                                    checkApplicantForPrevCRCRequest)));
             throw new ORDSException();
         }
     }
@@ -120,7 +120,7 @@ public class ApplicantController {
                                     "Error received from ORDS",
                                     "checkApplicantForPrevCRCEx",
                                     ex.getMessage(),
-                                    null)));
+                                    checkApplicantForPrevCRCRequest)));
             throw new ORDSException();
         }
     }
@@ -163,7 +163,7 @@ public class ApplicantController {
                                     "Error received from ORDS",
                                     "createApplicant",
                                     ex.getMessage(),
-                                    null)));
+                                    createApplicant)));
             throw new ORDSException();
         }
     }
@@ -202,7 +202,7 @@ public class ApplicantController {
                                     "Error received from ORDS",
                                     "createApplicantEx",
                                     ex.getMessage(),
-                                    null)));
+                                    createApplicant)));
             throw new ORDSException();
         }
     }
