@@ -53,12 +53,6 @@ public class AuthenticationController {
                     objectMapper.writeValueAsString(
                             new RequestSuccessLog("Request Success", "authenticateUser")));
 
-            log.info(
-                    objectMapper.writeValueAsString(
-                            new RequestSuccessLog(
-                                    "Request Success",
-                                    objectMapper.writeValueAsString(authenticateUserRequest))));
-
             return resp.getBody();
         } catch (Exception ex) {
             log.error(
