@@ -56,12 +56,6 @@ public class IdController {
                     objectMapper.writeValueAsString(
                             new RequestSuccessLog("Request Success", "getNextSessionId")));
 
-            log.info(
-                    objectMapper.writeValueAsString(
-                            new RequestSuccessLog(
-                                    "Request Success",
-                                    objectMapper.writeValueAsString(getNextSessionIdRequest))));
-
             GetNextSessionIdResponse out = new GetNextSessionIdResponse();
             return resp.getBody();
         } catch (Exception ex) {
@@ -95,12 +89,6 @@ public class IdController {
             log.info(
                     objectMapper.writeValueAsString(
                             new RequestSuccessLog("Request Success", "getNextInvoiceId")));
-
-            log.info(
-                    objectMapper.writeValueAsString(
-                            new RequestSuccessLog(
-                                    "Request Success",
-                                    objectMapper.writeValueAsString(getNextInvoiceIdRequest))));
 
             GetNextInvoiceIdResponse out = new GetNextInvoiceIdResponse();
             return resp.getBody();

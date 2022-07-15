@@ -57,12 +57,6 @@ public class LoggingController {
                     objectMapper.writeValueAsString(
                             new RequestSuccessLog("Request Success", "logEivFailure")));
 
-            log.info(
-                    objectMapper.writeValueAsString(
-                            new RequestSuccessLog(
-                                    "Request Success",
-                                    objectMapper.writeValueAsString(logEivFailureRequest))));
-
             return resp.getBody();
         } catch (Exception ex) {
             log.error(
@@ -95,12 +89,6 @@ public class LoggingController {
             log.info(
                     objectMapper.writeValueAsString(
                             new RequestSuccessLog("Request Success", "logPaymentFailure")));
-
-            log.info(
-                    objectMapper.writeValueAsString(
-                            new RequestSuccessLog(
-                                    "Request Success",
-                                    objectMapper.writeValueAsString(logPaymentFailureRequest))));
 
             return resp.getBody();
         } catch (Exception ex) {

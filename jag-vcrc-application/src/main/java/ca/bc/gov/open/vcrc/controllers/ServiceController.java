@@ -43,12 +43,6 @@ public class ServiceController {
 
         try {
 
-            log.info(
-                    objectMapper.writeValueAsString(
-                            new RequestSuccessLog(
-                                    "Request createNewCrcService",
-                                    objectMapper.writeValueAsString(createNewCRCServiceRequest))));
-
             // the InvoiceId might be a "null" string if a register is a volunteer, that will crash
             // the REST
             // package function pkg_fig_vcrcweb_api.prcreatenewcrcservice
@@ -96,12 +90,6 @@ public class ServiceController {
 
         try {
 
-            log.info(
-                    objectMapper.writeValueAsString(
-                            new RequestSuccessLog(
-                                    "Request Success",
-                                    objectMapper.writeValueAsString(createSharingServiceRequest))));
-
             HttpEntity<CreateSharingServiceResponse> resp =
                     restTemplate.exchange(
                             builder.toUriString(),
@@ -144,12 +132,6 @@ public class ServiceController {
 
         try {
 
-            log.info(
-                    objectMapper.writeValueAsString(
-                            new RequestSuccessLog(
-                                    "Request getServiceFeeAmount",
-                                    objectMapper.writeValueAsString(getServiceFeeAmountRequest))));
-
             HttpEntity<GetServiceFeeAmountResponse> resp =
                     restTemplate.exchange(
                             builder.toUriString(),
@@ -185,13 +167,6 @@ public class ServiceController {
                 new HttpEntity<>(updateServiceFinancialTxnRequest, new HttpHeaders());
 
         try {
-
-            log.info(
-                    objectMapper.writeValueAsString(
-                            new RequestSuccessLog(
-                                    "Request UpdateServiceFinancialTxn",
-                                    objectMapper.writeValueAsString(
-                                            updateServiceFinancialTxnRequest))));
 
             HttpEntity<UpdateServiceFinancialTxnResponse> resp =
                     restTemplate.exchange(
