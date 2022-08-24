@@ -42,6 +42,12 @@ public class AuthenticationController {
                 new HttpEntity<>(authenticateUserRequest, new HttpHeaders());
 
         try {
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog(
+                                    "Request authenticateUserRequest",
+                                    objectMapper.writeValueAsString(authenticateUserRequest))));
+
             HttpEntity<AuthenticateUserResponse> resp =
                     restTemplate.exchange(
                             builder.toUriString(),

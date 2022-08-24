@@ -47,7 +47,16 @@ public class ApplicantController {
 
         HttpEntity<CheckApplicantForPrevCRCRequest> payload =
                 new HttpEntity<>(checkApplicantForPrevCRCRequest, new HttpHeaders());
+
         try {
+
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog(
+                                    "Request checkApplicantForPrevCRCRequest",
+                                    objectMapper.writeValueAsString(
+                                            checkApplicantForPrevCRCRequest))));
+
             HttpEntity<CheckApplicantForPrevCRCResponse> resp =
                     restTemplate.exchange(
                             builder.toUriString(),
@@ -86,6 +95,14 @@ public class ApplicantController {
         HttpEntity<CheckApplicantForPrevCRCRequest> payload =
                 new HttpEntity<>(checkApplicantForPrevCRCRequest, new HttpHeaders());
         try {
+
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog(
+                                    "Request checkApplicantForPrevCRCRequest",
+                                    objectMapper.writeValueAsString(
+                                            checkApplicantForPrevCRCRequest))));
+
             HttpEntity<CheckApplicantForPrevCRCExResponse> resp =
                     restTemplate.exchange(
                             builder.toUriString(),
@@ -124,6 +141,13 @@ public class ApplicantController {
         HttpEntity<CreateApplicantRequest> payload =
                 new HttpEntity<>(createApplicant, new HttpHeaders());
         try {
+
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog(
+                                    "Request createApplicant",
+                                    objectMapper.writeValueAsString(createApplicant))));
+
             HttpEntity<CreateApplicantResponse> resp =
                     restTemplate.exchange(
                             builder.toUriString(),
@@ -157,6 +181,13 @@ public class ApplicantController {
         HttpEntity<CreateApplicantRequest> payload =
                 new HttpEntity<>(createApplicant, new HttpHeaders());
         try {
+
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog(
+                                    "Request createApplicant",
+                                    objectMapper.writeValueAsString(createApplicant))));
+
             HttpEntity<CreateApplicantResponse> resp =
                     restTemplate.exchange(
                             builder.toUriString(),

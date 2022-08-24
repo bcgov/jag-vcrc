@@ -74,6 +74,7 @@ public class LocationController {
                 UriComponentsBuilder.fromHttpUrl(ordsHost + "locations/provinces");
 
         try {
+
             HttpEntity<GetProvinceListResponse> resp =
                     restTemplate.exchange(
                             builder.toUriString(),

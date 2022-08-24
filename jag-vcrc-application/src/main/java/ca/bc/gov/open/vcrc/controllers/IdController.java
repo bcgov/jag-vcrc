@@ -45,6 +45,13 @@ public class IdController {
                                 "orgTicketNumber", getNextSessionIdRequest.getOrgTicketNumber());
 
         try {
+
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog(
+                                    "Request getNextSessionIdRequest",
+                                    objectMapper.writeValueAsString(getNextSessionIdRequest))));
+
             HttpEntity<GetNextSessionIdResponse> resp =
                     restTemplate.exchange(
                             builder.toUriString(),
@@ -79,6 +86,13 @@ public class IdController {
                                 "orgTicketNumber", getNextInvoiceIdRequest.getOrgTicketNumber());
 
         try {
+
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog(
+                                    "Request getNextInvoiceIdRequest",
+                                    objectMapper.writeValueAsString(getNextInvoiceIdRequest))));
+
             HttpEntity<GetNextInvoiceIdResponse> resp =
                     restTemplate.exchange(
                             builder.toUriString(),

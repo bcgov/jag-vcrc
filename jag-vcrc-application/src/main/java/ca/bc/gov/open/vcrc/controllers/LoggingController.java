@@ -79,6 +79,13 @@ public class LoggingController {
                 new HttpEntity<>(logPaymentFailureRequest, new HttpHeaders());
 
         try {
+
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog(
+                                    "Request logPaymentFailureRequest",
+                                    objectMapper.writeValueAsString(logPaymentFailureRequest))));
+
             HttpEntity<LogPaymentFailureResponse> resp =
                     restTemplate.exchange(
                             builder.toUriString(),
