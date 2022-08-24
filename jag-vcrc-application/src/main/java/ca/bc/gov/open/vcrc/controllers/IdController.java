@@ -45,6 +45,7 @@ public class IdController {
                                 "orgTicketNumber", getNextSessionIdRequest.getOrgTicketNumber());
 
         try {
+
             HttpEntity<GetNextSessionIdResponse> resp =
                     restTemplate.exchange(
                             builder.toUriString(),
@@ -55,6 +56,12 @@ public class IdController {
             log.info(
                     objectMapper.writeValueAsString(
                             new RequestSuccessLog("Request Success", "getNextSessionId")));
+
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog(
+                                    "Request Success",
+                                    objectMapper.writeValueAsString(getNextSessionIdRequest))));
 
             GetNextSessionIdResponse out = new GetNextSessionIdResponse();
             return resp.getBody();
@@ -79,6 +86,7 @@ public class IdController {
                                 "orgTicketNumber", getNextInvoiceIdRequest.getOrgTicketNumber());
 
         try {
+
             HttpEntity<GetNextInvoiceIdResponse> resp =
                     restTemplate.exchange(
                             builder.toUriString(),
@@ -89,6 +97,12 @@ public class IdController {
             log.info(
                     objectMapper.writeValueAsString(
                             new RequestSuccessLog("Request Success", "getNextInvoiceId")));
+
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog(
+                                    "Request Success",
+                                    objectMapper.writeValueAsString(getNextInvoiceIdRequest))));
 
             GetNextInvoiceIdResponse out = new GetNextInvoiceIdResponse();
             return resp.getBody();

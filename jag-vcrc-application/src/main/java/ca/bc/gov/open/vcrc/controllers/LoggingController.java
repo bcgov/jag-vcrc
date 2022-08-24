@@ -57,6 +57,12 @@ public class LoggingController {
                     objectMapper.writeValueAsString(
                             new RequestSuccessLog("Request Success", "logEivFailure")));
 
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog(
+                                    "Request Success",
+                                    objectMapper.writeValueAsString(logEivFailureRequest))));
+
             return resp.getBody();
         } catch (Exception ex) {
             log.error(
@@ -65,7 +71,7 @@ public class LoggingController {
                                     "Error received from ORDS",
                                     "logEivFailure",
                                     ex.getMessage(),
-                                    null)));
+                                    logEivFailureRequest)));
             throw new ORDSException();
         }
     }
@@ -79,6 +85,7 @@ public class LoggingController {
                 new HttpEntity<>(logPaymentFailureRequest, new HttpHeaders());
 
         try {
+
             HttpEntity<LogPaymentFailureResponse> resp =
                     restTemplate.exchange(
                             builder.toUriString(),
@@ -89,6 +96,12 @@ public class LoggingController {
             log.info(
                     objectMapper.writeValueAsString(
                             new RequestSuccessLog("Request Success", "logPaymentFailure")));
+
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog(
+                                    "Request Success",
+                                    objectMapper.writeValueAsString(logPaymentFailureRequest))));
 
             return resp.getBody();
         } catch (Exception ex) {
