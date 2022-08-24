@@ -42,11 +42,6 @@ public class AuthenticationController {
                 new HttpEntity<>(authenticateUserRequest, new HttpHeaders());
 
         try {
-            log.info(
-                    objectMapper.writeValueAsString(
-                            new RequestSuccessLog(
-                                    "Request authenticateUserRequest",
-                                    objectMapper.writeValueAsString(authenticateUserRequest))));
 
             HttpEntity<AuthenticateUserResponse> resp =
                     restTemplate.exchange(
@@ -58,6 +53,12 @@ public class AuthenticationController {
             log.info(
                     objectMapper.writeValueAsString(
                             new RequestSuccessLog("Request Success", "authenticateUser")));
+
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog(
+                                    "Request Success",
+                                    objectMapper.writeValueAsString(authenticateUserRequest))));
 
             return resp.getBody();
         } catch (Exception ex) {

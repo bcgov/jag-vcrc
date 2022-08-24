@@ -46,12 +46,6 @@ public class IdController {
 
         try {
 
-            log.info(
-                    objectMapper.writeValueAsString(
-                            new RequestSuccessLog(
-                                    "Request getNextSessionIdRequest",
-                                    objectMapper.writeValueAsString(getNextSessionIdRequest))));
-
             HttpEntity<GetNextSessionIdResponse> resp =
                     restTemplate.exchange(
                             builder.toUriString(),
@@ -62,6 +56,12 @@ public class IdController {
             log.info(
                     objectMapper.writeValueAsString(
                             new RequestSuccessLog("Request Success", "getNextSessionId")));
+
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog(
+                                    "Request Success",
+                                    objectMapper.writeValueAsString(getNextSessionIdRequest))));
 
             GetNextSessionIdResponse out = new GetNextSessionIdResponse();
             return resp.getBody();
@@ -87,12 +87,6 @@ public class IdController {
 
         try {
 
-            log.info(
-                    objectMapper.writeValueAsString(
-                            new RequestSuccessLog(
-                                    "Request getNextInvoiceIdRequest",
-                                    objectMapper.writeValueAsString(getNextInvoiceIdRequest))));
-
             HttpEntity<GetNextInvoiceIdResponse> resp =
                     restTemplate.exchange(
                             builder.toUriString(),
@@ -103,6 +97,12 @@ public class IdController {
             log.info(
                     objectMapper.writeValueAsString(
                             new RequestSuccessLog("Request Success", "getNextInvoiceId")));
+
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog(
+                                    "Request Success",
+                                    objectMapper.writeValueAsString(getNextInvoiceIdRequest))));
 
             GetNextInvoiceIdResponse out = new GetNextInvoiceIdResponse();
             return resp.getBody();
