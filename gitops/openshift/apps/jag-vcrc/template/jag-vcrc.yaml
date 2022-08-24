@@ -64,7 +64,7 @@ objects:
       
   spec:
     completionDeadlineSeconds: 1200
-    replicas: 1
+    replicas: 3
     selector:
       name: ${COMPONENT_NAME}
     strategy:
@@ -121,10 +121,10 @@ objects:
                   key: ORDS_HOST
             resources:
               limits:
-                cpu: 400m
+                cpu: 512m
                 memory: 512Mi
               requests:
-                cpu: 50m
+                cpu: 256m
                 memory: 256Mi
             livenessProbe:
               httpGet:
