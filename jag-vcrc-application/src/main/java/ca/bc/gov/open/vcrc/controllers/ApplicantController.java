@@ -61,13 +61,6 @@ public class ApplicantController {
                     objectMapper.writeValueAsString(
                             new RequestSuccessLog("Request Success", "checkApplicantForPrevCRC")));
 
-            log.info(
-                    objectMapper.writeValueAsString(
-                            new RequestSuccessLog(
-                                    "Request Success",
-                                    objectMapper.writeValueAsString(
-                                            checkApplicantForPrevCRCRequest))));
-
             return resp.getBody();
         } catch (Exception ex) {
             log.error(
@@ -108,13 +101,6 @@ public class ApplicantController {
                             new RequestSuccessLog(
                                     "Request Success", "checkApplicantForPrevCRCEx")));
 
-            log.info(
-                    objectMapper.writeValueAsString(
-                            new RequestSuccessLog(
-                                    "Request Success",
-                                    objectMapper.writeValueAsString(
-                                            checkApplicantForPrevCRCRequest))));
-
             return resp.getBody();
         } catch (Exception ex) {
             log.error(
@@ -153,12 +139,6 @@ public class ApplicantController {
                     objectMapper.writeValueAsString(
                             new RequestSuccessLog("Request Success", "createApplicant")));
 
-            log.info(
-                    objectMapper.writeValueAsString(
-                            new RequestSuccessLog(
-                                    "Request Success",
-                                    objectMapper.writeValueAsString(createApplicant))));
-
             return resp.getBody();
         } catch (Exception ex) {
             log.error(
@@ -192,12 +172,6 @@ public class ApplicantController {
             log.info(
                     objectMapper.writeValueAsString(
                             new RequestSuccessLog("Request Success", "createApplicantEx")));
-
-            log.info(
-                    objectMapper.writeValueAsString(
-                            new RequestSuccessLog(
-                                    "Request Success",
-                                    objectMapper.writeValueAsString(createApplicant))));
 
             return resp.getBody();
         } catch (Exception ex) {
