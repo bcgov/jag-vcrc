@@ -19,7 +19,7 @@ Local Host: http://127.0.0.1:8080
 
 Actuator Endpoint Local: http://localhost:8080/actuator/health
 
-Code Climate: https://codeclimate.com/github/bcgov/jag-ccd
+Code Climate: https://codeclimate.com/github/bcgov/jag-vcrc
 
 ### Required Environmental Variables
 
@@ -46,12 +46,12 @@ Option A) Intellij
 1) Set env variables.
 2) Run the application
 
-Option B) Jar, e.g., to run 'jag-ccd-application-1.1' application:
+Option B) Jar
 1) Run ```mvn package```
 2) Run ```cd jag-vcrc-application```
 3) Run ```java -jar ./target/vcrc-application.jar $ENV_VAR$```  (Note that $ENV_VAR$ are environment variables)
 
-Option C) Docker, e.g., to run 'jag-ccd-application-1.1' application:
+Option C) Docker
 1) Run ```mvn package```
 2) Run ```cd jag-vcrc-application```
 3) Run ```docker build -t vcrc-application .```
