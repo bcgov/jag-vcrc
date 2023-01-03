@@ -22,7 +22,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
-@RequestMapping("VCRC/Source")
+@RequestMapping("rest/VCRC/Source")
 @Slf4j
 public class LoggingController {
     private final RestTemplate restTemplate;
@@ -65,7 +65,7 @@ public class LoggingController {
                                     "Error received from ORDS",
                                     "logEivFailure",
                                     ex.getMessage(),
-                                    null)));
+                                    logEivFailureRequest)));
             throw new ORDSException();
         }
     }
@@ -79,6 +79,7 @@ public class LoggingController {
                 new HttpEntity<>(logPaymentFailureRequest, new HttpHeaders());
 
         try {
+
             HttpEntity<LogPaymentFailureResponse> resp =
                     restTemplate.exchange(
                             builder.toUriString(),
@@ -98,7 +99,7 @@ public class LoggingController {
                                     "Error received from ORDS",
                                     "logPaymentFailure",
                                     ex.getMessage(),
-                                    null)));
+                                    logPaymentFailureRequest)));
             throw new ORDSException();
         }
     }

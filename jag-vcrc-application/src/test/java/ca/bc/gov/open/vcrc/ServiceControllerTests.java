@@ -138,7 +138,7 @@ public class ServiceControllerTests {
         req.setScheduleTypeCd("A");
         req.setScopeLevelCd("A");
 
-        var out = new GetServiceFeeAmountResponse.GetServiceFeeAmount();
+        var out = new GetServiceFeeAmountResponse();
         out.setServiceFeeAmount("A");
         out.setMessage("A");
         out.setResponseCode("A");
@@ -150,12 +150,12 @@ public class ServiceControllerTests {
 
         var req = CreateNewCRCService_Request();
 
-        var out = new CreateNewCRCServiceResponse.CreateNewCRCService();
+        var out = new CreateNewCRCServiceResponse();
         out.setServiceId("A");
         out.setMessage("A");
         out.setResponseCode("A");
 
-        ResponseEntity<CreateNewCRCServiceResponse.CreateNewCRCService> responseEntity =
+        ResponseEntity<CreateNewCRCServiceResponse> responseEntity =
                 new ResponseEntity<>(out, HttpStatus.OK);
 
         //     Set up to mock ords response
@@ -163,7 +163,7 @@ public class ServiceControllerTests {
                         Mockito.any(String.class),
                         Mockito.eq(HttpMethod.POST),
                         Mockito.<HttpEntity<String>>any(),
-                        Mockito.<Class<CreateNewCRCServiceResponse.CreateNewCRCService>>any()))
+                        Mockito.<Class<CreateNewCRCServiceResponse>>any()))
                 .thenReturn(responseEntity);
 
         var serviceController = new ServiceController(restTemplate, objectMapper);
@@ -175,12 +175,12 @@ public class ServiceControllerTests {
     public void createSharingServiceTest() throws JsonProcessingException {
         var req = CreateSharingService_Request();
 
-        var out = new CreateSharingServiceResponse.CreateSharingService();
+        var out = new CreateSharingServiceResponse();
         out.setServiceId("A");
         out.setMessage("A");
         out.setResponseCode("A");
 
-        ResponseEntity<CreateSharingServiceResponse.CreateSharingService> responseEntity =
+        ResponseEntity<CreateSharingServiceResponse> responseEntity =
                 new ResponseEntity<>(out, HttpStatus.OK);
 
         //     Set up to mock ords response
@@ -188,7 +188,7 @@ public class ServiceControllerTests {
                         Mockito.any(String.class),
                         Mockito.eq(HttpMethod.POST),
                         Mockito.<HttpEntity<String>>any(),
-                        Mockito.<Class<CreateSharingServiceResponse.CreateSharingService>>any()))
+                        Mockito.<Class<CreateSharingServiceResponse>>any()))
                 .thenReturn(responseEntity);
 
         var serviceController = new ServiceController(restTemplate, objectMapper);
@@ -200,20 +200,24 @@ public class ServiceControllerTests {
     public void getServiceFeeAmountTest() throws JsonProcessingException {
         var req = GetServiceFeeAmount_Request();
 
-        var out = new GetServiceFeeAmountResponse.GetServiceFeeAmount();
+        req.setScopeLevelCd("A");
+        req.setScheduleTypeCd("A");
+        req.setOrgTicketNumber("A");
+
+        var out = new GetServiceFeeAmountResponse();
         out.setMessage("A");
         out.setServiceFeeAmount("A");
         out.setResponseCode("A");
 
-        ResponseEntity<GetServiceFeeAmountResponse.GetServiceFeeAmount> responseEntity =
+        ResponseEntity<GetServiceFeeAmountResponse> responseEntity =
                 new ResponseEntity<>(out, HttpStatus.OK);
 
         //     Set up to mock ords response
         when(restTemplate.exchange(
                         Mockito.any(String.class),
-                        Mockito.eq(HttpMethod.PUT),
+                        Mockito.eq(HttpMethod.GET),
                         Mockito.<HttpEntity<String>>any(),
-                        Mockito.<Class<GetServiceFeeAmountResponse.GetServiceFeeAmount>>any()))
+                        Mockito.<Class<GetServiceFeeAmountResponse>>any()))
                 .thenReturn(responseEntity);
 
         var serviceController = new ServiceController(restTemplate, objectMapper);
@@ -227,9 +231,8 @@ public class ServiceControllerTests {
 
         var out = new UpdateServiceFinancialTxnResponse();
         var baseXMLResponse = new BaseXMLResponse();
-        baseXMLResponse.setResponseCode("A");
-        baseXMLResponse.setMessage("A");
-        out.setUpdateServiceFinancialTxn(baseXMLResponse);
+        out.setResponseCode("A");
+        out.setMessage("A");
 
         ResponseEntity<UpdateServiceFinancialTxnResponse> responseEntity =
                 new ResponseEntity<>(out, HttpStatus.OK);

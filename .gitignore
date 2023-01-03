@@ -40,3 +40,4 @@ mvnw.bat
 ./mvn/
 set_env.sh
 /TestErrors.zip
+/jag-vcrc-comparison-tool/results/*.txt

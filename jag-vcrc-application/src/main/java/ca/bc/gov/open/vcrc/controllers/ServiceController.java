@@ -20,7 +20,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
-@RequestMapping("VCRC/Source")
+@RequestMapping("rest/VCRC/Source")
 @Slf4j
 public class ServiceController {
     private final RestTemplate restTemplate;
@@ -42,19 +42,30 @@ public class ServiceController {
                 new HttpEntity<>(createNewCRCServiceRequest, new HttpHeaders());
 
         try {
-            HttpEntity<CreateNewCRCServiceResponse.CreateNewCRCService> resp =
+
+            // the InvoiceId might be a "null" string if a register is a volunteer, that will crash
+            // the REST
+            // package function pkg_fig_vcrcweb_api.prcreatenewcrcservice
+            // ( the function inserts InvoiceId into a table as NUMBER but here InvoiceId is a
+            // string). Therefore, the solution is to change "null" to null.
+            if (createNewCRCServiceRequest.getInvoiceId() != null
+                    && createNewCRCServiceRequest.getInvoiceId().equals("null")) {
+                createNewCRCServiceRequest.setInvoiceId(null);
+            }
+
+            HttpEntity<CreateNewCRCServiceResponse> resp =
                     restTemplate.exchange(
                             builder.toUriString(),
                             HttpMethod.POST,
                             payload,
-                            CreateNewCRCServiceResponse.CreateNewCRCService.class);
+                            CreateNewCRCServiceResponse.class);
 
             log.info(
                     objectMapper.writeValueAsString(
                             new RequestSuccessLog("Request Success", "createNewCrcService")));
+
             CreateNewCRCServiceResponse out = new CreateNewCRCServiceResponse();
-            out.setCreateNewCRCService(resp.getBody());
-            return out;
+            return resp.getBody();
         } catch (Exception ex) {
             log.error(
                     objectMapper.writeValueAsString(
@@ -62,7 +73,7 @@ public class ServiceController {
                                     "Error received from ORDS",
                                     "createNewCrcService",
                                     ex.getMessage(),
-                                    null)));
+                                    createNewCRCServiceRequest)));
             throw new ORDSException();
         }
     }
@@ -78,19 +89,20 @@ public class ServiceController {
                 new HttpEntity<>(createSharingServiceRequest, new HttpHeaders());
 
         try {
-            HttpEntity<CreateSharingServiceResponse.CreateSharingService> resp =
+
+            HttpEntity<CreateSharingServiceResponse> resp =
                     restTemplate.exchange(
                             builder.toUriString(),
                             HttpMethod.POST,
                             payload,
-                            CreateSharingServiceResponse.CreateSharingService.class);
+                            CreateSharingServiceResponse.class);
 
             log.info(
                     objectMapper.writeValueAsString(
                             new RequestSuccessLog("Request Success", "createSharingService")));
+
             CreateSharingServiceResponse out = new CreateSharingServiceResponse();
-            out.setCreateSharingService(resp.getBody());
-            return out;
+            return resp.getBody();
         } catch (Exception ex) {
             log.error(
                     objectMapper.writeValueAsString(
@@ -98,7 +110,7 @@ public class ServiceController {
                                     "Error received from ORDS",
                                     "createSharingService",
                                     ex.getMessage(),
-                                    null)));
+                                    createSharingServiceRequest)));
             throw new ORDSException();
         }
     }
@@ -107,24 +119,32 @@ public class ServiceController {
     public GetServiceFeeAmountResponse getServiceFeeAmount(
             GetServiceFeeAmountRequest getServiceFeeAmountRequest) throws JsonProcessingException {
 
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(ordsHost + "services/fee");
+        UriComponentsBuilder builder =
+                UriComponentsBuilder.fromHttpUrl(ordsHost + "services/fee")
+                        .queryParam(
+                                "orgTicketNumber", getServiceFeeAmountRequest.getOrgTicketNumber())
+                        .queryParam(
+                                "scheduleTypeCd", getServiceFeeAmountRequest.getScheduleTypeCd())
+                        .queryParam("scopeLevelCd", getServiceFeeAmountRequest.getScopeLevelCd());
+
         HttpEntity<GetServiceFeeAmountRequest> payload =
                 new HttpEntity<>(getServiceFeeAmountRequest, new HttpHeaders());
 
         try {
-            HttpEntity<GetServiceFeeAmountResponse.GetServiceFeeAmount> resp =
+
+            HttpEntity<GetServiceFeeAmountResponse> resp =
                     restTemplate.exchange(
                             builder.toUriString(),
-                            HttpMethod.PUT,
-                            payload,
-                            GetServiceFeeAmountResponse.GetServiceFeeAmount.class);
+                            HttpMethod.GET,
+                            new HttpEntity<>(new HttpHeaders()),
+                            GetServiceFeeAmountResponse.class);
 
             log.info(
                     objectMapper.writeValueAsString(
                             new RequestSuccessLog("Request Success", "getServiceFeeAmount")));
+
             GetServiceFeeAmountResponse out = new GetServiceFeeAmountResponse();
-            out.setGetServiceFeeAmount(resp.getBody());
-            return out;
+            return resp.getBody();
         } catch (Exception ex) {
             log.error(
                     objectMapper.writeValueAsString(
@@ -132,7 +152,7 @@ public class ServiceController {
                                     "Error received from ORDS",
                                     "getServiceFeeAmount",
                                     ex.getMessage(),
-                                    null)));
+                                    getServiceFeeAmountRequest)));
             throw new ORDSException();
         }
     }
@@ -147,6 +167,7 @@ public class ServiceController {
                 new HttpEntity<>(updateServiceFinancialTxnRequest, new HttpHeaders());
 
         try {
+
             HttpEntity<UpdateServiceFinancialTxnResponse> resp =
                     restTemplate.exchange(
                             builder.toUriString(),
@@ -166,7 +187,7 @@ public class ServiceController {
                                     "Error received from ORDS",
                                     "updateServiceFinancialTxn",
                                     ex.getMessage(),
-                                    null)));
+                                    updateServiceFinancialTxnRequest)));
             throw new ORDSException();
         }
     }

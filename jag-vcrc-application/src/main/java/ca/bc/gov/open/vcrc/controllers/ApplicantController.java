@@ -22,7 +22,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
-@RequestMapping("VCRC/Source")
+@RequestMapping("rest/VCRC/Source")
 @Slf4j
 public class ApplicantController {
 
@@ -47,7 +47,9 @@ public class ApplicantController {
 
         HttpEntity<CheckApplicantForPrevCRCRequest> payload =
                 new HttpEntity<>(checkApplicantForPrevCRCRequest, new HttpHeaders());
+
         try {
+
             HttpEntity<CheckApplicantForPrevCRCResponse> resp =
                     restTemplate.exchange(
                             builder.toUriString(),
@@ -67,7 +69,7 @@ public class ApplicantController {
                                     "Error received from ORDS",
                                     "checkApplicantForPrevCRC",
                                     ex.getMessage(),
-                                    null)));
+                                    checkApplicantForPrevCRCRequest)));
             throw new ORDSException();
         }
     }
@@ -76,11 +78,17 @@ public class ApplicantController {
     public CheckApplicantForPrevCRCExResponse checkApplicantForPrevCRCEx(
             CheckApplicantForPrevCRCRequest checkApplicantForPrevCRCRequest)
             throws JsonProcessingException {
+
+        // CheckApplicantForPrevCRCRequest has the field 'previousServiceId' that, used for
+        // checkApplicantForPrevCRC,
+        // the current end point does not need it, but it does not cause issue here.
+
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(ordsHost + "prev/crc/ex");
 
         HttpEntity<CheckApplicantForPrevCRCRequest> payload =
                 new HttpEntity<>(checkApplicantForPrevCRCRequest, new HttpHeaders());
         try {
+
             HttpEntity<CheckApplicantForPrevCRCExResponse> resp =
                     restTemplate.exchange(
                             builder.toUriString(),
@@ -101,7 +109,7 @@ public class ApplicantController {
                                     "Error received from ORDS",
                                     "checkApplicantForPrevCRCEx",
                                     ex.getMessage(),
-                                    null)));
+                                    checkApplicantForPrevCRCRequest)));
             throw new ORDSException();
         }
     }
@@ -109,11 +117,17 @@ public class ApplicantController {
     @GetMapping(value = "CreateApplicant/Services", produces = MediaType.TEXT_XML_VALUE)
     public CreateApplicantResponse createApplicant(CreateApplicantRequest createApplicant)
             throws JsonProcessingException {
+
+        // CreateApplicantRequest has the field 'emailAddress' and 'emailType' that, used for
+        // createApplicantEx,
+        // the current end point does not need it, but it does not cause issue here.
+
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(ordsHost + "applicant");
 
         HttpEntity<CreateApplicantRequest> payload =
                 new HttpEntity<>(createApplicant, new HttpHeaders());
         try {
+
             HttpEntity<CreateApplicantResponse> resp =
                     restTemplate.exchange(
                             builder.toUriString(),
@@ -133,7 +147,7 @@ public class ApplicantController {
                                     "Error received from ORDS",
                                     "createApplicant",
                                     ex.getMessage(),
-                                    null)));
+                                    createApplicant)));
             throw new ORDSException();
         }
     }
@@ -147,6 +161,7 @@ public class ApplicantController {
         HttpEntity<CreateApplicantRequest> payload =
                 new HttpEntity<>(createApplicant, new HttpHeaders());
         try {
+
             HttpEntity<CreateApplicantResponse> resp =
                     restTemplate.exchange(
                             builder.toUriString(),
@@ -166,7 +181,7 @@ public class ApplicantController {
                                     "Error received from ORDS",
                                     "createApplicantEx",
                                     ex.getMessage(),
-                                    null)));
+                                    createApplicant)));
             throw new ORDSException();
         }
     }

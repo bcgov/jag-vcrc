@@ -20,7 +20,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
-@RequestMapping("VCRC/Source")
+@RequestMapping("rest/VCRC/Source")
 @Slf4j
 public class AuthenticationController {
     private final RestTemplate restTemplate;
@@ -42,20 +42,19 @@ public class AuthenticationController {
                 new HttpEntity<>(authenticateUserRequest, new HttpHeaders());
 
         try {
-            HttpEntity<AuthenticateUserResponse.AuthenticateInner> resp =
+
+            HttpEntity<AuthenticateUserResponse> resp =
                     restTemplate.exchange(
                             builder.toUriString(),
                             HttpMethod.POST,
                             payload,
-                            AuthenticateUserResponse.AuthenticateInner.class);
+                            AuthenticateUserResponse.class);
 
             log.info(
                     objectMapper.writeValueAsString(
                             new RequestSuccessLog("Request Success", "authenticateUser")));
 
-            AuthenticateUserResponse out = new AuthenticateUserResponse();
-            out.setDoAuthenticateUser(resp.getBody());
-            return out;
+            return resp.getBody();
         } catch (Exception ex) {
             log.error(
                     objectMapper.writeValueAsString(
@@ -63,7 +62,7 @@ public class AuthenticationController {
                                     "Error received from ORDS",
                                     "authenticateUser",
                                     ex.getMessage(),
-                                    null)));
+                                    authenticateUserRequest)));
             throw new ORDSException();
         }
     }

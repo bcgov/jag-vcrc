@@ -32,13 +32,13 @@ public class AuthenticationControllerTests {
     @Test
     public void authenticateUserTest() throws JsonProcessingException {
         var req = new AuthenticateUserRequest();
-        var inner = new AuthenticateUserResponse.AuthenticateInner();
+        var inner = new AuthenticateUserResponse();
         var accessCodeResponse = new AuthenticateUserResponse.AccessCodeResponse();
 
         req.setOrgTicketNumber("A");
         accessCodeResponse.setOrgPartyId("A");
         accessCodeResponse.setOrgNm("A");
-        accessCodeResponse.setContactSurNm("A");
+        accessCodeResponse.setContactSurnameNm("A");
         accessCodeResponse.setContactFirstNm("A");
         accessCodeResponse.setAddressLine1("A");
         accessCodeResponse.setAddressLine2("A");
@@ -76,7 +76,7 @@ public class AuthenticationControllerTests {
         inner.setMessage("A");
         inner.setResponseCode("A");
 
-        ResponseEntity<AuthenticateUserResponse.AuthenticateInner> responseEntity =
+        ResponseEntity<AuthenticateUserResponse> responseEntity =
                 new ResponseEntity<>(inner, HttpStatus.OK);
 
         // Set up to mock ords response
@@ -84,7 +84,7 @@ public class AuthenticationControllerTests {
                         Mockito.any(String.class),
                         Mockito.eq(HttpMethod.POST),
                         Mockito.<HttpEntity<String>>any(),
-                        Mockito.<Class<AuthenticateUserResponse.AuthenticateInner>>any()))
+                        Mockito.<Class<AuthenticateUserResponse>>any()))
                 .thenReturn(responseEntity);
 
         var authenticationController = new AuthenticationController(restTemplate, objectMapper);
