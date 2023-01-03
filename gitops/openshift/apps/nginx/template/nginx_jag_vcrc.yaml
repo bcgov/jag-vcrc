@@ -40,11 +40,6 @@ parameters:
   required: false
   value: jag-vcrc
 
-- name: ENDPOINT2
-  description: The target endpoint
-  required: false
-  value: jag-vcrc-oldwm
-
 - name: DNS
   description: The application name that each component is part of
   required: false
@@ -111,8 +106,6 @@ objects:
     nginx-upstream.conf: |-
       upstream splitter {
         server jag-vcrc;
-        # Tured off for now
-        # server nginx-jag-vcrc-oldwm;
       }
 
 - kind: DeploymentConfig
