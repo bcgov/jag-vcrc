@@ -1,4 +1,4 @@
-FROM openjdk:11-jre-slim
+FROM eclipse-temurin:11-jre-alpine
 
 COPY ./jag-vcrc-application/target/vcrc-application.jar vcrc-application.jar
 
