@@ -8,10 +8,11 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import java.time.Duration;
 import java.time.Instant;
 import java.util.Date;
-import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -26,6 +27,9 @@ public class RestConfiguration {
 
     @Value("${ords.password}")
     private String password;
+
+    @Value("${ords.ords-read-timeout}")
+    private String ordsReadTimeout;
 
     @Bean
     @Primary
@@ -51,19 +55,12 @@ public class RestConfiguration {
     }
 
     @Bean
-    public RestTemplate restTemplate() {
-        RestTemplate restTemplate = new RestTemplate();
-        restTemplate.getMessageConverters().add(0, createMappingJacksonHttpMessageConverter());
-        restTemplate
-                .getInterceptors()
-                .add(
-                        (request, body, execution) -> {
-                            String auth = username + ":" + password;
-                            byte[] encodedAuth = Base64.encodeBase64(auth.getBytes());
-                            request.getHeaders()
-                                    .add("Authorization", "Basic " + new String(encodedAuth));
-                            return execution.execute(request, body);
-                        });
+    public RestTemplate restTemplate(RestTemplateBuilder restTemplateBuilder) {
+        var restTemplate =
+                restTemplateBuilder
+                        .basicAuthentication(username, password)
+                        .setReadTimeout(Duration.ofSeconds(Integer.parseInt(ordsReadTimeout)))
+                        .build();
         return restTemplate;
     }
 }

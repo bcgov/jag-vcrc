@@ -2,4 +2,5 @@ ords:
   host: http://127.0.0.1/
   username: ${BASIC_AUTH_PASS}
   password: ${BASIC_AUTH_USER}
+  ords-read-timeout: 1
   
