@@ -10,7 +10,7 @@
 
     <artifactId>jag-vcrc-models</artifactId>
     <version>1.0.0</version>
-    <name>jag-vcrc-application</name>
+    <name>jag-vcrc-models</name>
 
     <properties>
         <java.version>11</java.version>
