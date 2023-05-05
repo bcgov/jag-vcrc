@@ -82,18 +82,18 @@ jobs:
         run: mvn -ntp verify
 
       - name: Fix Jacoco Report Format for CC
-        run: sed -e 's/<[\/]\?group[^>]*>//g' jad-vcrc-code-coverage/target/site/jacoco-aggregate/jacoco.xml > jad-code-coverage/target/site/jacoco-aggregate/jacoco-codeclimatecompat.xml
+        run: sed -e 's/<[\/]\?group[^>]*>//g' jag-vcrc-code-coverage/target/site/jacoco-aggregate/jacoco.xml > jad-code-coverage/target/site/jacoco-aggregate/jacoco-codeclimatecompat.xml
 
         # Formatting the Code Coverage Report
       - name: Format the coverage report
-        run: JACOCO_SOURCE_PATH="jad-vcrc-application/src/main/java jad-vcrc-models/target/generated-sources/xjc" ./cc-test-reporter format-coverage jad-code-coverage/target/site/jacoco-aggregate/jacoco-codeclimatecompat.xml --input-type jacoco -o ./target/site/jacoco/codeclimate.json
+        run: JACOCO_SOURCE_PATH="jag-vcrc-application/src/main/java jad-vcrc-models/target/generated-sources/xjc" ./cc-test-reporter format-coverage jad-code-coverage/target/site/jacoco-aggregate/jacoco-codeclimatecompat.xml --input-type jacoco -o ./target/site/jacoco/codeclimate.json
 
 
 # Upload JSON for debugging purposes
       - name: Upload JSON for debugging purposes
         uses: actions/upload-artifact@v3.1.1
         with:
-          name: jad-vcrc-coverage-report
+          name: jag-vcrc-coverage-report
           path: ./target/site/jacoco/codeclimate.json
 
       # Upload total coverage report to Code Climate
