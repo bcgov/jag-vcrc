@@ -8,8 +8,11 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import java.time.Duration;
 import java.time.Instant;
 import java.util.Date;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -18,6 +21,15 @@ import org.springframework.web.client.RestTemplate;
 
 @Configuration
 public class RestConfiguration {
+
+    @Value("${ords.username}")
+    private String username;
+
+    @Value("${ords.password}")
+    private String password;
+
+    @Value("${ords.ords-read-timeout}")
+    private String ordsReadTimeout;
 
     @Bean
     @Primary
@@ -43,9 +55,12 @@ public class RestConfiguration {
     }
 
     @Bean
-    public RestTemplate restTemplate() {
-        RestTemplate restTemplate = new RestTemplate();
-        restTemplate.getMessageConverters().add(0, createMappingJacksonHttpMessageConverter());
+    public RestTemplate restTemplate(RestTemplateBuilder restTemplateBuilder) {
+        var restTemplate =
+                restTemplateBuilder
+                        .basicAuthentication(username, password)
+                        .setReadTimeout(Duration.ofSeconds(Integer.parseInt(ordsReadTimeout)))
+                        .build();
         return restTemplate;
     }
 }

@@ -119,6 +119,21 @@ objects:
                 secretKeyRef:
                   name: vcrc-application-secrets
                   key: ORDS_HOST
+            - name: ORDS_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: vcrc-application-secrets
+                  key: ORDS_USERNAME
+            - name: ORDS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: vcrc-application-secrets
+                  key: ORDS_PASSWORD
+            - name: ORDS_READ_TIMEOUT
+              valueFrom:
+                secretKeyRef:
+                  name: vcrc-application-secrets
+                  key: ORDS_READ_TIMEOUT
             resources:
               limits:
                 cpu: 512m
