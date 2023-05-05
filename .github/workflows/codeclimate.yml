@@ -81,12 +81,12 @@ jobs:
       - name: Generate Code Coverage
         run: mvn -ntp verify
 
-      - name: Fix Jacoco Report Format for CC
-        run: sed -e 's/<[\/]\?group[^>]*>//g' jag-vcrc-code-coverage/target/site/jacoco-aggregate/jacoco.xml > jag-code-coverage/target/site/jacoco-aggregate/jacoco-codeclimatecompat.xml
-
         # ls
       - name: ls
         run: find . -print
+
+      - name: Fix Jacoco Report Format for CC
+        run: sed -e 's/<[\/]\?group[^>]*>//g' jag-vcrc-code-coverage/target/site/jacoco-aggregate/jacoco.xml > jag-code-coverage/target/site/jacoco-aggregate/jacoco-codeclimatecompat.xml
 
         # Formatting the Code Coverage Report
       - name: Format the coverage report
