@@ -2,6 +2,7 @@ package ca.bc.gov.open.vcrc;
 
 import static org.mockito.Mockito.when;
 
+import ca.bc.gov.open.vcrc.controllers.IdController;
 import ca.bc.gov.open.vcrc.controllers.LocationController;
 import ca.bc.gov.open.vcrc.models.responses.GetCountriesListResponse;
 import ca.bc.gov.open.vcrc.models.responses.GetProvinceListResponse;
@@ -10,9 +11,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpEntity;
@@ -22,13 +29,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.client.RestTemplate;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ActiveProfiles("test")
+@ExtendWith(MockitoExtension.class)
 public class LocationControllerTests {
+    @Mock private RestTemplate restTemplate;
+    @Mock private ObjectMapper objectMapper;
+    @InjectMocks
+    LocationController locationController;
 
-    @Autowired private ObjectMapper objectMapper;
-
-    @Mock private RestTemplate restTemplate = new RestTemplate();
+    @BeforeEach
+    public void setUp() {
+        MockitoAnnotations.openMocks(this);
+        locationController = Mockito.spy(new LocationController(restTemplate, objectMapper));
+    }
 
     @Test
     public void getCountriesListTest() throws JsonProcessingException {
@@ -55,7 +67,6 @@ public class LocationControllerTests {
                         Mockito.<Class<GetCountriesListResponse>>any()))
                 .thenReturn(responseEntity);
 
-        var locationController = new LocationController(restTemplate, objectMapper);
         var resp = locationController.getCountriesList();
         Assertions.assertNotNull(resp);
     }
@@ -85,7 +96,6 @@ public class LocationControllerTests {
                         Mockito.<Class<GetProvinceListResponse>>any()))
                 .thenReturn(responseEntity);
 
-        var locationController = new LocationController(restTemplate, objectMapper);
         var resp = locationController.getProvinceList();
         Assertions.assertNotNull(resp);
     }

@@ -3,6 +3,8 @@ package ca.bc.gov.open.vcrc;
 import static org.mockito.Mockito.when;
 
 import ca.bc.gov.open.vcrc.controllers.ApplicantController;
+import ca.bc.gov.open.vcrc.controllers.AuthenticationController;
+import ca.bc.gov.open.vcrc.controllers.IdController;
 import ca.bc.gov.open.vcrc.models.requests.CheckApplicantForPrevCRCRequest;
 import ca.bc.gov.open.vcrc.models.requests.CreateApplicantRequest;
 import ca.bc.gov.open.vcrc.models.responses.CheckApplicantForPrevCRCExResponse;
@@ -12,25 +14,34 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Date;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.client.RestTemplate;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ActiveProfiles("test")
+@ExtendWith(MockitoExtension.class)
 public class ApplicantControllerTests {
+    @Mock private RestTemplate restTemplate;
+    @Mock private ObjectMapper objectMapper;
 
-    @Autowired private ObjectMapper objectMapper;
+    @InjectMocks
+    private ApplicantController applicantController;
 
-    @Mock private RestTemplate restTemplate = new RestTemplate();
+    @BeforeEach
+    public void setUp() {
+        MockitoAnnotations.openMocks(this);
+        applicantController = Mockito.spy(new ApplicantController(restTemplate, objectMapper));
+    }
 
     private CheckApplicantForPrevCRCRequest CheckApplicantForPrevCRC_Request() {
 
@@ -140,8 +151,6 @@ public class ApplicantControllerTests {
                         Mockito.<Class<CheckApplicantForPrevCRCResponse>>any()))
                 .thenReturn(responseEntity);
 
-        ApplicantController applicantController =
-                new ApplicantController(restTemplate, objectMapper);
         var resp = applicantController.checkApplicantForPrevCRC(req);
         Assertions.assertNotNull(resp);
     }
@@ -166,8 +175,6 @@ public class ApplicantControllerTests {
                         Mockito.<Class<CheckApplicantForPrevCRCExResponse>>any()))
                 .thenReturn(responseEntity);
 
-        ApplicantController applicantController =
-                new ApplicantController(restTemplate, objectMapper);
         var resp = applicantController.checkApplicantForPrevCRCEx(req);
         Assertions.assertNotNull(resp);
     }
@@ -193,8 +200,6 @@ public class ApplicantControllerTests {
                         Mockito.<Class<CreateApplicantResponse>>any()))
                 .thenReturn(responseEntity);
 
-        ApplicantController applicantController =
-                new ApplicantController(restTemplate, objectMapper);
         var resp = applicantController.createApplicant(req);
         Assertions.assertNotNull(resp);
     }
@@ -218,8 +223,6 @@ public class ApplicantControllerTests {
                         Mockito.<Class<CreateApplicantResponse>>any()))
                 .thenReturn(responseEntity);
 
-        ApplicantController applicantController =
-                new ApplicantController(restTemplate, objectMapper);
         var resp = applicantController.createApplicantEx(req);
         Assertions.assertNotNull(resp);
     }
