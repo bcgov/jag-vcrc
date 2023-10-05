@@ -28,7 +28,6 @@
 
     <modules>
         <module>jag-vcrc-application</module>
-        <module>jag-vcrc-comparison-tool</module>
         <module>jag-vcrc-models</module>
         <module>jag-vcrc-code-coverage</module>
     </modules>
