@@ -2,6 +2,7 @@ package ca.bc.gov.open.vcrc;
 
 import static org.mockito.Mockito.when;
 
+import ca.bc.gov.open.vcrc.controllers.LocationController;
 import ca.bc.gov.open.vcrc.controllers.LoggingController;
 import ca.bc.gov.open.vcrc.models.requests.LogEivFailureRequest;
 import ca.bc.gov.open.vcrc.models.requests.LogPaymentFailureRequest;
@@ -11,9 +12,15 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Date;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpEntity;
@@ -23,13 +30,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.client.RestTemplate;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ActiveProfiles("test")
+@ExtendWith(MockitoExtension.class)
 public class LoggingControllerTests {
 
-    @Autowired private ObjectMapper objectMapper;
+    @Mock private ObjectMapper objectMapper;
+    @Mock private RestTemplate restTemplate;
+    @InjectMocks
+    private LoggingController loggingController;
 
-    @Mock private RestTemplate restTemplate = new RestTemplate();
+    @BeforeEach
+    public void setUp() {
+        MockitoAnnotations.openMocks(this);
+        loggingController = Mockito.spy(new LoggingController(restTemplate, objectMapper));
+    }
 
     private LogEivFailureRequest LogEivFailure_Request() {
         var req = new LogEivFailureRequest();
@@ -93,7 +106,6 @@ public class LoggingControllerTests {
                         Mockito.<Class<LogEivFailureResponse>>any()))
                 .thenReturn(responseEntity);
 
-        var loggingController = new LoggingController(restTemplate, objectMapper);
         var resp = loggingController.logEivFailure(req);
         Assertions.assertNotNull(resp);
     }
@@ -117,7 +129,6 @@ public class LoggingControllerTests {
                         Mockito.<Class<LogPaymentFailureResponse>>any()))
                 .thenReturn(responseEntity);
 
-        var loggingController = new LoggingController(restTemplate, objectMapper);
         var resp = loggingController.logPaymentFailure(req);
         Assertions.assertNotNull(resp);
     }

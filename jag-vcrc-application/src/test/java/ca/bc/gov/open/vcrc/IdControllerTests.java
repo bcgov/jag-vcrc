@@ -2,6 +2,7 @@ package ca.bc.gov.open.vcrc;
 
 import static org.mockito.Mockito.when;
 
+import ca.bc.gov.open.vcrc.controllers.AuthenticationController;
 import ca.bc.gov.open.vcrc.controllers.IdController;
 import ca.bc.gov.open.vcrc.models.requests.GetNextInvoiceIdRequest;
 import ca.bc.gov.open.vcrc.models.requests.GetNextSessionIdRequest;
@@ -10,9 +11,15 @@ import ca.bc.gov.open.vcrc.models.responses.GetNextSessionIdResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpEntity;
@@ -22,13 +29,20 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.client.RestTemplate;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ActiveProfiles("test")
+@ExtendWith(MockitoExtension.class)
 public class IdControllerTests {
 
-    @Autowired private ObjectMapper objectMapper;
+    @Mock private RestTemplate restTemplate;
+    @Mock private ObjectMapper objectMapper;
 
-    @Mock private RestTemplate restTemplate = new RestTemplate();
+    @InjectMocks
+    private IdController idController;
+
+    @BeforeEach
+    public void setUp() {
+        MockitoAnnotations.openMocks(this);
+        idController = Mockito.spy(new IdController(restTemplate, objectMapper));
+    }
 
     @Test
     public void getNextSessionIdTest() throws JsonProcessingException {
@@ -51,7 +65,6 @@ public class IdControllerTests {
                         Mockito.<Class<GetNextSessionIdResponse>>any()))
                 .thenReturn(responseEntity);
 
-        var idController = new IdController(restTemplate, objectMapper);
         var resp = idController.getNextSessionId(req);
         Assertions.assertNotNull(resp);
     }
@@ -77,7 +90,6 @@ public class IdControllerTests {
                         Mockito.<Class<GetNextInvoiceIdResponse>>any()))
                 .thenReturn(responseEntity);
 
-        var idController = new IdController(restTemplate, objectMapper);
         var resp = idController.getNextInvoiceId(req);
         Assertions.assertNotNull(resp);
     }
