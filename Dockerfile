@@ -1,4 +1,4 @@
-FROM eclipse-temurin:11-jre-alpine
+FROM eclipse-temurin:17-jre-alpine
 
 COPY ./jag-vcrc-application/target/vcrc-application.jar vcrc-application.jar
 

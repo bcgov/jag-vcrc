@@ -2,6 +2,7 @@ package ca.bc.gov.open.vcrc;
 
 import static org.mockito.Mockito.when;
 
+import ca.bc.gov.open.vcrc.controllers.ApplicantController;
 import ca.bc.gov.open.vcrc.controllers.AuthenticationController;
 import ca.bc.gov.open.vcrc.models.requests.AuthenticateUserRequest;
 import ca.bc.gov.open.vcrc.models.responses.AuthenticateUserResponse;
@@ -10,9 +11,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpEntity;
@@ -22,12 +29,20 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.client.RestTemplate;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ActiveProfiles("test")
+@ExtendWith(MockitoExtension.class)
 public class AuthenticationControllerTests {
-    @Autowired private ObjectMapper objectMapper;
+    @Mock private RestTemplate restTemplate;
+    @Mock private ObjectMapper objectMapper;
 
-    @Mock private RestTemplate restTemplate = new RestTemplate();
+    @InjectMocks
+    private AuthenticationController authenticationController;
+
+
+    @BeforeEach
+    public void setUp() {
+        MockitoAnnotations.openMocks(this);
+        authenticationController = Mockito.spy(new AuthenticationController(restTemplate, objectMapper));
+    }
 
     @Test
     public void authenticateUserTest() throws JsonProcessingException {
@@ -87,7 +102,6 @@ public class AuthenticationControllerTests {
                         Mockito.<Class<AuthenticateUserResponse>>any()))
                 .thenReturn(responseEntity);
 
-        var authenticationController = new AuthenticationController(restTemplate, objectMapper);
         var resp = authenticationController.authenticateUser(req);
         Assertions.assertNotNull(resp);
     }

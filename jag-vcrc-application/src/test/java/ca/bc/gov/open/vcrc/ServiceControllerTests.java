@@ -2,6 +2,7 @@ package ca.bc.gov.open.vcrc;
 
 import static org.mockito.Mockito.when;
 
+import ca.bc.gov.open.vcrc.controllers.LoggingController;
 import ca.bc.gov.open.vcrc.controllers.ServiceController;
 import ca.bc.gov.open.vcrc.models.requests.*;
 import ca.bc.gov.open.vcrc.models.responses.*;
@@ -9,9 +10,15 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Date;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpEntity;
@@ -21,12 +28,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.client.RestTemplate;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ActiveProfiles("test")
+@ExtendWith(MockitoExtension.class)
 public class ServiceControllerTests {
-    @Autowired private ObjectMapper objectMapper;
+    @Mock private ObjectMapper objectMapper;
+    @Mock private RestTemplate restTemplate;
+    @InjectMocks
+    private ServiceController serviceController;
 
-    @Mock private RestTemplate restTemplate = new RestTemplate();
+    @BeforeEach
+    public void setUp() {
+        MockitoAnnotations.openMocks(this);
+        serviceController = Mockito.spy(new ServiceController(restTemplate, objectMapper));
+    }
 
     private CreateSharingServiceRequest CreateSharingService_Request() {
         var req = new CreateSharingServiceRequest();
@@ -166,7 +179,6 @@ public class ServiceControllerTests {
                         Mockito.<Class<CreateNewCRCServiceResponse>>any()))
                 .thenReturn(responseEntity);
 
-        var serviceController = new ServiceController(restTemplate, objectMapper);
         var resp = serviceController.createNewCrcService(req);
         Assertions.assertNotNull(resp);
     }
@@ -191,7 +203,6 @@ public class ServiceControllerTests {
                         Mockito.<Class<CreateSharingServiceResponse>>any()))
                 .thenReturn(responseEntity);
 
-        var serviceController = new ServiceController(restTemplate, objectMapper);
         var resp = serviceController.createSharingService(req);
         Assertions.assertNotNull(resp);
     }
@@ -220,7 +231,6 @@ public class ServiceControllerTests {
                         Mockito.<Class<GetServiceFeeAmountResponse>>any()))
                 .thenReturn(responseEntity);
 
-        var serviceController = new ServiceController(restTemplate, objectMapper);
         var resp = serviceController.getServiceFeeAmount(req);
         Assertions.assertNotNull(resp);
     }
@@ -245,7 +255,6 @@ public class ServiceControllerTests {
                         Mockito.<Class<UpdateServiceFinancialTxnResponse>>any()))
                 .thenReturn(responseEntity);
 
-        var serviceController = new ServiceController(restTemplate, objectMapper);
         var resp = serviceController.updateServiceFinancialTxn(req);
         Assertions.assertNotNull(resp);
     }
