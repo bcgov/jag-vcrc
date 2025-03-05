@@ -1,6 +1,6 @@
 # jag-vcrc
 
-[![Lifecycle:Stable](https://img.shields.io/badge/Lifecycle-Stable-97ca00)](https://github.com/bcgov/jag-vcrc)
+[![Lifecycle:Retired](https://img.shields.io/badge/Lifecycle-Retired-d4550)](https://github.com/bcgov/jag-vcrc)
 [![Maintainability](https://api.codeclimate.com/v1/badges/d9bac462571a5327f783/maintainability)](https://codeclimate.com/github/bcgov/jag-vcrc/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/d9bac462571a5327f783/test_coverage)](https://codeclimate.com/github/bcgov/jag-vcrc/test_coverage)
 
